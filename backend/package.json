@@ -1,0 +1,20 @@
+{
+  "name": "twitee-sphere-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "env-cmd -f .env node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "M.Sebastien",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.26.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
+  }
+}
