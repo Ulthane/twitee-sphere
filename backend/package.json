@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "dev": "env-cmd -f .env node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +11,9 @@
   "author": "M.Sebastien",
   "license": "ISC",
   "dependencies": {
-    "fastify": "^4.26.0"
+    "fastify": "^4.26.0",
+    "mariadb": "^3.2.3",
+    "sequelize": "^6.37.1"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0"

@@ -1,21 +1,25 @@
-import Fastify from 'fastify';
+// Import des routes
+const routes = require('./app/routes/users.route');
 
-// LOGGER
-const fastify = Fastify({
+// Définition de l'application
+const fastify = require('fastify')({
   logger: true,
 });
 
-// HEALTHCHECK
-fastify.get('/alive', function (request, reply) {
-  reply.send('Le service fonctionne correctement');
+// Health endpoint
+fastify.get('/alive', async (request, reply) => {
+  reply.send({ message: 'success' });
 });
 
-// Listener du serveur
-fastify.listen({ port: process.env.SRVPORT }, function (err, address) {
+//Loop over each route
+routes.forEach((route, index)=> {
+  fastify.route(route);
+})
+
+// Listener
+fastify.listen({ port: process.env.SRVPORT }, async (err, address) => {
   if (err) {
-    fastify.log.error(err);
+    await fastify.log.error(err);
     process.exit(1);
   }
-
-  console.log(`Le service écoute sur le port ${process.env.SRVPORT}`);
 });
