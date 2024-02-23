@@ -18,7 +18,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const connect = async () => {
   try {
     await sequelize.authenticate(); // Testl'authentification
-    await sequelize.sync({ force: true }); // Synchronisation de la DB (DROP et CREATE des tables)
+    // await sequelize.sync({ force: true }); // Synchronisation de la DB (DROP et CREATE des tables)
     console.log('Connection has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
@@ -36,5 +36,6 @@ db.Users = require('./users.model.js')(sequelize, Sequelize);
 db.Communities = require('./communities.model.js')(sequelize, Sequelize);
 db.Likes = require('./likes.model.js')(sequelize, Sequelize);
 db.Articles = require('./articles.model.js')(sequelize, Sequelize);
+db.Comentaries = require('./comentaries.model.js')(sequelize, Sequelize);
 
 module.exports = db;
