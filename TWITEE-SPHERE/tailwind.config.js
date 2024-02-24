@@ -1,13 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [],
+  content: ["./index.html", "./src//*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
-        blueLogo: '#2AA3EF'
+        blueLogo: "#2AA3EF",
       },
     },
   },
   plugins: [],
-}
-
+};
