@@ -5,12 +5,14 @@ export default function Main() {
     <>
       {/* NavBar */}
 
-      {/* SideBar Menue */}
-
-      {/* SideBar Community */}
-
-      {/* Outlet */}
-      <Outlet />
+      <div className="grid gap-4 grid-cols-3 grid-rows-1">
+        <div>{/* SideBar Menue */}</div>
+        <div>
+          {/* Outlet */}
+          <Outlet />
+        </div>
+        <div>{/* SideBar Community */}</div>
+      </div>
 
       {/* Footer */}
     </>
