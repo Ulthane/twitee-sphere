@@ -45,7 +45,11 @@ export default function RegisterPage() {
       });
       const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
       setToken(json.accessToken); // stocke accessToke dans dans mon state token
-      console.log(json);
+      console.log(response)
+
+      if(response.status == 403){
+        toast.error(json.message);
+      }
     } catch (error) {
       toast.error(error) // si une erreur ce produit on affiche l'erreur dans la console
     }
