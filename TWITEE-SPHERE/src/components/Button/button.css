@@ -1,0 +1,7 @@
+.buttonCustom{
+    background-color: #2AA3EF;
+}
+
+.buttonCustom{
+    @apply border-none w-[250px] h-[50px] rounded-[25px] text-white
+}

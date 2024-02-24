@@ -1,0 +1,9 @@
+/* style de base de l'input qui ne changera pas (couleur de fond, bordure etc ..) */
+
+.inputCustom{
+    background: rgba(42, 163, 239, 0.1);
+}
+
+.inputCustom {
+  @apply  placeholder-white w-[300px] h-[50px] border-none rounded-full pl-4;
+}
