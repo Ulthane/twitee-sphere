@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import AuthGuard from "./utils/AuthGuard.jsx";
 
 function App() {
   const Main = lazy(() => import("./Layout/Main.jsx"));
@@ -24,18 +25,20 @@ function App() {
           index: true,
           element: (
             <Suspense>
-              <Home />
+              <AuthGuard>
+                <Home />
+              </AuthGuard>
             </Suspense>
-          ),
+          ), // <Suspense>{user ? <RegisterPage /> : <Home />}</Suspense>,
         },
-        {
-          path: "/RegisterPage",
-          element: (
-            <Suspense>
-              <RegisterPage />
-            </Suspense>
-          ),
-        },
+        // {
+        //   path: "/RegisterPage",
+        //   element: (
+        //     <Suspense>
+        //       <RegisterPage />
+        //     </Suspense>
+        //   ),
+        // },
       ],
     },
   ]);
