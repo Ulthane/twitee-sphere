@@ -2,11 +2,15 @@ import { useRef } from "react";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import "./LoginPage.css";
+import { useNavigate } from "react-router";
+import route from "../../routes/route";
 
 export default function LoginPage() {
   //ref
   const email = useRef();
   const password = useRef();
+
+  const navigate = useNavigate();
 
   // function qui récupère les infos de mon utilisateur
   const onsubmit = async (e) => {
@@ -22,11 +26,12 @@ export default function LoginPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({email: emailValue, password: passwordValue}),
+      body: JSON.stringify({ email: emailValue, password: passwordValue }),
     });
 
     const json = await response.json(); // stockage de donné recut par l'API dans la variable json
-    console.log(json);
+    sessionStorage.setItem("token", json.accesToken);
+    navigate(route.HOME);
   };
 
   return (
@@ -41,7 +46,11 @@ export default function LoginPage() {
           Allez-y, connectez-vous. Vous êtes a deux doigts du bonheur !
         </p>
         <Input type={"email"} placeholder={"Email"} reference={email} />
-        <Input type={"password"} placeholder={"Mot de passe"} reference={password} />
+        <Input
+          type={"password"}
+          placeholder={"Mot de passe"}
+          reference={password}
+        />
 
         <Button value={"Connexion"} />
       </form>

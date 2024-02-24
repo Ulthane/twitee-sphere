@@ -1,20 +1,37 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import AuthGuard from "./utils/AuthGuard.jsx";
-import LoginPage from "./pages/registerPage/LoginPage";
-import RegisterPage from "./pages/registerPage/RegisterPage";
 
 function App() {
   const Main = lazy(() => import("./Layout/Main.jsx"));
   const Home = lazy(() => import("./pages/Home.jsx"));
   const RegisterPage = lazy(() => import("./pages/registerPage/RegisterPage"));
+  const LoginPage = lazy(() => import("./pages/registerPage/LoginPage"));
 
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
         <Suspense>
-          <Main />
+          <LoginPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/RegisterPage",
+      element: (
+        <Suspense>
+          <RegisterPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/main",
+      element: (
+        <Suspense>
+          <AuthGuard>
+            <Main />
+          </AuthGuard>
         </Suspense>
       ),
       // errorElement: (
@@ -24,23 +41,13 @@ function App() {
       // ),
       children: [
         {
-          index: true,
+          path: "/main/home",
           element: (
             <Suspense>
-              <AuthGuard>
-                <Home />
-              </AuthGuard>
+              <Home />
             </Suspense>
-          ), // <Suspense>{user ? <RegisterPage /> : <Home />}</Suspense>,
+          ),
         },
-        // {
-        //   path: "/RegisterPage",
-        //   element: (
-        //     <Suspense>
-        //       <RegisterPage />
-        //     </Suspense>
-        //   ),
-        // },
       ],
     },
   ]);

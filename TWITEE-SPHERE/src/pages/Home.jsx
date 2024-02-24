@@ -8,17 +8,24 @@ export default function Home() {
   //ref
   const twitee = useRef();
 
+  // variables
+  const token = sessionStorage.getItem("token");
+
   //METHODES
   const sendNewTwiteeHandle = async (event) => {
     event.preventDefault();
+
+    console.log(twitee.current.value);
+
     const request = await fetch(
       "https://twitee-api.gamosaurus.fr/api/articles/create",
       {
         method: "POST",
         headers: {
-          "Content-Types": "application/json",
+          "Content-Type": "application/json",
+          Authorization: token,
         },
-        body: JSON.stringify({ description: twitee.current.value }),
+        body: JSON.stringify({ description: `${twitee.current.value}` }),
       }
     );
 
