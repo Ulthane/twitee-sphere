@@ -4,6 +4,7 @@ import Input from "../../components/Input/Input";
 import "./register.css";
 import Logo from "../../components/Logo/Logo";
 import { stringify } from "postcss";
+import { toast } from "react-toastify";
 
 export default function RegisterPage() {
 
@@ -44,9 +45,13 @@ export default function RegisterPage() {
       });
       const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
       setToken(json.accessToken); // stocke accessToke dans dans mon state token
-      console.log(json);
+      console.log(response)
+
+      if(response.status == 403){
+        toast.error(json.message);
+      }
     } catch (error) {
-      console.error(error); // si une erreur ce produit on affiche l'erreur dans la console
+      toast.error(error) // si une erreur ce produit on affiche l'erreur dans la console
     }
   };
 

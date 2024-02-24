@@ -8,7 +8,8 @@ export default function Input({
   className,
   name,
   value,
-  onchange
+  onchange,
+  reference,
 }) {
   return (
     <input
@@ -18,6 +19,7 @@ export default function Input({
       name={name}
       value={value}
       onChange={onchange}
+      ref={reference}
       required
     />
   );

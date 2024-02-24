@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import AuthGuard from "./utils/AuthGuard.jsx";
+import LoginPage from "./pages/registerPage/LoginPage";
+import RegisterPage from "./pages/registerPage/RegisterPage";
 
 function App() {
   const Main = lazy(() => import("./Layout/Main.jsx"));
