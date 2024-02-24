@@ -4,6 +4,7 @@ import Input from "../../components/Input/Input";
 import "./register.css";
 import Logo from "../../components/Logo/Logo";
 import { stringify } from "postcss";
+import { toast } from "react-toastify";
 
 export default function RegisterPage() {
 
@@ -46,7 +47,7 @@ export default function RegisterPage() {
       setToken(json.accessToken); // stocke accessToke dans dans mon state token
       console.log(json);
     } catch (error) {
-      console.error(error); // si une erreur ce produit on affiche l'erreur dans la console
+      toast.error(error) // si une erreur ce produit on affiche l'erreur dans la console
     }
   };
 
