@@ -47,46 +47,90 @@ export default function Home() {
       <ul className="flex flex-col justify-center items-start h-75 w-100 gap-y-5">
         {/* Link to home */}
         <li>
-          <NavLink to={route.HOME} className={classes.navlinks}>
-            <img
-              src="../../public/icons/navbar/homeIcon_White.svg"
-              alt="little house icon"
-              width={"25px"}
-            />
-            <span>Accueil</span>
+          <NavLink
+            to={route.HOME}
+            className={({ isActive }) =>
+              isActive ? classes.navlinksActive : classes.navlinks
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <img
+                  src={`../../public/icons/navbar/homeIcon_${
+                    isActive ? "Blue" : "White"
+                  }.svg`}
+                  alt="little fire icon"
+                  width={"25px"}
+                />
+                <span>Accueil</span>
+              </>
+            )}
           </NavLink>
         </li>
         {/* Link to Follows */}
         <li>
-          <NavLink to={route.HOME} className={classes.navlinks}>
-            <img
-              src="../../public/icons/navbar/fireIcon_White.svg"
-              alt="little fire icon"
-              width={"25px"}
-            />
-            <span>Suivie</span>
+          <NavLink
+            to={route.FOLLOW}
+            className={({ isActive }) =>
+              isActive ? classes.navlinksActive : classes.navlinks
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <img
+                  src={`../../public/icons/navbar/fireIcon_${
+                    isActive ? "Blue" : "White"
+                  }.svg`}
+                  alt="little fire icon"
+                  width={"25px"}
+                />
+                <span>Suivie</span>
+              </>
+            )}
           </NavLink>
         </li>
         {/* Link to My Favorite */}
         <li>
-          <NavLink to={route.HOME} className={classes.navlinks}>
-            <img
-              src="../../public/icons/navbar/frameIcon_White.svg"
-              alt="frame icon"
-              width={"25px"}
-            />
-            <span>Favoris</span>
+          <NavLink
+            to={route.FAVORITE}
+            className={({ isActive }) =>
+              isActive ? classes.navlinksActive : classes.navlinks
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <img
+                  src={`../../public/icons/navbar/frameIcon_${
+                    isActive ? "Blue" : "White"
+                  }.svg`}
+                  alt="little fire icon"
+                  width={"25px"}
+                />
+                <span>Favoris</span>
+              </>
+            )}
           </NavLink>
         </li>
         {/* Link to Community */}
         <li>
-          <NavLink to={route.HOME} className={classes.navlinks}>
-            <img
-              src="../../public/icons/navbar/communityIcon_White.svg"
-              alt="community icon"
-              width={"25px"}
-            />
-            <span>Communauté</span>
+          <NavLink
+            to={route.COMMUNITY}
+            className={({ isActive }) =>
+              isActive ? classes.navlinksActive : classes.navlinks
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <img
+                  src={`../../public/icons/navbar/communityIcon_${
+                    isActive ? "Blue" : "White"
+                  }.svg`}
+                  alt="little fire icon"
+                  width={"25px"}
+                />
+                <span>Community</span>
+              </>
+            )}
           </NavLink>
         </li>
         {/* New Twitee button */}
