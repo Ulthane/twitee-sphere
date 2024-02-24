@@ -56,8 +56,6 @@ exports.signIn = async (request, reply) => {
       .code(500)
       .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
-
-  reply.send({ message: 'success' });
 };
 
 // Controlleur pour l'enregistrement utilisateur
@@ -67,6 +65,14 @@ exports.signUp = async (request, reply) => {
     const hashedPassword = await bcrypt.hash(request.body.password, 10);
     const newBody = { ...request.body };
     newBody.password = hashedPassword;
+
+    // Ici on vérifie que l'utilisateur n'existe pas avec sont email
+    const userExist = await Users.findOne({
+      where: { email: request.body.email },
+    });
+    if (userExist) {
+      return reply.code(403).send({ message: "L'utilisateur existe déjà" });
+    }
 
     // On insère l'utilisateur en base, et puis on génère sont token avec sont id.
     // l'id eprmettra de récuperer les données de l'utilisateur après déstructuration

@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  twitee-api:
+    image: homelab/twitee-api:0.1.1
+    container_name: twitee-api
+    ports:
+      - 5057:5057
+    environment:
+      SRVPORT: $SRVPORT
+      DBHOST: $DBHOST
+      DBNAME: $DBNAME
+      DBUSER: $DBUSER
+      DBPASSWD: $DBPASSWD
+      TOKEN_KEY: $TOKEN_KEY
+
+  twitee-doc:
+    image: homelab/twitee-doc:0.1.0
+    container_name: twitee-doc
+    ports:
+      - 8082:80

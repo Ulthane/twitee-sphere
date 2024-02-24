@@ -10,7 +10,7 @@ const fastify = require('fastify')({
 
 fastify.register(cors, {
   origin: '*',
-  methods: ["GET", "POST"]
+  methods: ['GET', 'POST'],
 });
 
 // Health endpoint
@@ -18,11 +18,11 @@ fastify.get('/alive', async (request, reply) => {
   reply.send({ message: 'success' });
 });
 
-//Loop over each route
+// Route pour les utilisateurs
 usersRoutes.forEach((route, index) => {
   fastify.route(route);
 });
-
+// Route pour les articles
 articlesRoutes.forEach((route, index) => {
   fastify.route(route);
 });
