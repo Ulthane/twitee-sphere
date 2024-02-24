@@ -1,6 +1,8 @@
 import classes from "./NavBar.module.css";
 import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { NavLink } from "react-router-dom";
+import route from "../../routes/route";
 
 export default function Home() {
   // STATE
@@ -39,50 +41,59 @@ export default function Home() {
       setnewTwiteeModalDisplay(false);
     }
   };
+
   return (
     <>
       <ul className="flex flex-col justify-center items-start h-75 w-100 gap-y-5">
         {/* Link to home */}
         <li>
-          <img
-            src="../../public/icons/navbar/homeIcon.svg"
-            alt="little house icon"
-            width={"30px"}
-          />
-          <span>Accueil</span>
+          <NavLink to={route.HOME} className={classes.navlinks}>
+            <img
+              src="../../public/icons/navbar/homeIcon_White.svg"
+              alt="little house icon"
+              width={"25px"}
+            />
+            <span>Accueil</span>
+          </NavLink>
         </li>
         {/* Link to Follows */}
         <li>
-          <img
-            src="../../public/icons/navbar/fireIcon.svg"
-            alt="little house icon"
-            width={"30px"}
-          />
-          <span>Suivie</span>
+          <NavLink to={route.HOME} className={classes.navlinks}>
+            <img
+              src="../../public/icons/navbar/fireIcon_White.svg"
+              alt="little fire icon"
+              width={"25px"}
+            />
+            <span>Suivie</span>
+          </NavLink>
         </li>
         {/* Link to My Favorite */}
         <li>
-          <img
-            src="../../public/icons/navbar/frameIcon.svg"
-            alt="little house icon"
-            width={"30px"}
-          />
-          <span>Favoris</span>
+          <NavLink to={route.HOME} className={classes.navlinks}>
+            <img
+              src="../../public/icons/navbar/frameIcon_White.svg"
+              alt="frame icon"
+              width={"25px"}
+            />
+            <span>Favoris</span>
+          </NavLink>
         </li>
         {/* Link to Community */}
         <li>
-          <img
-            src="../../public/icons/navbar/communityIcon.svg"
-            alt="little house icon"
-            width={"30px"}
-          />
-          <span>Communauté</span>
+          <NavLink to={route.HOME} className={classes.navlinks}>
+            <img
+              src="../../public/icons/navbar/communityIcon_White.svg"
+              alt="community icon"
+              width={"25px"}
+            />
+            <span>Communauté</span>
+          </NavLink>
         </li>
         {/* New Twitee button */}
         <li>
           <button
             onClick={() => setnewTwiteeModalDisplay(true)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4 self-center"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-3xl my-4 self-center"
           >
             New Twitee
           </button>
