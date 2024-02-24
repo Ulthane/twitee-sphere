@@ -1,5 +1,6 @@
 // Import des routes
-const routes = require('./app/routes/users.route');
+const usersRoutes = require('./app/routes/users.route');
+const articlesRoutes = require('./app/routes/articles.route');
 
 // Définition de l'application
 const cors = require('@fastify/cors');
@@ -18,7 +19,11 @@ fastify.get('/alive', async (request, reply) => {
 });
 
 //Loop over each route
-routes.forEach((route, index) => {
+usersRoutes.forEach((route, index) => {
+  fastify.route(route);
+});
+
+articlesRoutes.forEach((route, index) => {
   fastify.route(route);
 });
 

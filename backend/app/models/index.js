@@ -38,4 +38,7 @@ db.Likes = require('./likes.model.js')(sequelize, Sequelize);
 db.Articles = require('./articles.model.js')(sequelize, Sequelize);
 db.Comentaries = require('./comentaries.model.js')(sequelize, Sequelize);
 
+// Traitement des jointures
+db.Articles.belongsTo(db.Users, {foreignKey: 'id_user'}); // Un article appartien a un utilisateur
+
 module.exports = db;

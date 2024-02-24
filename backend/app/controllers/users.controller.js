@@ -1,6 +1,5 @@
 const db = require('../models');
 const Users = db.Users;
-const { Op } = require('sequelize');
 const { createSecretToken } = require('../utils/secretToken');
 const bcrypt = require('bcrypt');
 
