@@ -5,6 +5,9 @@ import "./LoginPage.css";
 import { useNavigate } from "react-router";
 import route from "../../routes/route";
 
+// dda024646@gmail.com
+// 00
+
 export default function LoginPage() {
   //ref
   const email = useRef();

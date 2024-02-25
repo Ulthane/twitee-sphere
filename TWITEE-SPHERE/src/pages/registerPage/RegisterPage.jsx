@@ -7,7 +7,6 @@ import { stringify } from "postcss";
 import { toast } from "react-toastify";
 
 export default function RegisterPage() {
-
   //states
   const [formData, setFormData] = useState({
     firstname: "",
@@ -33,7 +32,7 @@ export default function RegisterPage() {
   const onsubmit = async (e) => {
     e.preventDefault(); // ne relance pas la page lors de la soummision du formulaire
     console.log(formData); // affiche les données de mon user dans la console
-    try { 
+    try {
       const url = "https://twitee-api.gamosaurus.fr/api/users/signup"; // stockage de url DE l'API dans la variable  url
 
       const response = await fetch(url, {
@@ -45,13 +44,13 @@ export default function RegisterPage() {
       });
       const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
       setToken(json.accessToken); // stocke accessToke dans dans mon state token
-      console.log(response)
+      console.log(response);
 
-      if(response.status == 403){
+      if (response.status == 403) {
         toast.error(json.message);
       }
     } catch (error) {
-      toast.error(error) // si une erreur ce produit on affiche l'erreur dans la console
+      toast.error(error); // si une erreur ce produit on affiche l'erreur dans la console
     }
   };
 

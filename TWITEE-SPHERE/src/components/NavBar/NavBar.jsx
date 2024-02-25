@@ -52,6 +52,7 @@ export default function Home() {
             className={({ isActive }) =>
               isActive ? classes.navlinksActive : classes.navlinks
             }
+            end
           >
             {({ isActive }) => (
               <>
@@ -74,6 +75,7 @@ export default function Home() {
             className={({ isActive }) =>
               isActive ? classes.navlinksActive : classes.navlinks
             }
+            end
           >
             {({ isActive }) => (
               <>
@@ -96,6 +98,7 @@ export default function Home() {
             className={({ isActive }) =>
               isActive ? classes.navlinksActive : classes.navlinks
             }
+            end
           >
             {({ isActive }) => (
               <>
@@ -118,6 +121,7 @@ export default function Home() {
             className={({ isActive }) =>
               isActive ? classes.navlinksActive : classes.navlinks
             }
+            end
           >
             {({ isActive }) => (
               <>

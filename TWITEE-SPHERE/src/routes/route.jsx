@@ -3,9 +3,9 @@ const route = {
   REGISTER: "/RegisterPage",
   MAIN: "/main",
   HOME: "/main/home",
-  FOLLOW: "",
-  FAVORITE: "",
-  COMMUNITY: "",
+  FOLLOW: "/main/followFeed",
+  FAVORITE: "/main/favoriteFeed",
+  COMMUNITY: "/main/community",
 };
 
 export default route;
