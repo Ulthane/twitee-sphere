@@ -20,13 +20,21 @@ export default function Article({ articleInformations }) {
             isOpen ? "block" : "hidden"
           }`}
         >
-          <ul className=" z-10 w-44 bg-blueBgArticle rounded-xl divide-y divide-gray-100 shadow ">
+          <ul className=" z-10 w-44 bg-blueBgArticle rounded-xl shadow ">
             <li>
               <a
                 href="#"
-                className="block py-2 px-4 rounded-xl hover:bg-blueLogo"
+                className="block py-2 px-4 text-xs rounded hover:bg-blueLogo"
               >
-                Options
+                Modifier
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="block py-2 px-4 text-xs rounded hover:bg-blueLogo"
+              >
+                Supprimer
               </a>
             </li>
           </ul>
@@ -34,6 +42,7 @@ export default function Article({ articleInformations }) {
       </div>
     );
   };
+
   return (
     <>
       <div className="max-w-md p-6 bg-blueBgArticle rounded-3xl shadow">

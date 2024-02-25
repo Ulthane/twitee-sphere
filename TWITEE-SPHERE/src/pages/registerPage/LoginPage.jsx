@@ -8,6 +8,11 @@ import route from "../../routes/route";
 // dda024646@gmail.com
 // 00
 
+/**
+ * jane.doe@email.com
+ * password
+ */
+
 export default function LoginPage() {
   //ref
   const email = useRef();
@@ -22,8 +27,8 @@ export default function LoginPage() {
     const emailValue = email.current.value;
     const passwordValue = password.current.value;
 
-    console.log(emailValue);
-    console.log(passwordValue);
+    // console.log(emailValue);
+    // console.log(passwordValue);
     const response = await fetch(urlInfo, {
       method: "POST",
       headers: {
@@ -34,6 +39,7 @@ export default function LoginPage() {
 
     const json = await response.json(); // stockage de donné recut par l'API dans la variable json
     sessionStorage.setItem("token", json.accesToken);
+    console.log(json);
     navigate(route.HOME);
   };
 
