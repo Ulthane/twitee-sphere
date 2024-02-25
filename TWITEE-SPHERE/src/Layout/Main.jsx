@@ -3,7 +3,7 @@ import NavBar from "../components/NavBar/NavBar.jsx";
 
 export default function Main() {
   return (
-    <div className="h-screen gradientBackGround text-white grid grid-rows-[1fr_10fr_0.5fr] ">
+    <div className="h-screen gradientBackGround text-white grid grid-rows-[1fr_10fr_0.5fr] overflow-hidden ">
       <div
         className="px-4 py-2  "
         style={{ background: "rgba(255,255,255,0.3)" }}

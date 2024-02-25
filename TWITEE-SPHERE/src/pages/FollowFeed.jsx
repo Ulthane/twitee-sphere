@@ -3,7 +3,7 @@ export default function FollowFeed() {
     <>
       <div className=" mx-auto h-100 text-white">
         <h1 className="text-2xl">FollowFeed</h1>
-        <div className="">Bienvenu sur la Follow page</div>
+        <div className="">Bienvenue sur la Follow page</div>
       </div>
     </>
   );
