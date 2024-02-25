@@ -21,6 +21,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    img_src: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: '/assets/default.png'
+    },
     community: {
       type: Sequelize.STRING,
     },

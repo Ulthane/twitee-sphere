@@ -12,7 +12,7 @@ exports.getArticlesWithOffset = async (request, reply) => {
       include: [
         {
           model: Users,
-          attributes: ['firstname', 'lastname', 'community'],
+          attributes: ['firstname', 'lastname', 'img_src', 'community'],
         },
       ],
       attributes: ['id_articles', 'description', 'user.firstname'],
@@ -34,7 +34,7 @@ exports.getArticlesWithOffsetAndUserId = async (request, reply) => {
       include: [
         {
           model: Users,
-          attributes: ['firstname', 'lastname', 'community'],
+          attributes: ['firstname', 'lastname', 'img_src', 'community'],
         },
       ],
       attributes: ['id_articles', 'description', 'user.firstname'],

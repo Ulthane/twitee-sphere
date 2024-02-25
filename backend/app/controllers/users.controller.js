@@ -8,7 +8,7 @@ exports.getAllUsers = async (request, reply) => {
   // On retourne tout les utilisateurs
   try {
     const users = await Users.findAll({
-      attributes: ['firstname', 'lastname', 'email', 'community']
+      attributes: ['firstname', 'lastname', 'email', 'img_src', 'community']
     });
     reply.send(users);
   } catch (err) {
@@ -23,7 +23,7 @@ exports.getUsersById = async (request, reply) => {
   // On récupère les informations utilisateur en fonction de sont id décrypté dans le token
   try {
     const users = await Users.findOne({
-      attributes: ['firstname', 'lastname', 'email', 'community'],
+      attributes: ['firstname', 'lastname', 'email', 'img_src', 'community'],
       where: {
         id_user: request.ctx.users,
       },

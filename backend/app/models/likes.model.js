@@ -5,15 +5,15 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    article: {
+    id_article: {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    community: {
+    id_community: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
-    user: {
+    id_user: {
       type: Sequelize.INTEGER,
       allowNull: false
     }
