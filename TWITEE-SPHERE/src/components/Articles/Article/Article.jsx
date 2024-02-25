@@ -70,7 +70,7 @@ export default function Article({ articleInformations }) {
         <p className="mb-3 text-sm text-white">{articleInformations.content}</p>
         {/* article's image */}
         <img
-          className="rounded-3xl w-max-[500px] h-max-[250px]"
+          className="rounded-3xl w-max-[300px] h-max-[150px]"
           src={articleInformations.imgSrc}
           alt="default"
         />
