@@ -13,13 +13,13 @@ module.exports.jwtVerify = (request, reply, done) => {
       if (err) {
         reply
           .code(401)
-          .send({ message: "Le token n'existe pas sur le serveur" });
+          .send({ message: "Token invalide" });
       } else {
         request.ctx = data.users;
         done();
       }
     });
   } else {
-    reply.code(401).send({ message: 'Le token est manquant' });
+    reply.code(401).send({ message: 'Token manquant' });
   }
 };

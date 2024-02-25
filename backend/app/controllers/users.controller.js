@@ -7,7 +7,9 @@ const bcrypt = require('bcrypt');
 exports.getAllUsers = async (request, reply) => {
   // On retourne tout les utilisateurs
   try {
-    const users = await Users.findAll();
+    const users = await Users.findAll({
+      attributes: ['firstname', 'lastname', 'email', 'community']
+    });
     reply.send(users);
   } catch (err) {
     reply
@@ -21,8 +23,9 @@ exports.getUsersById = async (request, reply) => {
   // On récupère les informations utilisateur en fonction de sont id décrypté dans le token
   try {
     const users = await Users.findOne({
+      attributes: ['firstname', 'lastname', 'email', 'community'],
       where: {
-        id_user: request.ctx,
+        id_user: request.ctx.users,
       },
     });
     reply.send(users);
@@ -49,12 +52,12 @@ exports.signIn = async (request, reply) => {
       const token = createSecretToken({ users: user.id_user });
       reply.send({ accesToken: `Bearer ${token}` });
     } else {
-      reply.code(401).send({ message: 'Identifiant invalide' });
+      reply.code(401).send({ message: 'Mot de passe invalide' });
     }
   } catch (err) {
     reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+      .code(404)
+      .send({ message: "L'utilisateur n'existe pas !"});
   }
 };
 
