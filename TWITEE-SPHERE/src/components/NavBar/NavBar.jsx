@@ -1,8 +1,7 @@
-import classes from "./NavBar.module.css";
 import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { NavLink } from "react-router-dom";
 import route from "../../routes/route";
+import NavlinkDisplay from "./NavLink/NavlinkDisplay";
 
 export default function Home() {
   // STATE
@@ -47,95 +46,39 @@ export default function Home() {
       <ul className="flex flex-col justify-center items-start h-75 w-100 gap-y-5">
         {/* Link to home */}
         <li>
-          <NavLink
-            to={route.HOME}
-            className={({ isActive }) =>
-              isActive ? classes.navlinksActive : classes.navlinks
-            }
-            end
-          >
-            {({ isActive }) => (
-              <>
-                <img
-                  src={`../../public/icons/navbar/homeIcon_${
-                    isActive ? "Blue" : "White"
-                  }.svg`}
-                  alt="little fire icon"
-                  width={"25px"}
-                />
-                <span>Accueil</span>
-              </>
-            )}
-          </NavLink>
+          <NavlinkDisplay
+            route={route.HOME}
+            img={"../../public/icons/navbar/homeIcon_"}
+            altValue="little house icon"
+            value={"Accueil"}
+          />
         </li>
         {/* Link to Follows */}
         <li>
-          <NavLink
-            to={route.FOLLOW}
-            className={({ isActive }) =>
-              isActive ? classes.navlinksActive : classes.navlinks
-            }
-            end
-          >
-            {({ isActive }) => (
-              <>
-                <img
-                  src={`../../public/icons/navbar/fireIcon_${
-                    isActive ? "Blue" : "White"
-                  }.svg`}
-                  alt="little fire icon"
-                  width={"25px"}
-                />
-                <span>Suivie</span>
-              </>
-            )}
-          </NavLink>
+          <NavlinkDisplay
+            route={route.FOLLOW}
+            img={"../../public/icons/navbar/fireIcon_"}
+            altValue="little fire icon"
+            value={"Suivis"}
+          />
         </li>
         {/* Link to My Favorite */}
         <li>
-          <NavLink
-            to={route.FAVORITE}
-            className={({ isActive }) =>
-              isActive ? classes.navlinksActive : classes.navlinks
-            }
-            end
-          >
-            {({ isActive }) => (
-              <>
-                <img
-                  src={`../../public/icons/navbar/frameIcon_${
-                    isActive ? "Blue" : "White"
-                  }.svg`}
-                  alt="little fire icon"
-                  width={"25px"}
-                />
-                <span>Favoris</span>
-              </>
-            )}
-          </NavLink>
+          <NavlinkDisplay
+            route={route.FAVORITE}
+            img={"../../public/icons/navbar/frameIcon_"}
+            altValue="little frame icon"
+            value={"Favoris"}
+          />
         </li>
         {/* Link to Community */}
         <li>
-          <NavLink
-            to={route.COMMUNITY}
-            className={({ isActive }) =>
-              isActive ? classes.navlinksActive : classes.navlinks
-            }
-            end
-          >
-            {({ isActive }) => (
-              <>
-                <img
-                  src={`../../public/icons/navbar/communityIcon_${
-                    isActive ? "Blue" : "White"
-                  }.svg`}
-                  alt="little fire icon"
-                  width={"25px"}
-                />
-                <span>Community</span>
-              </>
-            )}
-          </NavLink>
+          <NavlinkDisplay
+            route={route.COMMUNITY}
+            img={"../../public/icons/navbar/communityIcon_"}
+            altValue="little community icon"
+            value={"Community"}
+          />
         </li>
         {/* New Twitee button */}
         <li>
