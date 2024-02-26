@@ -10,7 +10,13 @@ export default function LoginPage() {
   const email = useRef();
   const password = useRef();
 
-  const navigate = useNavigate();
+  //useNavigate
+  let navigate = useNavigate();
+
+  //fucntion de redirection vers la page d'inscription
+  const linkRegistrationPage = () => {
+    navigate(route.REGISTER);
+  };
 
   // function qui récupère les infos de mon utilisateur
   const onsubmit = async (e) => {
@@ -53,6 +59,9 @@ export default function LoginPage() {
         />
 
         <Button value={"Connexion"} />
+        <p onClick={linkRegistrationPage} className="text-black">
+          S’enregistrer
+        </p>
       </form>
     </>
   );
