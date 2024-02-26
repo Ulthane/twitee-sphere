@@ -7,7 +7,6 @@ import { stringify } from "postcss";
 import { toast } from "react-toastify";
 
 export default function RegisterPage() {
-
   //states
   const [formData, setFormData] = useState({
     firstname: "",
@@ -15,6 +14,8 @@ export default function RegisterPage() {
     email: "",
     password: "",
   });
+
+  const [securePassword, setSecurePassword] = useState("");
 
   const [token, setToken] = useState(); // stockage du accesToken
 
@@ -32,26 +33,32 @@ export default function RegisterPage() {
   // function pour envoyer les donnés de mon utilisateur a mon API
   const onsubmit = async (e) => {
     e.preventDefault(); // ne relance pas la page lors de la soummision du formulaire
-    console.log(formData); // affiche les données de mon user dans la console
-    try { 
-      const url = "https://twitee-api.gamosaurus.fr/api/users/signup"; // stockage de url DE l'API dans la variable  url
+    //vérification que les 2 mots de passe sont identiques
+    if (formData.password !== securePassword) {
+      toast.error("Les mots de passe ne sont pas identiques");
+    } else {
+      console.log(formData); // affiche les données de mon user dans la console
+      try {
+        const url = "https://twitee-api.gamosaurus.fr/api/users/signup"; // stockage de url DE l'API dans la variable  url
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
-      setToken(json.accessToken); // stocke accessToke dans dans mon state token
-      console.log(response)
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+        const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
+        setToken(json.accessToken); // stocke accessToke dans dans mon state token
+        console.log(response);
 
-      if(response.status == 403){
-        toast.error(json.message);
+        if (response.status == 403) {
+          toast.error(json.message);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(error);
       }
-    } catch (error) {
-      toast.error(error) // si une erreur ce produit on affiche l'erreur dans la console
     }
   };
 
@@ -132,6 +139,8 @@ export default function RegisterPage() {
             type={"password"}
             placeholder={"Vérification mot de passe"}
             name={"confirmPassword"}
+            value={securePassword}
+            onchange={(e) => setSecurePassword(e.target.value)}
           />
 
           <Button className={"buttonRegister"} value={"S'enregistrer"} />
