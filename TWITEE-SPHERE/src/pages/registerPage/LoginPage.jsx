@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import "./LoginPage.css";
@@ -10,6 +10,9 @@ export default function LoginPage() {
   //ref
   const email = useRef();
   const password = useRef();
+
+  //state
+  const [loading, setLoading] = useState(true);
 
   //useNavigate
   let navigate = useNavigate();
@@ -23,6 +26,7 @@ export default function LoginPage() {
   const onsubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(false);
       const urlInfo = "https://twitee-api.gamosaurus.fr/api/users/signin"; // stockage de url DE l'API qui recoit les infos de mon user
       const emailValue = email.current.value;
       const passwordValue = password.current.value;
@@ -38,7 +42,9 @@ export default function LoginPage() {
       });
       console.log(response);
       const json = await response.json(); // stockage de donné recut par l'API dans la variable json
-
+      if (response) {
+        setLoading(true);
+      }
       // verification de la requête
       if (response.status !== 200) {
         // si il y a une erreur
@@ -77,6 +83,7 @@ export default function LoginPage() {
             reference={password}
             className={"inputLogin"}
           />
+          <div className="text-white">{loading ? "" : "chargement..."}</div>
 
           <Button value={"Connexion"} className={"buttonLogin"} />
           <p
