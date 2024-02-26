@@ -42,27 +42,38 @@ export default function LoginPage() {
 
   return (
     <>
-      <form
-        className="formLogin"
-        onSubmit={(event) => onsubmit(event)}
-        action=""
-      >
-        <h1 className="text-white">Bienvenue</h1>
-        <p className="text-white">
-          Allez-y, connectez-vous. Vous êtes a deux doigts du bonheur !
-        </p>
-        <Input type={"email"} placeholder={"Email"} reference={email} />
-        <Input
-          type={"password"}
-          placeholder={"Mot de passe"}
-          reference={password}
-        />
+      <div className="containerFormLogin">
+        <form
+          className="formLogin"
+          onSubmit={(event) => onsubmit(event)}
+          action=""
+        >
+          <h1 className="text-white text-[1.6em]">Bienvenue</h1>
+          <p className="text-white">
+            Allez-y, connectez-vous. Vous êtes a deux doigts du bonheur !
+          </p>
+          <Input
+            type={"email"}
+            placeholder={"Email"}
+            reference={email}
+            className={"inputLogin"}
+          />
+          <Input
+            type={"password"}
+            placeholder={"Mot de passe"}
+            reference={password}
+            className={"inputLogin"}
+          />
 
-        <Button value={"Connexion"} />
-        <p onClick={linkRegistrationPage} className="text-black">
-          S’enregistrer
-        </p>
-      </form>
+          <Button value={"Connexion"} className={"buttonLogin"} />
+          <p
+            onClick={linkRegistrationPage}
+            className="text-white cursor-pointer"
+          >
+            S’enregistrer
+          </p>
+        </form>
+      </div>
     </>
   );
 }

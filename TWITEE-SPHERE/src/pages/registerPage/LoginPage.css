@@ -1,3 +1,7 @@
+body {
+  background-color: rgba(37, 88, 120, 1);
+}
+
 /* style de la classe du container avec tailwind*/
 .containerFormLogin {
   @apply flex justify-center items-center min-h-screen;
@@ -5,13 +9,23 @@
 
 /* formulaire de la page d'inscription */
 .formLogin {
-  position: relative;
   background-color: rgba(42, 163, 239, 0.1);
+  border-radius: 35px;
 }
 
 /* style du formulaire de la page avec tailwind */
 .formLogin {
-  @apply flex justify-center flex-col items-center w-[600px] h-[679px] ;
+  @apply flex justify-center flex-col items-center w-[600px] h-[679px];
 }
 
-/* container des infos concernant le formulaire inscription*/
+/* input */
+
+.inputLogin {
+  @apply mt-5;
+}
+
+/* button */
+
+.buttonLogin {
+  @apply m-[15px];
+}
