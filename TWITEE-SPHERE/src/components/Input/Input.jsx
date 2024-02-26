@@ -10,6 +10,7 @@ export default function Input({
   value,
   onchange,
   reference,
+  ...props
 }) {
   return (
     <input
