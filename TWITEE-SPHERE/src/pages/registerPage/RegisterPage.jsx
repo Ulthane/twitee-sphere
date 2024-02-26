@@ -177,6 +177,12 @@ export default function RegisterPage() {
             }
             value={"S'enregistrer"}
           />
+          <p
+            onClick={() => navigate(route.LOGIN)}
+            className="text-white cursor-pointer"
+          >
+            Se connecter
+          </p>
         </form>
       </div>
     </>
