@@ -4,6 +4,7 @@ import Input from "../../components/Input/Input";
 import "./LoginPage.css";
 import { useNavigate } from "react-router";
 import route from "../../routes/route";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   //ref
@@ -21,23 +22,35 @@ export default function LoginPage() {
   // function qui récupère les infos de mon utilisateur
   const onsubmit = async (e) => {
     e.preventDefault();
-    const urlInfo = "https://twitee-api.gamosaurus.fr/api/users/signin"; // stockage de url DE l'API qui recoit les infos de mon user
-    const emailValue = email.current.value;
-    const passwordValue = password.current.value;
+    try {
+      const urlInfo = "https://twitee-api.gamosaurus.fr/api/users/signin"; // stockage de url DE l'API qui recoit les infos de mon user
+      const emailValue = email.current.value;
+      const passwordValue = password.current.value;
 
-    console.log(emailValue);
-    console.log(passwordValue);
-    const response = await fetch(urlInfo, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: emailValue, password: passwordValue }),
-    });
+      console.log(emailValue);
+      console.log(passwordValue);
+      const response = await fetch(urlInfo, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: emailValue, password: passwordValue }),
+      });
+      console.log(response);
+      const json = await response.json(); // stockage de donné recut par l'API dans la variable json
 
-    const json = await response.json(); // stockage de donné recut par l'API dans la variable json
-    sessionStorage.setItem("token", json.accesToken);
-    navigate(route.HOME);
+      // verification de la requête
+      if (response.status !== 200) {
+        // si il y a une erreur
+        console.log(json.message);
+        toast.error("erreur");
+      } else {
+        sessionStorage.setItem("token", json.accesToken);
+        navigate(route.HOME);
+      }
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
