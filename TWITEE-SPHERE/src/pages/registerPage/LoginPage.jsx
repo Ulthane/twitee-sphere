@@ -5,6 +5,7 @@ import "./LoginPage.css";
 import { useNavigate } from "react-router";
 import route from "../../routes/route";
 import { toast } from "react-toastify";
+import Logo from "../../components/Logo/Logo";
 
 export default function LoginPage() {
   //ref
@@ -61,6 +62,7 @@ export default function LoginPage() {
 
   return (
     <>
+      <Logo />
       <div className="containerFormLogin">
         <form
           className="formLogin"
