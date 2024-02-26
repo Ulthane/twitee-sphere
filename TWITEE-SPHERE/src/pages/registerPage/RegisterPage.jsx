@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, CSSProperties } from "react";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import "./register.css";
@@ -6,6 +6,7 @@ import Logo from "../../components/Logo/Logo";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import route from "../../routes/route";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function RegisterPage() {
   //states
@@ -15,6 +16,8 @@ export default function RegisterPage() {
     email: "",
     password: "",
   });
+
+  const [loading, setLoading] = useState(true);
 
   //ref
   const firstnameRef = useRef(null);
@@ -53,6 +56,7 @@ export default function RegisterPage() {
     if (formData.password !== securePassword) {
       toast.error("Les mots de passe ne sont pas identiques");
     } else {
+      setLoading(false);
       console.log(formData); // affiche les données de mon user dans la console
       try {
         const url = "https://twitee-api.gamosaurus.fr/api/users/signup"; // stockage de url DE l'API dans la variable  url
@@ -64,6 +68,9 @@ export default function RegisterPage() {
           },
           body: JSON.stringify(formData),
         });
+        if (response) {
+          setLoading(true);
+        }
         const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
         setToken(json.accessToken); // stocke accessToke dans dans mon state token
         console.log(response);
@@ -162,8 +169,16 @@ export default function RegisterPage() {
             value={securePassword}
             onchange={(e) => setSecurePassword(e.target.value)}
           />
-
-          <Button className={"buttonRegister"} value={"S'enregistrer"} />
+          <div className="text-white">{loading ? "" : "chargement..."}</div>
+          <Button
+            disabled={!loading}
+            className={
+              loading
+                ? "buttonRegister"
+                : "buttonRegister opacity-4 cursor-not-allowed"
+            }
+            value={"S'enregistrer"}
+          />
         </form>
       </div>
     </>
