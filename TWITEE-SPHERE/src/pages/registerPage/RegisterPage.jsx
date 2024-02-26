@@ -6,7 +6,6 @@ import Logo from "../../components/Logo/Logo";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import route from "../../routes/route";
-import ClipLoader from "react-spinners/ClipLoader";
 
 export default function RegisterPage() {
   //states
@@ -126,7 +125,6 @@ export default function RegisterPage() {
               votre aventure sur TwiteeElement
             </p>
           </div>
-
           <Input
             className={"inputRegister"}
             type={"text"}
