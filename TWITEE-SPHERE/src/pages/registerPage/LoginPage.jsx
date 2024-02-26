@@ -85,7 +85,15 @@ export default function LoginPage() {
           />
           <div className="text-white">{loading ? "" : "chargement..."}</div>
 
-          <Button value={"Connexion"} className={"buttonLogin"} />
+          <Button
+            disabled={!loading}
+            value={"Connexion"}
+            className={
+              loading
+                ? "buttonLogin"
+                : "buttonLogin opacity-4 cursor-not-allowed"
+            }
+          />
           <p
             onClick={linkRegistrationPage}
             className="text-white cursor-pointer"
