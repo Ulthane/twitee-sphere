@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import "./register.css";
 import Logo from "../../components/Logo/Logo";
-import { stringify } from "postcss";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import route from "../../routes/route";
@@ -16,6 +15,17 @@ export default function RegisterPage() {
     email: "",
     password: "",
   });
+
+  //ref
+  const firstnameRef = useRef(null);
+
+  //useEffect
+  useEffect(() => {
+    // Donne le focus au champ firstname lors du montage du composant
+    if (firstnameRef.current) {
+      firstnameRef.current.focus();
+    }
+  }, []);
 
   const [securePassword, setSecurePassword] = useState("");
 
@@ -117,6 +127,7 @@ export default function RegisterPage() {
             name={"firstname"}
             value={formData.prenom}
             onchange={handleChange}
+            reference={firstnameRef}
           />
           <Input
             className={"inputRegister"}
