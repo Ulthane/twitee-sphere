@@ -5,6 +5,8 @@ import "./register.css";
 import Logo from "../../components/Logo/Logo";
 import { stringify } from "postcss";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
+import route from "../../routes/route";
 
 export default function RegisterPage() {
   //states
@@ -18,6 +20,10 @@ export default function RegisterPage() {
   const [securePassword, setSecurePassword] = useState("");
 
   const [token, setToken] = useState(); // stockage du accesToken
+
+  //Variable
+
+  let navigate = useNavigate();
 
   //Functions
 
@@ -54,6 +60,9 @@ export default function RegisterPage() {
 
         if (response.status == 403) {
           toast.error(json.message);
+        } else if (response.status == 200) {
+          sessionStorage.setItem("token", json.accesToken);
+          navigate(route.HOME);
         }
       } catch (error) {
         console.log(error);
