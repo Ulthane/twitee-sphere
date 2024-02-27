@@ -49,8 +49,7 @@ export default function LoginPage() {
       // verification de la requête
       if (response.status !== 200) {
         // si il y a une erreur
-        console.log(json.message);
-        toast.error("erreur");
+        toast.error(json.message);
       } else {
         sessionStorage.setItem("token", json.accesToken);
         navigate(route.HOME);
