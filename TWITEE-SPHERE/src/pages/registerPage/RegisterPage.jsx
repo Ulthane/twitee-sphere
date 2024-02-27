@@ -120,10 +120,7 @@ export default function RegisterPage() {
         <form onSubmit={onsubmit} className="formRegister" action="">
           <div className="containerInfoForm">
             <h1>Inscription</h1>
-            <p>
-              Choisissez bien votre élément, il vous suivra tout au long de
-              votre aventure sur TwiteeElement
-            </p>
+            <p>Inscrivez-vous pour rejoindre la sphère des communautés</p>
           </div>
           <Input
             className={"inputRegister"}
