@@ -1,5 +1,6 @@
 const db = require('../models');
 const Users = db.Users;
+const Communities = db.Communities;
 const { createSecretToken } = require('../utils/secretToken');
 const bcrypt = require('bcrypt');
 
@@ -8,7 +9,18 @@ exports.getAllUsers = async (request, reply) => {
   // On retourne tout les utilisateurs
   try {
     const users = await Users.findAll({
-      attributes: ['firstname', 'lastname', 'email', 'img_src', 'id_communities']
+      attributes: [
+        'firstname',
+        'lastname',
+        'email',
+        'img_src',
+        'id_communities',
+      ],
+      include: [
+        {
+          model: Communities,
+        },
+      ],
     });
     reply.send(users);
   } catch (err) {
@@ -23,7 +35,22 @@ exports.getUsersById = async (request, reply) => {
   // On récupère les informations utilisateur en fonction de sont id décrypté dans le token
   try {
     const users = await Users.findOne({
-      attributes: ['firstname', 'lastname', 'email', 'img_src', 'id_communities'],
+      attributes: [
+        'id_user',
+        'firstname',
+        'lastname',
+        'email',
+        'img_src',
+        'id_communities',
+      ],
+      include: [{
+        model: Users,
+        as: 'friends',
+        attributes: ['id_user', 'firstname', 'lastname', 'img_src'],
+        through: {
+          attributes: []
+        }
+      }],
       where: {
         id_user: request.ctx.users,
       },
@@ -55,9 +82,7 @@ exports.signIn = async (request, reply) => {
       reply.code(401).send({ message: 'Mot de passe invalide' });
     }
   } catch (err) {
-    reply
-      .code(404)
-      .send({ message: "L'utilisateur n'existe pas !"});
+    reply.code(404).send({ message: "L'utilisateur n'existe pas !" });
   }
 };
 

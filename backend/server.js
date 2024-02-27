@@ -4,7 +4,8 @@ const routes = [
   require('./app/routes/articles.route'),
   require('./app/routes/comentaries.route'),
   require('./app/routes/likes.route'),
-  require('./app/routes/communities.route')
+  require('./app/routes/communities.route'),
+  require('./app/routes/friends.route')
 ]
 
 // Définition de l'application

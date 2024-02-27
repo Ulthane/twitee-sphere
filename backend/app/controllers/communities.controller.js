@@ -30,10 +30,11 @@ exports.createCommunities = async (request, reply) => {
   const newBody = { id_user: request.ctx.users, ...request.body };
 
   try {
-    await Communities.create(newBody);
+    const communities = await Communities.create(newBody);
+    console.log(communities)
     await Users.update(
       {
-        id_communities: request.ctx.users,
+        id_communities: communities.id_communities,
       },
       {
         where: {
