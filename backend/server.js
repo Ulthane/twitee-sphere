@@ -1,8 +1,11 @@
 // Import des routes
-const usersRoutes = require('./app/routes/users.route');
-const articlesRoutes = require('./app/routes/articles.route');
-const comentariesRoutes = require('./app/routes/comentaries.route');
-const likesRoute = require('./app/routes/likes.route');
+const routes = [
+  require('./app/routes/users.route'),
+  require('./app/routes/articles.route'),
+  require('./app/routes/comentaries.route'),
+  require('./app/routes/likes.route'),
+  require('./app/routes/communities.route')
+]
 
 // Définition de l'application
 const cors = require('@fastify/cors');
@@ -20,22 +23,12 @@ fastify.get('/alive', async (request, reply) => {
   reply.send({ message: 'success' });
 });
 
-// Route pour les utilisateurs
-usersRoutes.forEach((route, index) => {
-  fastify.route(route);
-});
-// Route pour les articles
-articlesRoutes.forEach((route, index) => {
-  fastify.route(route);
-});
-// Route pour les commentaires
-comentariesRoutes.forEach((route, index) => {
-  fastify.route(route);
-});
-// Route pour les likes
-likesRoute.forEach((route, index) => {
-  fastify.route(route);
-});
+// Définition des routes
+routes.forEach(route => {
+  route.forEach((path, index) => {
+    fastify.route(path);
+  })
+})
 
 // Listener
 fastify.listen(

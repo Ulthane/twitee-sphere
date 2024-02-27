@@ -8,12 +8,6 @@ module.exports = [
     handler: Comentaries.getComentariesWithOffset,
     preHandler: jwtVerify,
   },
-  // {
-  //   method: 'GET',
-  //   url: '/api/articles/get/:id',
-  //   handler: Articles.getArticlesWithOffsetAndUserId,
-  //   preHandler: jwtVerify,
-  // },
   {
     method: 'POST',
     url: '/api/comentaries/create',

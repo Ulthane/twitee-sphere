@@ -15,8 +15,13 @@ module.exports = (sequelize, Sequelize) => {
     },
     icon: {
       type: Sequelize.STRING,
-      allowNull: true
-    }
+      allowNull: true,
+      defaultValues: '/assets/default.png',
+    },
+    id_user: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
   });
 
   return Communities;
