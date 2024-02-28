@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         blueLogo: "#2AA3EF",
+        blueBgArticle: "#255878",
       },
     },
   },

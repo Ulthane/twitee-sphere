@@ -7,6 +7,14 @@ import route from "../../routes/route";
 import { toast } from "react-toastify";
 import Logo from "../../components/Logo/Logo";
 
+// dda024646@gmail.com
+// 00
+
+/**
+ * jane.doe@email.com
+ * password
+ */
+
 export default function LoginPage() {
   //ref
   const email = useRef();
