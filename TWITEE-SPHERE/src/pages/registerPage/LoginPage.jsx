@@ -4,6 +4,16 @@ import Input from "../../components/Input/Input";
 import "./LoginPage.css";
 import { useNavigate } from "react-router";
 import route from "../../routes/route";
+import { toast } from "react-toastify";
+import Logo from "../../components/Logo/Logo";
+
+// dda024646@gmail.com
+// 00
+
+/**
+ * john.doe@email.com
+ * password
+ */
 
 export default function LoginPage() {
   //ref
