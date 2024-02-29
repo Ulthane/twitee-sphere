@@ -1,9 +1,6 @@
 import { createPortal } from "react-dom";
 import { useRef } from "react";
-<<<<<<< HEAD
 import { toast } from "react-toastify";
-=======
->>>>>>> development
 
 export default function NewTwiteeModal({ updateStateModalDisplay }) {
   //ref
@@ -17,14 +14,8 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
     event.preventDefault();
 
     console.log("Twitee: " + twitee.current.value);
-<<<<<<< HEAD
 
     const response = await fetch(
-=======
-    console.log("Token: " + token);
-
-    const request = await fetch(
->>>>>>> development
       "https://twitee-api.gamosaurus.fr/api/articles/create",
       {
         method: "POST",
@@ -36,18 +27,10 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
       }
     );
 
-<<<<<<< HEAD
     if (response.status !== 200) {
       toast.error(json.message);
     } else {
       let data = await response.json();
-=======
-    if (!request.ok) {
-      alert("Un probleme est survenu lors du chargement...");
-    } else {
-      let data = await request.json();
-      //   console.log(twitee.current.value);
->>>>>>> development
       console.log(data);
       updateStateModalDisplay(false);
     }

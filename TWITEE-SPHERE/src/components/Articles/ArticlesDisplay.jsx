@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 import { useState } from "react";
 import Article from "./Article/Article";
 import { toast } from "react-toastify";
 
 export default function ArticlesDisplay() {
   const articlesTest = [
-=======
-import Article from "./Article/Article";
-
-export default function ArticlesDisplay() {
-  const articles = [
->>>>>>> development
     {
       content:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices felis non orci suscipit viverra. Donec tincidunt malesuada ex, iaculis elementum odio elementum sit amet. Proin non arcu dui.",
