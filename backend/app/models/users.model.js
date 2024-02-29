@@ -1,4 +1,4 @@
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, Sequelize, Communities) => {
   const Users = sequelize.define('users', {
     id_user: {
       type: Sequelize.INTEGER,
@@ -21,8 +21,14 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    community: {
+    img_src: {
       type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: '/assets/default.png',
+    },
+    id_communities: {
+      type: Sequelize.INTEGER,
+      allowNull: true
     },
   });
 

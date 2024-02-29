@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, CSSProperties } from "react";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import "./register.css";
 import Logo from "../../components/Logo/Logo";
-import { stringify } from "postcss";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
+import route from "../../routes/route";
 
 export default function RegisterPage() {
-
   //states
   const [formData, setFormData] = useState({
     firstname: "",
@@ -16,7 +16,26 @@ export default function RegisterPage() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(true);
+
+  //ref
+  const firstnameRef = useRef(null);
+
+  //useEffect
+  useEffect(() => {
+    // Donne le focus au champ firstname lors du montage du composant
+    if (firstnameRef.current) {
+      firstnameRef.current.focus();
+    }
+  }, []);
+
+  const [securePassword, setSecurePassword] = useState("");
+
   const [token, setToken] = useState(); // stockage du accesToken
+
+  //Variable
+
+  let navigate = useNavigate();
 
   //Functions
 
@@ -32,26 +51,39 @@ export default function RegisterPage() {
   // function pour envoyer les donnés de mon utilisateur a mon API
   const onsubmit = async (e) => {
     e.preventDefault(); // ne relance pas la page lors de la soummision du formulaire
-    console.log(formData); // affiche les données de mon user dans la console
-    try { 
-      const url = "https://twitee-api.gamosaurus.fr/api/users/signup"; // stockage de url DE l'API dans la variable  url
+    //vérification que les 2 mots de passe sont identiques
+    if (formData.password !== securePassword) {
+      toast.error("Les mots de passe ne sont pas identiques");
+    } else {
+      setLoading(false);
+      console.log(formData); // affiche les données de mon user dans la console
+      try {
+        const url = "https://twitee-api.gamosaurus.fr/api/users/signup"; // stockage de url DE l'API dans la variable  url
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
-      setToken(json.accessToken); // stocke accessToke dans dans mon state token
-      console.log(response)
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+        if (response) {
+          setLoading(true);
+        }
+        const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
+        setToken(json.accessToken); // stocke accessToke dans dans mon state token
+        console.log(response);
 
-      if(response.status == 403){
-        toast.error(json.message);
+        if (response.status == 403) {
+          toast.error(json.message);
+        } else if (response.status == 200) {
+          sessionStorage.setItem("token", json.accesToken);
+          navigate(route.HOME);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(error);
       }
-    } catch (error) {
-      toast.error(error) // si une erreur ce produit on affiche l'erreur dans la console
     }
   };
 
@@ -88,12 +120,8 @@ export default function RegisterPage() {
         <form onSubmit={onsubmit} className="formRegister" action="">
           <div className="containerInfoForm">
             <h1>Inscription</h1>
-            <p>
-              Choisissez bien votre élément, il vous suivra tout au long de
-              votre aventure sur TwiteeElement
-            </p>
+            <p>Inscrivez-vous pour rejoindre la sphère des communautés</p>
           </div>
-
           <Input
             className={"inputRegister"}
             type={"text"}
@@ -101,6 +129,7 @@ export default function RegisterPage() {
             name={"firstname"}
             value={formData.prenom}
             onchange={handleChange}
+            reference={firstnameRef}
           />
           <Input
             className={"inputRegister"}
@@ -132,9 +161,25 @@ export default function RegisterPage() {
             type={"password"}
             placeholder={"Vérification mot de passe"}
             name={"confirmPassword"}
+            value={securePassword}
+            onchange={(e) => setSecurePassword(e.target.value)}
           />
-
-          <Button className={"buttonRegister"} value={"S'enregistrer"} />
+          <div className="text-white">{loading ? "" : "chargement..."}</div>
+          <Button
+            disabled={!loading}
+            className={
+              loading
+                ? "buttonRegister"
+                : "buttonRegister opacity-4 cursor-not-allowed"
+            }
+            value={"S'enregistrer"}
+          />
+          <p
+            onClick={() => navigate(route.LOGIN)}
+            className="text-white cursor-pointer"
+          >
+            Se connecter
+          </p>
         </form>
       </div>
     </>

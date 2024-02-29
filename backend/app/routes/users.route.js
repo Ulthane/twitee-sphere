@@ -10,7 +10,7 @@ module.exports = [
   },
   {
     method: 'GET',
-    url: '/api/users/get',
+    url: '/api/users/get/id',
     handler: Users.getUsersById,
     preHandler: jwtVerify
   },

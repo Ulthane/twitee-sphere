@@ -10,16 +10,17 @@ module.exports.jwtVerify = (request, reply, done) => {
 
     // On vérifie le token, si inexistant alors 401. sinon on envoie l'id user dans le contexte suivant
     jwt.verify(bearerToken, process.env.TOKEN_KEY, async (err, data) => {
+      console.log(data);
       if (err) {
         reply
           .code(401)
-          .send({ message: "Le token n'existe pas sur le serveur" });
+          .send({ message: "Token invalide" });
       } else {
         request.ctx = data.users;
         done();
       }
     });
   } else {
-    reply.code(401).send({ message: 'Le token est manquant' });
+    reply.code(401).send({ message: 'Token manquant' });
   }
 };

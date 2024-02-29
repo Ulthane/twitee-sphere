@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box;
+}
+
 .gradientBackGround {
   background: linear-gradient(180deg, #255878 0%, #15202b 100%);
+}
+
+body {
+  /* height: 100vh; */
+  max-height: 100vh;
 }

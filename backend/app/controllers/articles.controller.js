@@ -7,9 +7,15 @@ exports.getArticlesWithOffset = async (request, reply) => {
   // On retourne tout les articles avec un offset
   try {
     const articles = await Articles.findAll({
-      offset: 0,
-      limit: 30,
-      include: Users,
+      offset: parseInt(request.query.offset),
+      limit: parseInt(request.query.limit),
+      include: [
+        {
+          model: Users,
+          attributes: ['firstname', 'lastname', 'img_src', 'community'],
+        },
+      ],
+      attributes: ['id_articles', 'description', 'user.firstname'],
     });
     reply.send(articles);
   } catch (err) {
@@ -28,7 +34,7 @@ exports.getArticlesWithOffsetAndUserId = async (request, reply) => {
       include: [
         {
           model: Users,
-          attributes: ['firstname', 'lastname', 'community'],
+          attributes: ['firstname', 'lastname', 'img_src', 'community'],
         },
       ],
       attributes: ['id_articles', 'description', 'user.firstname'],

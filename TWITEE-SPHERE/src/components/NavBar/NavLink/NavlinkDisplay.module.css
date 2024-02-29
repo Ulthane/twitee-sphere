@@ -1,0 +1,7 @@
+.navlinks {
+  @apply flex flex-row gap-2 justify-center items-center;
+}
+
+.navlinksActive {
+  @apply flex flex-row gap-2 justify-center items-center text-blueLogo font-bold;
+}
