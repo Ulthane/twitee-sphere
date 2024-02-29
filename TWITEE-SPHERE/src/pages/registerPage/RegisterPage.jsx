@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState, CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import "./register.css";
 import Logo from "../../components/Logo/Logo";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import route from "../../routes/route";
 
 export default function RegisterPage() {

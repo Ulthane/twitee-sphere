@@ -4,7 +4,7 @@ body {
 
 /* style de la classe du container avec tailwind*/
 .containerFormLogin {
-  @apply flex justify-center items-center min-h-screen;
+  @apply h-[90%] flex justify-center items-center;
 }
 
 /* formulaire de la page d'inscription */
@@ -15,17 +15,17 @@ body {
 
 /* style du formulaire de la page avec tailwind */
 .formLogin {
-  @apply flex justify-center flex-col items-center w-[600px] h-[500px];
+  @apply flex flex-col items-center w-[600px];
 }
 
 /* input */
 
 .inputLogin {
-  @apply mt-5;
+  @apply my-3 text-[16px] font-bold font-poppins placeholder:text-gray-300 placeholder:font-bold placeholder:text-[16px] placeholder:font-poppins;
 }
 
 /* button */
 
 .buttonLogin {
-  @apply m-[15px];
+  @apply m-8;
 }
