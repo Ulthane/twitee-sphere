@@ -8,40 +8,6 @@ export default function Home() {
   // STATE
   const [newTwiteeModalDisplay, setnewTwiteeModalDisplay] = useState(false);
 
-  // //ref
-  // const twitee = useRef();
-
-  // // variables
-  // const token = sessionStorage.getItem("token");
-
-  // //METHODES
-  // const sendNewTwiteeHandle = async (event) => {
-  //   event.preventDefault();
-
-  //   // console.log(twitee.current.value);
-
-  //   const request = await fetch(
-  //     "https://twitee-api.gamosaurus.fr/api/articles/create",
-  //     {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: token,
-  //       },
-  //       body: JSON.stringify({ description: `${twitee.current.value}` }),
-  //     }
-  //   );
-
-  //   if (!request.ok) {
-  //     alert("Un probleme est survenu lors du chargement...");
-  //   } else {
-  //     let data = await request.json();
-  //     console.log(twitee.current.value);
-  //     console.log(data);
-  //     setnewTwiteeModalDisplay(false);
-  //   }
-  // };
-
   const updateNewTwiteeModalDisplayHandler = (value) => {
     setnewTwiteeModalDisplay(value);
   };

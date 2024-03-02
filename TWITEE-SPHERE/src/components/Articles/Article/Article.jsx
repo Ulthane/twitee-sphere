@@ -7,7 +7,6 @@ export default function Article({ articleInformations }) {
     const handleDropDown = () => {
       setOpen(!isOpen);
     };
-
     return (
       <div className="dropdown">
         <button className=" font-bold" onClick={handleDropDown}>
@@ -53,14 +52,14 @@ export default function Article({ articleInformations }) {
             {/* user's picture */}
             <img
               className="w-[40px] h-[40px] rounded-full shadow-lg"
-              src={articleInformations.userInformations.imgProfil}
-              alt="default"
+              src={articleInformations.user.img_src}
+              alt="user's picture"
             />
             {/* User first name and last name */}
             <span className=" font-bold">
-              {articleInformations.userInformations.firstName +
+              {articleInformations.user.firstname +
                 " " +
-                articleInformations.userInformations.lastName}
+                articleInformations.user.lastname}
             </span>
           </div>
           {/* actions and Community */}
@@ -70,17 +69,19 @@ export default function Article({ articleInformations }) {
             {/* Community's image */}
             <img
               className="w-[40px] h-[40px] rounded-xl"
-              src={articleInformations.communityInformations.imgProfil}
-              alt="default"
+              // src={articleInformations.communityInformations.imgProfil}
+              alt="community's picture"
             />
           </div>
         </div>
         {/* article's message */}
-        <p className="mb-3 text-sm text-white">{articleInformations.content}</p>
+        <p className="mb-3 text-sm text-white">
+          {articleInformations.description}
+        </p>
         {/* article's image */}
         <img
           className="rounded-3xl w-max-[300px] h-max-[150px]"
-          src={articleInformations.imgSrc}
+          src={articleInformations.img_src}
           alt="default"
         />
         {/* Footer container */}

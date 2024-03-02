@@ -40,8 +40,6 @@ export default function LoginPage() {
       const emailValue = email.current.value;
       const passwordValue = password.current.value;
 
-      console.log(emailValue);
-      console.log(passwordValue);
       const response = await fetch(urlInfo, {
         method: "POST",
         headers: {
@@ -49,7 +47,7 @@ export default function LoginPage() {
         },
         body: JSON.stringify({ email: emailValue, password: passwordValue }),
       });
-      console.log(response);
+
       const json = await response.json(); // stockage de donné recut par l'API dans la variable json
       if (response) {
         setLoading(true);

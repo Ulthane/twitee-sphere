@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Article from "./Article/Article";
 import { toast } from "react-toastify";
 
@@ -57,10 +57,9 @@ export default function ArticlesDisplay() {
     },
   ];
 
-<<<<<<< HEAD
   //STATE
   const [articlesOffset, setArticlesOffset] = useState(0);
-  const [articles, setArticles] = useState("");
+  const [articles, setArticles] = useState([]);
 
   //Variables
   const token = sessionStorage.getItem("token");
@@ -82,20 +81,21 @@ export default function ArticlesDisplay() {
     } else {
       let data = await response.json();
       //   console.log(twitee.current.value);
-      console.log(data);
+
+      let newData = [...data];
+      setArticles(newData);
     }
   };
 
-  getThirtyArticlesWhithOffset();
+  useEffect(() => {
+    getThirtyArticlesWhithOffset();
+  }, []);
+
+  console.log(articles);
 
   return (
     <div className="flex flex-col justify-start items-center mt-8 gap-5 ">
-      {articlesTest.map((article, index) => (
-=======
-  return (
-    <div className="flex flex-col justify-start items-center mt-8 gap-5 ">
       {articles.map((article, index) => (
->>>>>>> development
         <Article key={index} articleInformations={article} />
       ))}
     </div>
