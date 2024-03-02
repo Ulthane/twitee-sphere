@@ -1,19 +1,24 @@
+// Librairie
 import { createPortal } from "react-dom";
 import { useRef } from "react";
+import { IoImageOutline } from "react-icons/io5";
+import { IoCloseCircleOutline } from "react-icons/io5";
+// Hooks
+import { useToken } from "../../hooks/useToken";
+// Composant
+import Button from "../Button/Button";
 
 export default function NewTwiteeModal({ updateStateModalDisplay }) {
   //ref
   const twitee = useRef();
 
   // variables
-  const token = sessionStorage.getItem("token");
+  const { getToken } = useToken();
+  const articleImg = useRef();
 
   //METHODES
   const sendNewTwiteeHandle = async (event) => {
     event.preventDefault();
-
-    console.log("Twitee: " + twitee.current.value);
-    console.log("Token: " + token);
 
     const request = await fetch(
       "https://twitee-api.gamosaurus.fr/api/articles/create",
@@ -21,7 +26,7 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token,
+          Authorization: getToken(),
         },
         body: JSON.stringify({ description: `${twitee.current.value}` }),
       }
@@ -30,9 +35,6 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
     if (!request.ok) {
       alert("Un probleme est survenu lors du chargement...");
     } else {
-      let data = await request.json();
-      //   console.log(twitee.current.value);
-      console.log(data);
       updateStateModalDisplay(false);
     }
   };
@@ -45,38 +47,52 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
             background: "rgba(0, 0, 0, 0.6)",
           }}
         >
-          <div className="py-[20px] px-[40px] bg-blueBgArticle text-white flex flex-col justify-center items-center gap-2 rounded-xl">
-            <div className="self-end  hover:bg-white hover:rounded-full">
-              <img
-                src="https://cdn.icon-icons.com/icons2/1157/PNG/512/1487086345-cross_81577.png"
-                alt="cross"
-                width={"20px"}
+          <div className="w-[920px] backdrop-blur-md bg-blueBgArticle/50 text-white flex flex-col justify-center items-center gap-2 rounded-xl">
+            <div className="absolute right-5 top-5 hover:text-blueLogo hover:cursor-pointer">
+              <div
+                className="text-[35px]"
                 onClick={(event) => {
                   event.stopPropagation();
                   updateStateModalDisplay(false);
                 }}
-              />
+              >
+                <IoCloseCircleOutline />
+              </div>
             </div>
 
             <form
               onSubmit={(event) => sendNewTwiteeHandle(event)}
               className="flex flex-col justify-center items-center gap-4"
             >
-              <h2 className="text-xl font-semibold">Nouveau Twitee</h2>
+              <h2 className="text-[32px] my-5 font-bold font-poppins">
+                <span className="text-blueLogo">T</span>witee{" "}
+                <span className="text-blueLogo">M</span>essage
+              </h2>
               <textarea
                 name="newTwitee"
                 id="newTwitee"
                 cols="50"
-                rows="5"
+                rows="10"
                 ref={twitee}
-                className=" border-2 rounded-md  text-black"
+                placeholder="Ecrivez votre message..."
+                className="p-5 font-poppins font-bold text-[16px] w-[600px] border-0 rounded-3xl bg-blueLogo/10 text-white focus:outline-none resize-none"
               ></textarea>
-              <button
-                type="submit"
-                className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-3xl mt-3"
-              >
-                Envoyer
-              </button>
+              <div className="relative flex flex-column">
+                <input
+                  className="pl-[65px] relative bg-blueLogo/10 w-[600px] h-[50px] border-none rounded-full text-white focus:outline-none my-3 text-[16px] font-bold font-poppins placeholder:text-gray-300 placeholder:font-bold placeholder:text-[16px] placeholder:font-poppins;"
+                  type="text"
+                  ref={articleImg}
+                  placeholder="Lien vers une image"
+                  name="article_image"
+                />
+                <IoImageOutline className="absolute left-5 top-6 text-[25px] text-white" />
+              </div>
+              <Button
+                value="Envoyer"
+                w="250px"
+                h="50px"
+                className="mb-10 bg-blueLogo hover:bg-blueLogoDark"
+              />
             </form>
           </div>
         </div>,
