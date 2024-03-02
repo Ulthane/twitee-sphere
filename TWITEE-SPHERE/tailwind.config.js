@@ -9,6 +9,7 @@ export default {
       colors: {
         blueLogo: "#2AA3EF",
         blueLogoDark: "#2792d5",
+        blueLogoLight: "#7ab7dd",
         blueBgArticle: "#255878",
       },
     },

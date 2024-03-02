@@ -16,7 +16,7 @@ const fastify = require('fastify')({
 
 fastify.register(cors, {
   origin: '*',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
 
 // Health endpoint

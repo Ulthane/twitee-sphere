@@ -42,7 +42,9 @@ export default function RegisterPage() {
 
   //useEffect
   useEffect(() => {
-    if (getToken !== "") {
+    const token = getToken();
+
+    if (token !== null && token !== "") {
       navigate(route.HOME);
     }
   }, [getToken]);
@@ -160,7 +162,7 @@ export default function RegisterPage() {
               value={"S'enregistrer"}
               w="250px"
               h="50px"
-              className="m-8"
+              className="m-8 bg-blueLogo hover:bg-blueLogoDark"
             />
           )}
           <div

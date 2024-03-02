@@ -26,23 +26,24 @@ import route from "../../routes/route";
  */
 
 export default function LoginPage() {
-  
   //ref
   const email = useRef();
   const password = useRef();
-  
+
   //state
   const [loading, setLoading] = useState(false);
-  
+
   //useNavigate
   let navigate = useNavigate();
-  
+
   //variable
   const { getToken } = useToken();
 
   //useEffect
   useEffect(() => {
-    if (getToken !== "") {
+    const token = getToken();
+
+    if (token !== null && token !== "") {
       navigate(route.HOME);
     }
   }, [getToken]);
@@ -114,7 +115,7 @@ export default function LoginPage() {
               <img src="loading/ripple-loading.svg" alt="Loading" />
             </div>
           ) : (
-            <Button value={"Connexion"} w="250px" h="50px" className="m-8" />
+            <Button value="Connexion" w="250px" h="50px" className="m-8 bg-blueLogo hover:bg-blueLogoDark" />
           )}
           <div
             onClick={() => navigate(route.REGISTER)}

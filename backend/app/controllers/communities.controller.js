@@ -2,17 +2,15 @@ const db = require('../models');
 const Communities = db.Communities;
 const Users = db.Users;
 
-// Retourne les commentaire disponible dans la BDD avec un offset et une limite
+// Retourne les communauté disponible dans la BDD avec un offset et une limite
 exports.getCommunitiesWithOffset = async (request, reply) => {
   try {
     const communities = await Communities.findAll({
       offset: parseInt(request.query.offset),
       limit: parseInt(request.query.limit),
-      // attributes: ['id_comentaries', 'description', 'createdAt'],
       include: [
         {
           model: Users,
-          // attributes: ['firstname', 'lastname', 'img_src', 'community'],
         }
       ],
     });
@@ -24,9 +22,8 @@ exports.getCommunitiesWithOffset = async (request, reply) => {
   }
 };
 
-// Créer un commentaire dans la BDD
+// Créer une communauté dans la BDD
 exports.createCommunities = async (request, reply) => {
-  // On récupère les informations utilisateur en fonction de sont id décrypté dans le token
   const newBody = { id_user: request.ctx.users, ...request.body };
 
   try {
@@ -50,11 +47,8 @@ exports.createCommunities = async (request, reply) => {
   }
 };
 
-// Modifie un commentaire dans la BDD
+// Modifie une communauté dans la BDD
 exports.modifyCommunities = async (request, reply) => {
-  /* 
-  On met a jour le commentaire en écrivant un body et en passant un ID d'article
-  */
   try {
     await Communities.update(
       { description: request.body.description },
@@ -70,7 +64,7 @@ exports.modifyCommunities = async (request, reply) => {
   }
 };
 
-// Supprime un commentaire dans la BDD (logiquement pas de suppression mais un paramètre de delete. pour le projet on supprime par simplicité)
+// Supprime une communauté dans la BDD (logiquement pas de suppression mais un paramètre de delete. pour le projet on supprime par simplicité)
 exports.deleteCommunities = async (request, reply) => {
   try {
     await Communities.destroy({

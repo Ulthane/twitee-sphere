@@ -1,7 +1,15 @@
 .navlinks {
-  @apply flex flex-row gap-2 justify-center items-center;
+  @apply flex flex-row gap-2 justify-center items-center font-bold font-poppins text-[26px] my-[10px] hover:text-blueLogo;
 }
 
 .navlinksActive {
-  @apply flex flex-row gap-2 justify-center items-center text-blueLogo font-bold;
+  @apply flex flex-row gap-2 justify-center items-center text-blueLogo font-bold font-poppins text-[26px] my-[10px];
+}
+
+.navlinks svg, .navlinksActive svg {
+  @apply mr-3;
+}
+
+.navlinksActive svg path {
+  @apply fill-blueLogo;
 }
