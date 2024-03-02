@@ -7,6 +7,19 @@ export const TwiteeContext = createContext({
 
 function twiteeReducer(state, action) {
   switch (action.type) {
+    case "GET_THIRTY_ARTICLES":
+      if (action.payload.event.target.value > 10) {
+        alert("Vous ne pouvez pas ajouter plus de 10 articles pour ce produit");
+        return state;
+      }
+      const newItems = [...state.items];
+      newItems.forEach((item) => {
+        console.log(item);
+        if (item.productName === action.payload.itemName) {
+          item.quantity = action.payload.event.target.value;
+        }
+      });
+      return { ...state, items: newItems };
     case "ADD_TWITEE":
       //Check if item.producName, if yes increment qte, if not display item
       const itemIndex = state.items.findIndex(
@@ -55,13 +68,6 @@ export default function TwiteeProvider({ children }) {
   const [state, dispatch] = useReducer(twiteeReducer, { data: {} });
   const contextValue = {
     data: state.data,
-    /**
-     * Dans le dispatch
-     * 1- On ne le voit pas mais dispatch envoie automatique le "state" qui lui est associé avec useReducer =>  const [state, dispatch] = useReducer(cartReducer, { items: [] });
-     * C'est comme ça que l'on retrouve le state dans les actions
-     * 2- type de l'action qui permet de déclencher la bonne action dans le switch du Reducer
-     * 3- Les payloads qui sont des arguments que l'on pourra ré-utiliser dans nos actions car leur valeurs ne sont pas le state et que nous sommes obligé de les faire passer par ce biais
-     */
     addTwitee: (newTwitee) => {
       dispatch({ type: "ADD_TWITEE", payload: newTwitee });
     },
