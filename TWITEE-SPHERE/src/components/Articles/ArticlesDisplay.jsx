@@ -53,6 +53,7 @@ export default function ArticlesDisplay() {
 
   useEffect(() => {
     // Essais pour actualiser le feed des Twitees lorsqu'un message est posté mais ne marche pas
+    // getThirtyArticlesWhithOffset();
     setArticlesToDisplay(prepareArticlesToDisplay());
   }, [data.articles]);
 
