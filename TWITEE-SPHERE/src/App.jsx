@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import AuthGuard from "./utils/AuthGuard.jsx";
+import TwiteeProvider from "./store/TwiteeContext.jsx";
 
 function App() {
   const Main = lazy(() => import("./Layout/Main.jsx"));
@@ -78,7 +79,11 @@ function App() {
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <TwiteeProvider>
+      <RouterProvider router={router} />
+    </TwiteeProvider>
+  );
 }
 
 export default App;

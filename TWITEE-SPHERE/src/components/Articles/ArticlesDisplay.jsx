@@ -60,6 +60,7 @@ export default function ArticlesDisplay() {
   //STATE
   const [articlesOffset, setArticlesOffset] = useState(0);
   const [articles, setArticles] = useState([]);
+  const [articlesToDisplay, setArticlesToDisplay] = useState();
 
   //Variables
   const token = sessionStorage.getItem("token");
@@ -87,17 +88,30 @@ export default function ArticlesDisplay() {
     }
   };
 
+  //Methode
+  const prepareArticlesToDisplay = () => {
+    const articlesToDisplay = [...articles].reverse();
+
+    return articlesToDisplay.map((article, index) => (
+      <Article key={index} articleInformations={article} />
+    ));
+  };
+
+  //CYCLE
   useEffect(() => {
     getThirtyArticlesWhithOffset();
   }, []);
+
+  useEffect(() => {
+    // Essais pour actualiser le feed des Twitees lorsqu'un message est posté mais ne marche pas
+    setArticlesToDisplay(prepareArticlesToDisplay());
+  }, [articles]);
 
   console.log(articles);
 
   return (
     <div className="flex flex-col justify-start items-center mt-8 gap-5 ">
-      {articles.map((article, index) => (
-        <Article key={index} articleInformations={article} />
-      ))}
+      {articlesToDisplay}
     </div>
   );
 }
