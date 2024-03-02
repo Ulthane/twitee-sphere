@@ -1,65 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Article from "./Article/Article";
 import { toast } from "react-toastify";
+import { TwiteeContext } from "../../store/TwiteeContext";
 
 export default function ArticlesDisplay() {
-  const articlesTest = [
-    {
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices felis non orci suscipit viverra. Donec tincidunt malesuada ex, iaculis elementum odio elementum sit amet. Proin non arcu dui.",
-      imgSrc:
-        "https://cdn.pixabay.com/photo/2015/10/30/20/13/sunrise-1014712_1280.jpg",
-      userInformations: {
-        firstName: "John",
-        lastName: "Doe",
-        imgProfil:
-          "https://cdn.pixabay.com/photo/2017/01/16/19/54/ireland-1985088_1280.jpg",
-      },
-      communityInformations: {
-        name: "Farmer",
-        imgProfil:
-          "https://cdn.pixabay.com/photo/2016/05/21/10/39/village-1406652_1280.jpg",
-      },
-    },
-    {
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices felis non orci suscipit viverra. Donec tincidunt malesuada ex, iaculis elementum odio elementum sit amet. Proin non arcu dui.",
-      imgSrc:
-        "https://cdn.pixabay.com/photo/2015/10/30/20/13/sunrise-1014712_1280.jpg",
-      userInformations: {
-        firstName: "John",
-        lastName: "Doe",
-        imgProfil:
-          "https://cdn.pixabay.com/photo/2017/01/16/19/54/ireland-1985088_1280.jpg",
-      },
-      communityInformations: {
-        name: "Farmer",
-        imgProfil:
-          "https://cdn.pixabay.com/photo/2016/05/21/10/39/village-1406652_1280.jpg",
-      },
-    },
-    {
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices felis non orci suscipit viverra. Donec tincidunt malesuada ex, iaculis elementum odio elementum sit amet. Proin non arcu dui.",
-      imgSrc:
-        "https://cdn.pixabay.com/photo/2016/03/24/09/10/man-1276384_1280.jpg",
-      userInformations: {
-        firstName: "John",
-        lastName: "Doe",
-        imgProfil:
-          "https://cdn.pixabay.com/photo/2017/01/16/19/54/ireland-1985088_1280.jpg",
-      },
-      communityInformations: {
-        name: "Farmer",
-        imgProfil:
-          "https://cdn.pixabay.com/photo/2016/05/21/10/39/village-1406652_1280.jpg",
-      },
-    },
-  ];
+  //Context
+  const { setArticles, data } = useContext(TwiteeContext);
 
   //STATE
   const [articlesOffset, setArticlesOffset] = useState(0);
-  const [articles, setArticles] = useState([]);
   const [articlesToDisplay, setArticlesToDisplay] = useState();
 
   //Variables
@@ -90,7 +39,7 @@ export default function ArticlesDisplay() {
 
   //Methode
   const prepareArticlesToDisplay = () => {
-    const articlesToDisplay = [...articles].reverse();
+    const articlesToDisplay = [...data.articles].reverse();
 
     return articlesToDisplay.map((article, index) => (
       <Article key={index} articleInformations={article} />
@@ -105,9 +54,10 @@ export default function ArticlesDisplay() {
   useEffect(() => {
     // Essais pour actualiser le feed des Twitees lorsqu'un message est posté mais ne marche pas
     setArticlesToDisplay(prepareArticlesToDisplay());
-  }, [articles]);
+  }, [data.articles]);
 
-  console.log(articles);
+  console.log("data in displayArticles:");
+  console.log(data);
 
   return (
     <div className="flex flex-col justify-start items-center mt-8 gap-5 ">

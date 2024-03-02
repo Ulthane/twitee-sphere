@@ -35,8 +35,9 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
     if (response.status !== 200) {
       toast.error(json.message);
     } else {
-      let data = await response.json();
-      console.log(data);
+      //Send to TwiteeContext the update
+
+      //Close New Twitee Modale
       updateStateModalDisplay(false);
     }
   };
