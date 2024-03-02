@@ -1,5 +1,5 @@
 // Librairie
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -10,6 +10,9 @@ import Logo from "../../components/Logo/Logo";
 
 // CSS
 import "./LoginPage.css";
+
+// hooks
+import { useToken } from "../../hooks/useToken";
 
 // Route
 import route from "../../routes/route";
@@ -23,20 +26,26 @@ import route from "../../routes/route";
  */
 
 export default function LoginPage() {
+  
   //ref
   const email = useRef();
   const password = useRef();
-
+  
   //state
   const [loading, setLoading] = useState(false);
-
+  
   //useNavigate
   let navigate = useNavigate();
+  
+  //variable
+  const { getToken } = useToken();
 
-  //function de redirection vers la page d'inscription
-  const linkRegistrationPage = () => {
-    navigate(route.REGISTER);
-  };
+  //useEffect
+  useEffect(() => {
+    if (getToken !== "") {
+      navigate(route.HOME);
+    }
+  }, [getToken]);
 
   // function qui récupère les infos de mon utilisateur
   const handleSubmit = async (e) => {
@@ -80,11 +89,7 @@ export default function LoginPage() {
       <Logo />
       <div className="containerFormLogin">
         {/* Formulaire */}
-        <form
-          className="formLogin"
-          onSubmit={(event) => handleSubmit(event)}
-          action=""
-        >
+        <form className="formLogin" onSubmit={(event) => handleSubmit(event)}>
           <h1 className="text-white font-bold font-poppins text-[40px] my-5">
             Bienvenue
           </h1>
@@ -95,31 +100,24 @@ export default function LoginPage() {
             type={"email"}
             placeholder={"Email"}
             reference={email}
-            className={"inputLogin"}
+            className={"inputLogin inputLoginRegisterSize"}
           />
           <Input
             type={"password"}
             placeholder={"Mot de passe"}
             reference={password}
-            className={"inputLogin"}
+            className="inputLogin inputLoginRegisterSize"
           />
 
           {loading ? (
-            <div className="text-white font-bold text-2xl my-5 w-[74px]"><img src="loading/ripple-loading.svg" alt="Loading" /></div>
+            <div className="text-white font-bold text-2xl my-5 w-[74px]">
+              <img src="loading/ripple-loading.svg" alt="Loading" />
+            </div>
           ) : (
-            <Button
-              value={"Connexion"}
-              w="250px"
-              h="50px"
-              className={
-                loading
-                  ? "buttonLogin"
-                  : "buttonLogin opacity-4 cursor-not-allowed"
-              }
-            />
+            <Button value={"Connexion"} w="250px" h="50px" className="m-8" />
           )}
           <div
-            onClick={linkRegistrationPage}
+            onClick={() => navigate(route.REGISTER)}
             className="m-1 text-white font-poppins font-light text-[16px] hover:cursor-pointer hover:text-blueLogo"
           >
             S’enregistrer
