@@ -6,6 +6,7 @@ import { TwiteeContext } from "../store/TwiteeContext";
 export default function Home() {
   //Context
   const { setUser } = useContext(TwiteeContext);
+
   // VARIABLE
   const token = sessionStorage.getItem("token");
 
@@ -27,6 +28,7 @@ export default function Home() {
     } else {
       let user = await response.json();
       let newUser = { ...user };
+      // console.log("newUser");
       // console.log(newUser);
       setUser(newUser);
     }

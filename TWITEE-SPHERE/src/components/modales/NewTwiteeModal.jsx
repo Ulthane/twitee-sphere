@@ -1,8 +1,12 @@
 import { createPortal } from "react-dom";
 import { useRef } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import route from "../../routes/route";
 
 export default function NewTwiteeModal({ updateStateModalDisplay }) {
+  //hooks
+  const navigate = useNavigate();
   //ref
   const twitee = useRef();
   const twiteeImg = useRef();
@@ -35,10 +39,10 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
     if (response.status !== 200) {
       toast.error(json.message);
     } else {
-      //Send to TwiteeContext the update
-
       //Close New Twitee Modale
       updateStateModalDisplay(false);
+      //refresh Home
+      navigate(route.HOME);
     }
   };
   return (

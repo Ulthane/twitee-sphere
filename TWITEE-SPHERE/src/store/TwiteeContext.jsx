@@ -1,7 +1,17 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
+import { toast } from "react-toastify";
+
+//Variables
+const token = sessionStorage.getItem("token");
+
+const actionTypes = {
+  SET_USER: "SET_USER",
+  SET_ARTICLES: "SET_ARTICLES",
+};
 
 export const TwiteeContext = createContext({
-  data: {},
+  articles: [],
+  user: {},
   setArticles: () => {},
   setUser: () => {},
   addTwitee: () => {},
@@ -9,84 +19,84 @@ export const TwiteeContext = createContext({
 
 function twiteeReducer(state, action) {
   switch (action.type) {
-    case "SET_ARTICLES":
-      const getThirtyArticlesWhithOffset = async () => {
-        const response = await fetch(
-          `https://twitee-api.gamosaurus.fr/api/articles/get?limit=30&offset=${articlesOffset}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: token,
-            },
-          }
-        );
-
-        if (response.status !== 200) {
-          toast.error(json.message);
-        } else {
-          let data = await response.json();
-          //   console.log(twitee.current.value);
-
-          let newData = [...data];
-          setArticles(newData);
-        }
-      };
-      // console.log("payload in setArticles:");
+    case actionTypes.SET_ARTICLES:
+      // console.log("SET_ARTICLES paylod:");
       // console.log(action.payload);
-      const newDataForArticles = { ...state.data, articles: action.payload };
-      return { ...state, data: newDataForArticles };
+      const newDataForArticles = {
+        ...state,
+        articles: action.payload,
+      };
+      // console.log("return SET_ARTICLES");
+      // console.log(newDataForArticles);
+      return newDataForArticles;
 
-    case "SET_USER":
-      //   console.log("setUser:");
-      //   console.log(action.payload);
-      const newDataForUser = { ...state.data, user: action.payload };
-      return { ...state, data: newDataForUser };
-
-    // case "ADD_TWITEE":
-    //   return {
-    //     ...state,
-    //     items: [
-    //       /**
-    //        * Récupère les items de la positon 0 à la position "itemIndex" EXCLUS
-    //        * itemIndex étant l'index ou se trouve l'item que l'on veut modifier
-    //        */
-    //       ...state.items.slice(0, itemIndex),
-    //       // On place notre nouvel item avec la nouvelle quantité
-    //       { ...existingItem, quantity: updateQuantity },
-    //       /**
-    //        * Récupère les items de la positon "itemIndex + 1" à la fin du tableau
-    //        * itemIndex étant l'index ou se trouve l'item que l'on veut modifier
-    //        */
-    //       ...state.items.slice(itemIndex + 1),
-    //     ],
-    //   };
+    case actionTypes.SET_USER:
+      // console.log("setUser paylod:");
+      // console.log(action.payload.userInformations);
+      const newDataForUser = {
+        ...state,
+        user: action.payload.userInformations,
+      };
+      // console.log("return SET USER");
+      // console.log(newDataForUser);
+      return newDataForUser;
   }
-
-  // Add item to items
-  return {
-    ...state,
-    items: [...state.items, { ...action.payload, quantity: 1 }],
-  };
 }
 
 export default function TwiteeProvider({ children }) {
   const [state, dispatch] = useReducer(twiteeReducer, {
-    data: { articles: [], user: {} },
+    articles: [],
+    user: {},
   });
+
+  //VARIABLES
   const contextValue = {
-    data: state.data,
+    articles: state.articles,
+    user: state.user,
     setArticles: (articles) => {
-      dispatch({ type: "SET_ARTICLES", payload: articles });
+      // console.log("SET_ARTICLES Articles");
+      // console.log(articles);
+      dispatch({ type: actionTypes.SET_ARTICLES, payload: { articles } });
     },
     setUser: (userInformations) => {
-      dispatch({ type: "SET_USER", payload: userInformations });
+      dispatch({ type: actionTypes.SET_USER, payload: { userInformations } });
     },
-    addTwitee: (newTwitee) => {
-      dispatch({ type: "ADD_TWITEE", payload: newTwitee });
-    },
+    // addTwitee: (newTwitee) => {
+    //   dispatch({ type: "ADD_TWITEE", payload: newTwitee });
+    // },
   };
 
+  //METHODES
+  const getThirtyArticlesWhithOffset = async () => {
+    const request = await fetch(
+      `https://twitee-api.gamosaurus.fr/api/articles/get?limit=30&offset=0`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
+
+    if (request.status !== 200) {
+      toast.error(json.message);
+    } else {
+      const response = await request.json();
+
+      const newArticles = [...response];
+      // console.log("FETCH");
+      // console.log(newArticles);
+      dispatch({ type: actionTypes.SET_ARTICLES, payload: newArticles });
+    }
+  };
+
+  //CYCLES
+  useEffect(() => {
+    getThirtyArticlesWhithOffset();
+  }, []);
+
+  //JSX
   return (
     <TwiteeContext.Provider value={contextValue}>
       {children}
