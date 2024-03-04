@@ -15,6 +15,7 @@ export const TwiteeContext = createContext({
   setArticles: () => {},
   setUser: () => {},
   addTwitee: () => {},
+  getThirtyArticlesWhithOffset: () => {},
 });
 
 function twiteeReducer(state, action) {
@@ -61,39 +62,62 @@ export default function TwiteeProvider({ children }) {
     setUser: (userInformations) => {
       dispatch({ type: actionTypes.SET_USER, payload: { userInformations } });
     },
+    getThirtyArticlesWhithOffset: async () => {
+      const request = await fetch(
+        `https://twitee-api.gamosaurus.fr/api/articles/get?limit=60&offset=0`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+
+      if (request.status !== 200) {
+        // toast.error(json.message);
+      } else {
+        const response = await request.json();
+
+        const newArticles = [...response];
+        // console.log("FETCH");
+        // console.log(newArticles);
+        dispatch({ type: actionTypes.SET_ARTICLES, payload: newArticles });
+      }
+    },
     // addTwitee: (newTwitee) => {
     //   dispatch({ type: "ADD_TWITEE", payload: newTwitee });
     // },
   };
 
   //METHODES
-  const getThirtyArticlesWhithOffset = async () => {
-    const request = await fetch(
-      `https://twitee-api.gamosaurus.fr/api/articles/get?limit=60&offset=0`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
+  // const getThirtyArticlesWhithOffset = async () => {
+  //   const request = await fetch(
+  //     `https://twitee-api.gamosaurus.fr/api/articles/get?limit=60&offset=0`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: token,
+  //       },
+  //     }
+  //   );
 
-    if (request.status !== 200) {
-      // toast.error(json.message);
-    } else {
-      const response = await request.json();
+  //   if (request.status !== 200) {
+  //     // toast.error(json.message);
+  //   } else {
+  //     const response = await request.json();
 
-      const newArticles = [...response];
-      // console.log("FETCH");
-      // console.log(newArticles);
-      dispatch({ type: actionTypes.SET_ARTICLES, payload: newArticles });
-    }
-  };
+  //     const newArticles = [...response];
+  //     // console.log("FETCH");
+  //     // console.log(newArticles);
+  //     dispatch({ type: actionTypes.SET_ARTICLES, payload: newArticles });
+  //   }
+  // };
 
   //CYCLES
   useEffect(() => {
-    getThirtyArticlesWhithOffset();
+    // getThirtyArticlesWhithOffset();
   }, []);
 
   //JSX

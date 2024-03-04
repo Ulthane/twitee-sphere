@@ -1,19 +1,21 @@
 // Librairie
 import { createPortal } from "react-dom";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { IoImageOutline } from "react-icons/io5";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 
 // Hooks
 import { useToken } from "../../hooks/useToken";
 // Composant
 import Button from "../Button/Button";
 import { toast } from "react-toastify";
+import { TwiteeContext } from "../../store/TwiteeContext";
 
 export default function NewTwiteeModal({ updateStateModalDisplay }) {
-  //hooks
-  const navigate = useNavigate();
+  //Context
+  const { getThirtyArticlesWhithOffset } = useContext(TwiteeContext);
+
+  const context = useContext(TwiteeContext);
   //ref
   const twitee = useRef();
   const articleImg = useRef();
@@ -43,10 +45,14 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
     if (request.status !== 200) {
       toast.error(request.message);
     } else {
+      // Faire un loading => Loading true
+      getThirtyArticlesWhithOffset();
+      // getArticles
+
+      //Set Articles in Context
+
       //Close New Twitee Modale
       updateStateModalDisplay(false);
-      //refresh Home
-      navigate(route.HOME);
     }
   };
   return (

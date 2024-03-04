@@ -115,7 +115,12 @@ export default function LoginPage() {
               <img src="loading/ripple-loading.svg" alt="Loading" />
             </div>
           ) : (
-            <Button value="Connexion" w="250px" h="50px" className="m-8 bg-blueLogo hover:bg-blueLogoDark" />
+            <Button
+              value="Connexion"
+              w="250px"
+              h="50px"
+              className="m-8 bg-blueLogo hover:bg-blueLogoDark"
+            />
           )}
           <div
             onClick={() => navigate(route.REGISTER)}

@@ -5,7 +5,8 @@ import { TwiteeContext } from "../../store/TwiteeContext";
 
 export default function ArticlesDisplay() {
   //Context
-  const { setArticles, articles } = useContext(TwiteeContext);
+  const { setArticles, articles, getThirtyArticlesWhithOffset } =
+    useContext(TwiteeContext);
   const context = useContext(TwiteeContext);
   console.log("CONTEXT");
   console.log(context);
@@ -25,7 +26,10 @@ export default function ArticlesDisplay() {
   //CYCLES
   useEffect(() => {
     setArticlesToDisplay(prepareArticlesToDisplay());
+    console.log("Update");
   }, [articles]);
+
+  useEffect(() => {}, []);
 
   return (
     <div className="flex flex-col justify-start items-center mt-8 gap-5 ">
