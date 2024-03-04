@@ -13,13 +13,17 @@ exports.getComentariesWithOffset = async (request, reply) => {
       include: [
         {
           model: Users,
-          attributes: ['firstname', 'lastname', 'img_src', 'community'],
+          attributes: ['firstname', 'lastname', 'img_src', 'id_communities'],
         },
         {
           model: Articles,
           attributes: ['id_articles'],
+          where: {
+            id_articles: request.query.id
+          }
         },
       ],
+
     });
     reply.send(comentaries);
   } catch (err) {

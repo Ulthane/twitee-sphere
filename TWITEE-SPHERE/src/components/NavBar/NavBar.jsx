@@ -1,15 +1,39 @@
-import { useRef, useState } from "react";
-import { createPortal } from "react-dom";
+// Librairie
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+// Route
 import route from "../../routes/route";
+
+// Composant
 import NavlinkDisplay from "./NavLink/NavlinkDisplay";
 import NewTwiteeModal from "../modales/NewTwiteeModal";
+import Button from "../Button/Button";
+
+// Hooks
+import { useToken } from "../../hooks/useToken";
+
+// SVG
+import HomeIcon from "../../assets/SVG/HomeIcon";
+import CommunityIcon from "../../assets/SVG/CommunityIcon";
+import FrameIcon from "../../assets/SVG/FrameIcon";
+import FireIcon from "../../assets/SVG/FireIcon";
 
 export default function Home() {
   // STATE
   const [newTwiteeModalDisplay, setnewTwiteeModalDisplay] = useState(false);
 
+  // HOOKS
+  const { deleteToken } = useToken();
+  const navigate = useNavigate();
+
   const updateNewTwiteeModalDisplayHandler = (value) => {
     setnewTwiteeModalDisplay(value);
+  };
+
+  const logout = () => {
+    deleteToken();
+    navigate(route.LOGIN);
   };
 
   return (
@@ -19,8 +43,7 @@ export default function Home() {
         <li>
           <NavlinkDisplay
             route={route.HOME}
-            img={"../../public/icons/navbar/homeIcon_"}
-            altValue="little house icon"
+            img={<HomeIcon />}
             value={"Accueil"}
           />
         </li>
@@ -28,8 +51,7 @@ export default function Home() {
         <li>
           <NavlinkDisplay
             route={route.FOLLOW}
-            img={"../../public/icons/navbar/fireIcon_"}
-            altValue="little fire icon"
+            img={<FireIcon />}
             value={"Suivis"}
           />
         </li>
@@ -37,8 +59,7 @@ export default function Home() {
         <li>
           <NavlinkDisplay
             route={route.FAVORITE}
-            img={"../../public/icons/navbar/frameIcon_"}
-            altValue="little frame icon"
+            img={<FrameIcon />}
             value={"Favoris"}
           />
         </li>
@@ -46,75 +67,38 @@ export default function Home() {
         <li>
           <NavlinkDisplay
             route={route.COMMUNITY}
-            img={"../../public/icons/navbar/communityIcon_"}
-            altValue="little community icon"
-            value={"Community"}
+            img={<CommunityIcon />}
+            value={"Communauté"}
           />
         </li>
         {/* New Twitee button */}
         <li>
-          <button
-            onClick={() => setnewTwiteeModalDisplay(true)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-3xl my-4 self-center"
-          >
-            New Twitee
-          </button>
+          <Button
+            value="Twitee"
+            w="250px"
+            h="50px"
+            className="bg-blueLogo hover:bg-blueLogoDark"
+            fn={() => setnewTwiteeModalDisplay(true)}
+          />
+        </li>
+        {/* Logout button */}
+        <li>
+          <Button
+            value="Déconnexion"
+            w="250px"
+            h="50px"
+            className="bg-red-400 hover:bg-red-500"
+            fn={logout}
+          />
         </li>
       </ul>
 
       {/* MODALE NEW TWITEE */}
-      {
-        newTwiteeModalDisplay && (
-          <NewTwiteeModal
-            updateStateModalDisplay={updateNewTwiteeModalDisplayHandler}
-          />
-        )
-        // ANCIENNE MODALE MAINTENANT DANS LE COMPOSANT NewTwiteeModal
-        // createPortal(
-        //   <div
-        //     className="absolute bottom-0 right-0 left-0 top-0 flex justify-center items-center"
-        //     style={{
-        //       background: "rgba(0, 0, 0, 0.6)",
-        //     }}
-        //   >
-        //     <div className="py-[20px] px-[40px] bg-blueBgArticle text-white flex flex-col justify-center items-center gap-2 rounded-xl">
-        //       <div className="self-end  hover:bg-white hover:rounded-full">
-        //         <img
-        //           src="https://cdn.icon-icons.com/icons2/1157/PNG/512/1487086345-cross_81577.png"
-        //           alt="cross"
-        //           width={"20px"}
-        //           onClick={(event) => {
-        //             event.stopPropagation();
-        //             setnewTwiteeModalDisplay(false);
-        //           }}
-        //         />
-        //       </div>
-
-        //       <form
-        //         onSubmit={(event) => sendNewTwiteeHandle(event)}
-        //         className="flex flex-col justify-center items-center gap-4"
-        //       >
-        //         <h2 className="text-xl font-semibold">Nouveau Twitee</h2>
-        //         <textarea
-        //           name="newTwitee"
-        //           id="newTwitee"
-        //           cols="50"
-        //           rows="5"
-        //           ref={twitee}
-        //           className=" border-2 rounded-md  text-black"
-        //         ></textarea>
-        //         <button
-        //           type="submit"
-        //           className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-3xl mt-3"
-        //         >
-        //           Envoyer
-        //         </button>
-        //       </form>
-        //     </div>
-        //   </div>,
-        //   document.querySelector("body")
-        // )
-      }
+      {newTwiteeModalDisplay && (
+        <NewTwiteeModal
+          updateStateModalDisplay={updateNewTwiteeModalDisplayHandler}
+        />
+      )}
     </>
   );
 }

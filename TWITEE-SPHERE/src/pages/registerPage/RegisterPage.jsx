@@ -1,11 +1,18 @@
-import { useEffect, useRef, useState, CSSProperties } from "react";
+// Librairie
+import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+// Composant
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import "./register.css";
 import Logo from "../../components/Logo/Logo";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
+
+// Route
 import route from "../../routes/route";
+
+// hooks
+import { useToken } from "../../hooks/useToken";
 
 export default function RegisterPage() {
   //states
@@ -15,10 +22,11 @@ export default function RegisterPage() {
     email: "",
     password: "",
   });
-
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [securePassword, setSecurePassword] = useState("");
 
   //ref
+  // Permettra d'ajouter un focus sur le premier champs du formulaire
   const firstnameRef = useRef(null);
 
   //useEffect
@@ -29,16 +37,22 @@ export default function RegisterPage() {
     }
   }, []);
 
-  const [securePassword, setSecurePassword] = useState("");
+  //variable
+  const { getToken } = useToken();
 
-  const [token, setToken] = useState(); // stockage du accesToken
+  //useEffect
+  useEffect(() => {
+    const token = getToken();
+
+    if (token !== null && token !== "") {
+      navigate(route.HOME);
+    }
+  }, [getToken]);
 
   //Variable
-
   let navigate = useNavigate();
 
   //Functions
-
   // function qui gère le changement des inputs
   const handleChange = (e) => {
     const { name, value } = e.target; // extrait les infos de name et value de e.target
@@ -49,14 +63,15 @@ export default function RegisterPage() {
   };
 
   // function pour envoyer les donnés de mon utilisateur a mon API
-  const onsubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault(); // ne relance pas la page lors de la soummision du formulaire
+
     //vérification que les 2 mots de passe sont identiques
     if (formData.password !== securePassword) {
       toast.error("Les mots de passe ne sont pas identiques");
     } else {
-      setLoading(false);
-      console.log(formData); // affiche les données de mon user dans la console
+      setLoading(true);
+
       try {
         const url = "https://twitee-api.gamosaurus.fr/api/users/signup"; // stockage de url DE l'API dans la variable  url
 
@@ -67,63 +82,36 @@ export default function RegisterPage() {
           },
           body: JSON.stringify(formData),
         });
-        if (response) {
-          setLoading(true);
-        }
+
         const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
-        setToken(json.accessToken); // stocke accessToke dans dans mon state token
-        console.log(response);
+        sessionStorage.setItem("token", json.accessToken); // stocke accessToke dans dans mon state token
+        setLoading(false);
 
         if (response.status == 403) {
           toast.error(json.message);
         } else if (response.status == 200) {
-          sessionStorage.setItem("token", json.accesToken);
           navigate(route.HOME);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         toast.error(error);
       }
     }
   };
 
-  // function qui récupère les infos de mon utilisateur
-  const getUserInfo = async () => {
-    const urlInfo = "https://twitee-api.gamosaurus.fr/api/users/get"; // stockage de url DE l'API qui recoit les infos de mon user
-
-    const response = await fetch(urlInfo, {
-      method: "GET",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-    });
-
-    const json = await response.json(); // stockage de donné recut par l'API dans la variable json
-    console.log(json);
-  };
-
-  //useEffect
-
-  // lorsque mon usestate token change on appelle la function getUsers
-  useEffect(() => {
-    if (token) {
-      // si mon state token n'est pas vide on appelle getUserInfo
-      getUserInfo(); // function qui récupère les infos de mon utilisateur
-    }
-  }, [token]);
-
   return (
-    <>
+    <div className="h-screen overflow-hidden">
       <Logo />
-      <div className="containerFormRegister">
-        <form onSubmit={onsubmit} className="formRegister" action="">
-          <div className="containerInfoForm">
-            <h1>Inscription</h1>
-            <p>Inscrivez-vous pour rejoindre la sphère des communautés</p>
-          </div>
+      <div className="containerFormLogin">
+        <form onSubmit={onSubmit} className="formLogin" action="">
+          <h1 className="text-white font-bold font-poppins text-[40px] my-5">
+            Inscription
+          </h1>
+          <p className="text-white font-poppins text-[16px] font-light mb-10">
+            Inscrivez-vous pour rejoindre la sphère des communautés
+          </p>
           <Input
-            className={"inputRegister"}
+            className={"inputLoginRegisterSize"}
             type={"text"}
             placeholder={"Prenom"}
             name={"firstname"}
@@ -132,7 +120,7 @@ export default function RegisterPage() {
             reference={firstnameRef}
           />
           <Input
-            className={"inputRegister"}
+            className={"inputLoginRegisterSize"}
             type={"text"}
             placeholder={"Nom"}
             name={"lastname"}
@@ -140,7 +128,7 @@ export default function RegisterPage() {
             onchange={handleChange}
           />
           <Input
-            className={"inputRegister"}
+            className={"inputLoginRegisterSize"}
             type={"email"}
             placeholder={"Email"}
             name={"email"}
@@ -148,7 +136,7 @@ export default function RegisterPage() {
             onchange={handleChange}
           />
           <Input
-            className={"inputRegister"}
+            className={"inputLoginRegisterSize"}
             type={"password"}
             placeholder={"Mot de passe"}
             name={"password"}
@@ -157,31 +145,34 @@ export default function RegisterPage() {
           />
           <Input
             //verification 2 mdp en front
-            className={"inputRegister"}
+            className={"inputLoginRegisterSize"}
             type={"password"}
             placeholder={"Vérification mot de passe"}
             name={"confirmPassword"}
             value={securePassword}
             onchange={(e) => setSecurePassword(e.target.value)}
           />
-          <div className="text-white">{loading ? "" : "chargement..."}</div>
-          <Button
-            disabled={!loading}
-            className={
-              loading
-                ? "buttonRegister"
-                : "buttonRegister opacity-4 cursor-not-allowed"
-            }
-            value={"S'enregistrer"}
-          />
-          <p
+
+          {loading ? (
+            <div className="text-white font-bold text-2xl my-5 w-[74px]">
+              <img src="loading/ripple-loading.svg" alt="Loading" />
+            </div>
+          ) : (
+            <Button
+              value={"S'enregistrer"}
+              w="250px"
+              h="50px"
+              className="m-8 bg-blueLogo hover:bg-blueLogoDark"
+            />
+          )}
+          <div
             onClick={() => navigate(route.LOGIN)}
-            className="text-white cursor-pointer"
+            className="mb-8 text-white font-poppins font-light text-[16px] hover:cursor-pointer hover:text-blueLogo"
           >
             Se connecter
-          </p>
+          </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }

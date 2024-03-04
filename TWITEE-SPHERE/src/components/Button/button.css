@@ -1,7 +1,3 @@
 .buttonCustom{
-    background-color: #2AA3EF;
-}
-
-.buttonCustom{
-    @apply border-none w-[250px] h-[50px] rounded-[25px] text-white
+    @apply border-none rounded-[25px] text-white font-poppins font-bold text-[20px] transition-all duration-150;
 }

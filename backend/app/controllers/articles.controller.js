@@ -12,10 +12,10 @@ exports.getArticlesWithOffset = async (request, reply) => {
       include: [
         {
           model: Users,
-          attributes: ['firstname', 'lastname', 'img_src', 'community'],
+          attributes: ['firstname', 'lastname', 'img_src', 'id_communities'],
         },
       ],
-      attributes: ['id_articles', 'description', 'user.firstname'],
+      attributes: ['id_articles', 'description', 'img_src', 'user.firstname'],
     });
     reply.send(articles);
   } catch (err) {
@@ -34,10 +34,10 @@ exports.getArticlesWithOffsetAndUserId = async (request, reply) => {
       include: [
         {
           model: Users,
-          attributes: ['firstname', 'lastname', 'img_src', 'community'],
+          attributes: ['firstname', 'lastname', 'img_src', 'id_communities'],
         },
       ],
-      attributes: ['id_articles', 'description', 'user.firstname'],
+      attributes: ['id_articles', 'description', 'img_src', 'user.firstname'],
       where: {
         id_user: request.params.id,
       },
