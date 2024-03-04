@@ -3,21 +3,23 @@ import { createPortal } from "react-dom";
 import { useRef } from "react";
 import { IoImageOutline } from "react-icons/io5";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+
 // Hooks
 import { useToken } from "../../hooks/useToken";
 // Composant
 import Button from "../Button/Button";
+import { toast } from "react-toastify";
 
 export default function NewTwiteeModal({ updateStateModalDisplay }) {
   //hooks
   const navigate = useNavigate();
   //ref
   const twitee = useRef();
-  const twiteeImg = useRef();
+  const articleImg = useRef();
 
   // variables
   const { getToken } = useToken();
-  const articleImg = useRef();
 
   //METHODES
   const sendNewTwiteeHandle = async (event) => {
@@ -33,13 +35,13 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
         },
         body: JSON.stringify({
           description: `${twitee.current.value}`,
-          img_src: twiteeImg.current.value,
+          img_src: articleImg.current.value,
         }),
       }
     );
 
-    if (response.status !== 200) {
-      toast.error(json.message);
+    if (request.status !== 200) {
+      toast.error(request.message);
     } else {
       //Close New Twitee Modale
       updateStateModalDisplay(false);

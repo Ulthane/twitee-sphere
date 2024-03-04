@@ -69,7 +69,7 @@ export default function TwiteeProvider({ children }) {
   //METHODES
   const getThirtyArticlesWhithOffset = async () => {
     const request = await fetch(
-      `https://twitee-api.gamosaurus.fr/api/articles/get?limit=50&offset=0`,
+      `https://twitee-api.gamosaurus.fr/api/articles/get?limit=60&offset=0`,
       {
         method: "GET",
         headers: {
