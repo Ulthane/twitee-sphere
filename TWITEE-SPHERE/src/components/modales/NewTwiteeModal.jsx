@@ -1,18 +1,12 @@
 // Librairie
 import { createPortal } from "react-dom";
 import { useRef } from "react";
-<<<<<<< HEAD
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import route from "../../routes/route";
-=======
 import { IoImageOutline } from "react-icons/io5";
 import { IoCloseCircleOutline } from "react-icons/io5";
 // Hooks
 import { useToken } from "../../hooks/useToken";
 // Composant
 import Button from "../Button/Button";
->>>>>>> c40b7c066efb2470024d25fb52a088574cc70dad
 
 export default function NewTwiteeModal({ updateStateModalDisplay }) {
   //hooks
@@ -29,14 +23,7 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
   const sendNewTwiteeHandle = async (event) => {
     event.preventDefault();
 
-<<<<<<< HEAD
-    console.log("Twitee: " + twitee.current.value);
-    console.log("TwiteeImgUrl: " + twiteeImg.current.value);
-
-    const response = await fetch(
-=======
     const request = await fetch(
->>>>>>> c40b7c066efb2470024d25fb52a088574cc70dad
       "https://twitee-api.gamosaurus.fr/api/articles/create",
       {
         method: "POST",
@@ -54,10 +41,7 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
     if (response.status !== 200) {
       toast.error(json.message);
     } else {
-<<<<<<< HEAD
       //Close New Twitee Modale
-=======
->>>>>>> c40b7c066efb2470024d25fb52a088574cc70dad
       updateStateModalDisplay(false);
       //refresh Home
       navigate(route.HOME);
@@ -89,45 +73,6 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
               onSubmit={(event) => sendNewTwiteeHandle(event)}
               className="flex flex-col justify-center items-center gap-4"
             >
-<<<<<<< HEAD
-              <h2 className="text-xl font-semibold">Nouveau Twitee</h2>
-
-              <p>
-                <label name="twiteeUrlImg" className="text-xs ">
-                  Votre Twitee
-                </label>
-                <br />
-                <textarea
-                  name="newTwitee"
-                  id="newTwitee"
-                  cols="50"
-                  rows="5"
-                  ref={twitee}
-                  className=" border-2 rounded-md  text-black mt-1"
-                ></textarea>
-              </p>
-
-              <p className=" self-start w-full">
-                <label name="twiteeUrlImg" className="text-xs ">
-                  Url de votre image
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="twiteeUrlImg"
-                  id="twiteeUrlImg"
-                  ref={twiteeImg}
-                  className=" border-2 rounded-md  text-black w-full mt-1"
-                />
-              </p>
-
-              <button
-                type="submit"
-                className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-3xl mt-3"
-              >
-                Envoyer
-              </button>
-=======
               <h2 className="text-[32px] my-5 font-bold font-poppins">
                 <span className="text-blueLogo">T</span>witee{" "}
                 <span className="text-blueLogo">M</span>essage
@@ -157,7 +102,6 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
                 h="50px"
                 className="mb-10 bg-blueLogo hover:bg-blueLogoDark"
               />
->>>>>>> c40b7c066efb2470024d25fb52a088574cc70dad
             </form>
           </div>
         </div>,
