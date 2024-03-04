@@ -5,7 +5,7 @@ const route = {
   HOME: "/main/home",
   FOLLOW: "/main/followFeed",
   FAVORITE: "/main/favoriteFeed",
-  COMMUNITY: "/communityMain",
+  COMMUNITY: "/community",
 };
 
 export default route;
