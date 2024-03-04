@@ -4,6 +4,7 @@ import AuthGuard from "./utils/AuthGuard.jsx";
 
 function App() {
   const Main = lazy(() => import("./Layout/Main.jsx"));
+  const CommunityMain = lazy(() => import("./Layout/CommunityMain.jsx"));
   const Home = lazy(() => import("./pages/Home.jsx"));
   const RegisterPage = lazy(() => import("./pages/registerPage/RegisterPage"));
   const LoginPage = lazy(() => import("./pages/registerPage/LoginPage"));
@@ -67,15 +68,17 @@ function App() {
             </Suspense>
           ),
         },
-        {
-          path: "/main/community",
-          element: (
-            <Suspense>
-              <Community />
-            </Suspense>
-          ),
-        },
       ],
+    },
+    {
+      path: "/communityMain",
+      element: (
+        <Suspense>
+          <AuthGuard>
+            <CommunityMain />
+          </AuthGuard>
+        </Suspense>
+      ),
     },
   ]);
   return <RouterProvider router={router} />;
