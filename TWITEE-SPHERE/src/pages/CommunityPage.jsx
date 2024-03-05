@@ -5,8 +5,42 @@ import NavBar from "../components/NavBar/NavBar";
 import Community from "../components/Community/Community";
 
 import "../../public/Icons/searchBar/search_white.svg";
+import { useRef } from "react";
 
 export default function CommunityPage() {
+  //Variables
+  const name = useRef("");
+  const description = useRef("");
+  const { getToken } = useToken();
+  //function
+  const submit = async (e) => {
+    e.preventDefault();
+    console.log(name.current.value, description.current.value);
+    // envoi des donné
+    try {
+      const url = "https://twitee-api.gamosaurus.fr/api/communities/create";
+      // création d'un objet pour stocker les donnés
+      const data = {
+        name: name.current.value,
+        description: description.current.value,
+      };
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: getToken(),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
+      console.log(json);
+      console.log(token);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="gradientBackGround">
       {/* Header */}
@@ -28,9 +62,22 @@ export default function CommunityPage() {
           <br />
           <Community />
         </div>
-        <form className="flex flex-col items-center">
-          <h2 className="mb-[20px]">Créer en une !</h2>
-          <Input placeholder={"Titre"} type={"text"} className={"mb-[20px]"} />
+        <form
+          onSubmit={(e) => submit(e)}
+          className="flex flex-col items-center"
+        >
+          <h2 className="mb-[20px]">
+            {" "}
+            <b>
+              <span className="text-blueLogo">Créer</span> en une !
+            </b>
+          </h2>
+          <Input
+            reference={name}
+            placeholder={"Titre"}
+            type={"text"}
+            className={"mb-[20px]"}
+          />
           <textarea
             style={{ background: "rgba(42, 163, 239, 0.1)" }}
             className=" rounded-[25px] placeholder: p-3 placeholder-white focus:outline-none mb-[20px]"
@@ -39,6 +86,7 @@ export default function CommunityPage() {
             cols="30"
             rows="10"
             placeholder="Description"
+            ref={description}
           ></textarea>
           <Input placeholder={"image"} type={"text"} className={"mb-[20px]"} />
           <Button value={"Créer moi !"} />
