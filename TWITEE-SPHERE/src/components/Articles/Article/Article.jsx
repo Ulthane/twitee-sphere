@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useToken } from "../../../hooks/useToken";
 import { toast } from "react-toastify";
 import LikeButton from "../../Button/LikeButton/Likebutton";
+import { deleteFetch } from "../../../utils/Fetch";
 
 export default function Article({ articleInformations, communityId }) {
   //States
@@ -10,13 +11,19 @@ export default function Article({ articleInformations, communityId }) {
   // const [articleInformation, setArticleInformation] =
   //   useState(articleInformations);
 
-  // console.log(articleInformations);
-  // console.log(isLike);
-
   //Varaibles
   const token = useToken();
 
   // Méthode
+  const deleteArticleHandler = () => {
+    // console.log("ok");
+    const resquest = deleteFetch(
+      `https://twitee-api.gamosaurus.fr/api/articles/delete/${articleInformations.id_articles}`,
+      { Authorization: token.getToken() }
+    );
+    console.log(resquest);
+  };
+
   const DropDown = () => {
     const handleDropDown = () => {
       setOpen(!isOpen);
@@ -46,6 +53,7 @@ export default function Article({ articleInformations, communityId }) {
               <a
                 href="#"
                 className="block py-2 px-4 text-xs rounded hover:bg-blueLogo"
+                onClick={deleteArticleHandler}
               >
                 Supprimer
               </a>
