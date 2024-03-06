@@ -5,11 +5,13 @@ import { TwiteeContext } from "../../store/TwiteeContext";
 
 export default function ArticlesDisplay() {
   //Context
-  const { setArticles, articles, getThirtyArticlesWhithOffset } =
-    useContext(TwiteeContext);
-  const context = useContext(TwiteeContext);
-  console.log("CONTEXT");
-  console.log(context);
+  const { articles, getThirtyArticlesWhithOffset } = useContext(TwiteeContext);
+  const { user } = useContext(TwiteeContext);
+
+  //Pour les TEST
+  // const context = useContext(TwiteeContext);
+  // console.log("CONTEXT");
+  // console.log(context);
 
   //STATE
   const [articlesOffset, setArticlesOffset] = useState(0);
@@ -19,17 +21,22 @@ export default function ArticlesDisplay() {
   const prepareArticlesToDisplay = () => {
     const articlesToDisplay = [...articles].reverse();
     return articlesToDisplay.map((article, index) => (
-      <Article key={index} articleInformations={article} />
+      <Article
+        key={index}
+        articleInformations={article}
+        communityId={(user.id_communities = 2)}
+      />
     ));
   };
 
   //CYCLES
   useEffect(() => {
     setArticlesToDisplay(prepareArticlesToDisplay());
-    console.log("Update");
   }, [articles]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getThirtyArticlesWhithOffset();
+  }, []);
 
   return (
     <div className="flex flex-col justify-start items-center mt-8 gap-5 ">

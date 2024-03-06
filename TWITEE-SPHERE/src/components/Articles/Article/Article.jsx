@@ -1,8 +1,22 @@
 import { useState } from "react";
+import { useToken } from "../../../hooks/useToken";
+import { toast } from "react-toastify";
+import LikeButton from "../../Button/LikeButton/Likebutton";
 
-export default function Article({ articleInformations }) {
+export default function Article({ articleInformations, communityId }) {
+  //States
   const [isOpen, setOpen] = useState(false);
 
+  // const [articleInformation, setArticleInformation] =
+  //   useState(articleInformations);
+
+  // console.log(articleInformations);
+  // console.log(isLike);
+
+  //Varaibles
+  const token = useToken();
+
+  // Méthode
   const DropDown = () => {
     const handleDropDown = () => {
       setOpen(!isOpen);
@@ -101,14 +115,12 @@ export default function Article({ articleInformations }) {
               width={"25px"}
             />
           </div>
-          <div className="flex flex-row gap-1">
-            <img
-              src="../../../public/icons/article/likeIcon.svg"
-              alt="like icon"
-              width={"25px"}
-            />
-            <span>25</span>
-          </div>
+          {/* LIKE BUTTON */}
+          <LikeButton
+            articleId={articleInformations.id_articles}
+            communityId={communityId}
+            token={token.getToken()}
+          />
           <div className="flex flex-row gap-1">
             <img
               src="../../../public/icons/article/frameIcon.svg"
@@ -121,22 +133,3 @@ export default function Article({ articleInformations }) {
     </>
   );
 }
-
-// Exemple de l'objet reçu
-//      {
-//     content:
-//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices felis non orci suscipit viverra. Donec tincidunt malesuada ex, iaculis elementum odio elementum sit amet. Proin non arcu dui.",
-//     imgSrc:
-//       "https://cdn.pixabay.com/photo/2015/10/30/20/13/sunrise-1014712_1280.jpg",
-//     userInformations: {
-//       firstName: "John",
-//       lastName: "Doe",
-//       imgProfil:
-//         "https://cdn.pixabay.com/photo/2017/01/16/19/54/ireland-1985088_1280.jpg",
-//     },
-//     communityInformations: {
-//       name: "Farmer",
-//       imgProfil:
-//         "https://cdn.pixabay.com/photo/2016/05/21/10/39/village-1406652_1280.jpg",
-//     },
-//   },

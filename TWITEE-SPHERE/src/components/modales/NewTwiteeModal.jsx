@@ -10,6 +10,8 @@ import { useToken } from "../../hooks/useToken";
 import Button from "../Button/Button";
 import { toast } from "react-toastify";
 import { TwiteeContext } from "../../store/TwiteeContext";
+//Utils
+import { postFetch } from "../../utils/Fetch";
 
 export default function NewTwiteeModal({ updateStateModalDisplay }) {
   //Context
@@ -27,31 +29,21 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
   const sendNewTwiteeHandle = async (event) => {
     event.preventDefault();
 
-    const request = await fetch(
+    const request = await postFetch(
       "https://twitee-api.gamosaurus.fr/api/articles/create",
+      { Authorization: getToken() },
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: getToken(),
-        },
-        body: JSON.stringify({
-          description: `${twitee.current.value}`,
-          img_src: articleImg.current.value,
-        }),
+        description: `${twitee.current.value}`,
+        img_src: articleImg.current.value,
       }
     );
 
-    if (request.status !== 200) {
+    if (request.message !== "success") {
       toast.error(request.message);
+      console.log("ICi la");
     } else {
-      // Faire un loading => Loading true
+      console.log("ICi");
       getThirtyArticlesWhithOffset();
-      // getArticles
-
-      //Set Articles in Context
-
-      //Close New Twitee Modale
       updateStateModalDisplay(false);
     }
   };
