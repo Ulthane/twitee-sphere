@@ -1,7 +1,7 @@
-.buttonCustom{
-    background-color: #2AA3EF;
+.buttonCustom {
+  background-color: #2aa3ef;
 }
 
-.buttonCustom{
-    @apply border-none w-[250px] h-[50px] rounded-[25px] text-white
+.buttonCustom {
+  @apply border-none w-[250px] h-[50px] rounded-[25px] text-white;
 }
