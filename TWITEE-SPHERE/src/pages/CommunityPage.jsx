@@ -163,7 +163,13 @@ export default function CommunityPage() {
               src="../../public/Icons/searchBar/search_white.svg"
               alt="icone search"
             />
-            <Button value={"Chercher"} className={"bg-red-500"} />
+            <Button
+              value={"Chercher"}
+              className={
+                " transition-all duration-200 ease-in-out ml-2 hover:font-bold hover:bg-blue-500 "
+              }
+              style={{ width: "100px", height: "40px" }}
+            />
           </form>
         </div>
         <h2>Profil..</h2>
