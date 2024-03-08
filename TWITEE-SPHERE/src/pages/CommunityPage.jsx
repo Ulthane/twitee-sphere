@@ -152,20 +152,19 @@ export default function CommunityPage() {
             <Input
               type={"search"}
               placeholder={"Rechercher"}
-              className="placeholder:pl-5 "
+              className="placeholder:pl-5 focus:outline-none focus:border-blueLogo"
               reference={searchRef}
               onchange={removeSearch}
             />
+            <img
+              className="absolute left-2 top-1/2 transform -translate-y-1/2"
+              width="20"
+              height="20"
+              src="../../public/Icons/searchBar/search_white.svg"
+              alt="icone search"
+            />
             <Button value={"Chercher"} className={"bg-red-500"} />
           </form>
-
-          <img
-            className="absolute left-2 top-1/2 transform -translate-y-1/2"
-            width="20"
-            height="20"
-            src="../../public/Icons/searchBar/search_white.svg"
-            alt="icone search"
-          />
         </div>
         <h2>Profil..</h2>
       </div>
