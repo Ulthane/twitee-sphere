@@ -1,12 +1,22 @@
-import { useState } from "react";
+//Library
+import { useState, useContext } from "react";
 import { useToken } from "../../../hooks/useToken";
 import { toast } from "react-toastify";
-import LikeButton from "../../Button/LikeButton/Likebutton";
 import { deleteFetch } from "../../../utils/Fetch";
+import { TwiteeContext } from "../../../store/TwiteeContext";
+
+//Components
+import LikeButton from "../../Button/LikeButton/Likebutton";
+import CommentButton from "../../Button/CommentButton/CommentButton";
+import NewTwiteeModal from "../../modales/NewTwiteeModal";
 
 export default function Article({ articleInformations, communityId }) {
+  //Context
+  const { getThirtyArticlesWhithOffset } = useContext(TwiteeContext);
   //States
   const [isOpen, setOpen] = useState(false);
+  const [updateTwiteeModalDisplay, setUpdateTwiteeModalDisplay] =
+    useState(false);
 
   // const [articleInformation, setArticleInformation] =
   //   useState(articleInformations);
@@ -16,12 +26,22 @@ export default function Article({ articleInformations, communityId }) {
 
   // Méthode
   const deleteArticleHandler = () => {
-    // console.log("ok");
+    setOpen(!isOpen);
     const resquest = deleteFetch(
       `https://twitee-api.gamosaurus.fr/api/articles/delete/${articleInformations.id_articles}`,
       { Authorization: token.getToken() }
     );
-    console.log(resquest);
+
+    getThirtyArticlesWhithOffset();
+  };
+
+  const updateTwiteeModalDisplayHandler = (value) => {
+    setOpen(!isOpen);
+    setUpdateTwiteeModalDisplay(value);
+  };
+
+  const updateArticle = () => {
+    setUpdateTwiteeModalDisplay(true);
   };
 
   const DropDown = () => {
@@ -45,6 +65,7 @@ export default function Article({ articleInformations, communityId }) {
               <a
                 href="#"
                 className="block py-2 px-4 text-xs rounded hover:bg-blueLogo"
+                onClick={updateArticle}
               >
                 Modifier
               </a>
@@ -64,6 +85,7 @@ export default function Article({ articleInformations, communityId }) {
     );
   };
 
+  //JSX
   return (
     <>
       <div className="max-w-md p-6 bg-blueBgArticle rounded-3xl shadow">
@@ -108,14 +130,10 @@ export default function Article({ articleInformations, communityId }) {
         />
         {/* Footer container */}
         <div className="flex flex-row justify-evenly items-center mt-6">
-          <div className="flex flex-row gap-1">
-            <img
-              src="../../../public/icons/article/comentaryIcon.svg"
-              alt="comentary icon"
-              width={"25px"}
-            />
-            <span>12</span>
-          </div>
+          <CommentButton
+            articleId={articleInformations.id_articles}
+            token={token.getToken()}
+          />
           <div className="flex flex-row gap-1">
             <img
               src="../../../public/icons/article/repostIcon.svg"
@@ -138,6 +156,19 @@ export default function Article({ articleInformations, communityId }) {
           </div>
         </div>
       </div>
+
+      {/* MODALE UPDATE TWITEE */}
+      {updateTwiteeModalDisplay && (
+        <NewTwiteeModal
+          updateStateModalDisplay={updateTwiteeModalDisplayHandler}
+          value={{
+            textValue: articleInformations.description,
+            imgSrcValue: articleInformations.img_src,
+          }}
+          update={true}
+          id={articleInformations.id_articles}
+        />
+      )}
     </>
   );
 }

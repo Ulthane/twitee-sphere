@@ -11,3 +11,29 @@
 body {
   background: linear-gradient(180deg, #255878 0%, #15202b 100%);
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2792d5;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2aa3ef;
+}
+/* blueLogo: "#2AA3EF",
+blueLogoDark: "#2792d5",
+blueLogoLight: "#7ab7dd",
+blueBgArticle: "#255878", */

@@ -1,6 +1,6 @@
 // Librairie
 import { createPortal } from "react-dom";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { IoImageOutline } from "react-icons/io5";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
@@ -11,38 +11,74 @@ import Button from "../Button/Button";
 import { toast } from "react-toastify";
 import { TwiteeContext } from "../../store/TwiteeContext";
 //Utils
-import { postFetch } from "../../utils/Fetch";
+import { postFetch, putFetch } from "../../utils/Fetch";
 
-export default function NewTwiteeModal({ updateStateModalDisplay }) {
+export default function NewTwiteeModal({
+  updateStateModalDisplay,
+  value = { textValue: "", imgSrcValue: "" },
+  update = false,
+  id = "",
+}) {
   //Context
   const { getThirtyArticlesWhithOffset } = useContext(TwiteeContext);
 
-  const context = useContext(TwiteeContext);
+  //State
+  const [twiteeValue, setTwiteeValue] = useState(value);
+
   //ref
   const twitee = useRef();
   const articleImg = useRef();
 
   // variables
   const { getToken } = useToken();
+  const token = getToken();
 
   //METHODES
-  const sendNewTwiteeHandle = async (event) => {
+  // const onSubmitHandler = (event, update, id) => {
+  //   update
+  //     ? () => updateTwiteeHandler(event, id)
+  //     : () => sendNewTwiteeHandler(event);
+  // };
+
+  const sendNewTwiteeHandler = async (event) => {
     event.preventDefault();
+
+    console.log("Send");
 
     const request = await postFetch(
       "https://twitee-api.gamosaurus.fr/api/articles/create",
-      { Authorization: getToken() },
+      { Authorization: token },
       {
-        description: `${twitee.current.value}`,
+        description: twitee.current.value,
         img_src: articleImg.current.value,
       }
     );
 
     if (request.message !== "success") {
       toast.error(request.message);
-      console.log("ICi la");
     } else {
-      console.log("ICi");
+      getThirtyArticlesWhithOffset();
+      updateStateModalDisplay(false);
+    }
+  };
+
+  const updateTwiteeHandler = async (event, id) => {
+    event.preventDefault();
+
+    console.log("Update");
+
+    const request = await putFetch(
+      `https://twitee-api.gamosaurus.fr/api/articles/modify/${id}`,
+      { Authorization: token },
+      {
+        description: twitee.current.value,
+        img_src: articleImg.current.value,
+      }
+    );
+    console.log(request);
+    if (request.message !== "success") {
+      toast.error(request.message);
+    } else {
       getThirtyArticlesWhithOffset();
       updateStateModalDisplay(false);
     }
@@ -70,7 +106,11 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
             </div>
 
             <form
-              onSubmit={(event) => sendNewTwiteeHandle(event)}
+              onSubmit={(event) => {
+                update
+                  ? updateTwiteeHandler(event, id)
+                  : sendNewTwiteeHandler(event);
+              }}
               className="flex flex-col justify-center items-center gap-4"
             >
               <h2 className="text-[32px] my-5 font-bold font-poppins">
@@ -83,6 +123,7 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
                 cols="50"
                 rows="10"
                 ref={twitee}
+                defaultValue={twiteeValue.textValue}
                 placeholder="Ecrivez votre message..."
                 className="p-5 font-poppins font-bold text-[16px] w-[600px] border-0 rounded-3xl bg-blueLogo/10 text-white focus:outline-none resize-none"
               ></textarea>
@@ -93,6 +134,13 @@ export default function NewTwiteeModal({ updateStateModalDisplay }) {
                   ref={articleImg}
                   placeholder="Lien vers une image"
                   name="article_image"
+                  value={twiteeValue.imgSrcValue}
+                  onChange={(event) => {
+                    setTwiteeValue({
+                      ...value,
+                      imgSrcValue: event.target.value,
+                    });
+                  }}
                 />
                 <IoImageOutline className="absolute left-5 top-6 text-[25px] text-white" />
               </div>

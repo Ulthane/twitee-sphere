@@ -29,14 +29,33 @@ export async function postFetch(url, headers, bodyData) {
 }
 
 //PUT******************************************************
-export async function putFetch() {}
+export async function putFetch(url, headers, bodyData) {
+  console.log({
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+    body: JSON.stringify({ ...bodyData }),
+  });
+  const request = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+    body: JSON.stringify(bodyData),
+  });
+
+  const responseData = await request.json();
+  return responseData;
+}
 
 //DELETE******************************************************
 export async function deleteFetch(url, headers) {
   const request = await fetch(url, {
     method: "DELETE",
     headers: {
-      "Content-Type": "application/json",
       ...headers,
     },
   });

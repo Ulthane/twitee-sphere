@@ -44,6 +44,7 @@ export default function LikeButton({
       return;
     } else {
       // ERREUR DANS LA REQUETE
+      console.log(articleId);
       const request = deleteFetch(
         `https://twitee-api.gamosaurus.fr/api/likes/delete/${articleId}`,
         { Authorization: token }
