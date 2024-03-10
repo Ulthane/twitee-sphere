@@ -1,9 +1,11 @@
 const db = require('../models');
 const Articles = db.Articles;
 const Users = db.Users;
+const Likes = db.Likes;
 
 // Retourne les articles disponible dans la BDD avec un offset et une limite
 exports.getArticlesWithOffset = async (request, reply) => {
+  const allPromise = [];
   // On retourne tout les articles avec un offset
   try {
     const articles = await Articles.findAll({
@@ -15,9 +17,30 @@ exports.getArticlesWithOffset = async (request, reply) => {
           attributes: ['firstname', 'lastname', 'img_src', 'id_communities'],
         },
       ],
-      attributes: ['id_articles', 'description', 'img_src', 'user.firstname'],
+      attributes: ['id_articles', 'description', 'img_src'],
     });
-    reply.send(articles);
+
+    // Boucle
+    articles.forEach((article) => {
+      // On met tout nos promesse dans le tableau pour pouvoir ressortir le résultat après
+      allPromise.push(new Promise(async (resolve, reject) => {
+        const isLike = await Likes.findOne({
+          attributes: [
+            [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'total'],
+          ],
+          where: {
+            id_user: request.ctx.users,
+            id_article: article.id_articles
+          },
+        });
+        
+        resolve({...article.dataValues, isLike: isLike.dataValues.total});
+      }
+    ))});
+
+    // ICI on va vérifier toutes les réponses des promesses pour envoyer la réponse
+    const response = await Promise.all(allPromise)
+    reply.send(response);
   } catch (err) {
     reply
       .code(500)
@@ -40,6 +63,31 @@ exports.getArticlesWithOffsetAndUserId = async (request, reply) => {
       attributes: ['id_articles', 'description', 'img_src', 'user.firstname'],
       where: {
         id_user: request.params.id,
+      },
+    });
+    reply.send(articles);
+  } catch (err) {
+    reply
+      .code(500)
+      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+  }
+};
+
+// Retourne les articles disponible dans la BDD avec un offset et une limite pour des utilisateurs
+exports.getArticlesWithOffsetAndMultipleUserId = async (request, reply) => {
+  try {
+    const articles = await Articles.findAll({
+      offset: 0,
+      limit: 30,
+      include: [
+        {
+          model: Users,
+          attributes: ['firstname', 'lastname', 'img_src', 'id_communities'],
+        },
+      ],
+      attributes: ['id_articles', 'description', 'img_src', 'user.firstname'],
+      where: {
+        id_user: request.body,
       },
     });
     reply.send(articles);

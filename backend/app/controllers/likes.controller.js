@@ -24,6 +24,22 @@ exports.getLikesCount = async (request, reply) => {
 };
 
 // Retourne les commentaire disponible dans la BDD avec un offset et une limite
+exports.getLikesByUser = async (request, reply) => {
+  try {
+    const likes = await Likes.findAll({
+      where: {
+        id_user: request.ctx.users
+      }
+    });
+    reply.send(likes);
+  } catch (err) {
+    reply
+      .code(500)
+      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+  }
+};
+
+// Retourne les commentaire disponible dans la BDD avec un offset et une limite
 exports.getLikesCountByCommunity = async (request, reply) => {
   try {
     const likes = await Likes.findAll({

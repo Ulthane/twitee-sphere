@@ -55,8 +55,19 @@ db.Communities.hasMany(db.Users, {
   constraints: false,
 });
 
+
+
 // SELF REFERENCE
-db.Users.belongsToMany(db.Users, { as: 'user', foreignKey: 'friendsId', through: db.Friends });
-db.Users.belongsToMany(db.Users, { as: 'friends', foreignKey: 'userId', through: db.Friends });
+db.Users.belongsToMany(db.Users, {
+  
+  as: 'user',
+  foreignKey: 'friendsId',
+  through: db.Friends,
+});
+db.Users.belongsToMany(db.Users, {
+  as: 'friends',
+  foreignKey: 'userId',
+  through: db.Friends,
+});
 
 module.exports = db;

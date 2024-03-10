@@ -13,6 +13,10 @@ module.exports = (sequelize, Sequelize, Communities) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    surname: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     email: {
       type: Sequelize.STRING,
       allowNull: false,

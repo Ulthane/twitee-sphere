@@ -10,6 +10,12 @@ module.exports = [
   },
   {
     method: 'GET',
+    url: '/api/likes/get/user',
+    handler: Likes.getLikesByUser,
+    preHandler: jwtVerify,
+  },
+  {
+    method: 'GET',
     url: '/api/likes/get/community/:id',
     handler: Likes.getLikesCountByCommunity,
     preHandler: jwtVerify,

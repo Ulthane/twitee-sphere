@@ -11,14 +11,13 @@ exports.getCommunitiesWithOffset = async (request, reply) => {
       include: [
         {
           model: Users,
-        }
+          attributes: ['firstname', 'lastname', 'surname', 'email', 'img_src', 'id_communities'],
+        },
       ],
     });
     reply.send(communities);
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -28,7 +27,7 @@ exports.createCommunities = async (request, reply) => {
 
   try {
     const communities = await Communities.create(newBody);
-    console.log(communities)
+    console.log(communities);
     await Users.update(
       {
         id_communities: communities.id_communities,
@@ -41,9 +40,7 @@ exports.createCommunities = async (request, reply) => {
     );
     reply.send({ message: 'success' });
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -58,9 +55,7 @@ exports.modifyCommunities = async (request, reply) => {
     );
     reply.send({ message: 'success' });
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -72,8 +67,6 @@ exports.deleteCommunities = async (request, reply) => {
     });
     reply.send({ message: 'success' });
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };

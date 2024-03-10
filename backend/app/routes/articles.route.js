@@ -16,6 +16,12 @@ module.exports = [
   },
   {
     method: 'POST',
+    url: '/api/articles/get/multiple',
+    handler: Articles.getArticlesWithOffsetAndMultipleUserId,
+    preHandler: jwtVerify,
+  },
+  {
+    method: 'POST',
     url: '/api/articles/create',
     handler: Articles.createArticles,
     preHandler: jwtVerify,
