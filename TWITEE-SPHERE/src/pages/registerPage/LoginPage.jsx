@@ -71,6 +71,7 @@ export default function LoginPage() {
 
       // verification de la requête
       if (response.status !== 200) {
+        console.log("erreur");
         // si il y a une erreur
         toast.error(json.message);
       } else {
@@ -78,6 +79,7 @@ export default function LoginPage() {
         navigate(route.HOME);
       }
     } catch (error) {
+      console.log("erreur");
       toast.error(error);
     }
 
@@ -120,6 +122,7 @@ export default function LoginPage() {
               w="250px"
               h="50px"
               className="m-8 bg-blueLogo hover:bg-blueLogoDark"
+              type="submit"
             />
           )}
           <div

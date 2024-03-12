@@ -6,7 +6,7 @@ import Community from "../components/Community/Community";
 import TopCommunity from "../components/Community/TopCommunity";
 
 import { useEffect, useRef, useState } from "react";
-import { useToken } from "../hook/useToke";
+import { useToken } from "../hooks/useToken";
 import { toast } from "react-toastify";
 
 export default function CommunityPage() {
