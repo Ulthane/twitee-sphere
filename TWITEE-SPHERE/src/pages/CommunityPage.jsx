@@ -243,6 +243,7 @@ export default function CommunityPage() {
               className={
                 "mt-[20px] transition-all duration-200 ease-in-out hover:font-bold  hover:bg-blue-500"
               }
+              type="submit"
             />
           </form>
         </div>
