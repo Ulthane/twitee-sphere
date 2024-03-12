@@ -34,7 +34,7 @@ export default function Community({ communitiesToDisplay }) {
             </div>
             <Button
               click={() => handleClick()}
-              value={Rejoindre}
+              value={"Rejoindre"}
               className={
                 "transition-all duration-200 ease-in-out hover:font-bold  hover:bg-blue-500"
               }
