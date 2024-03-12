@@ -10,7 +10,7 @@ function App() {
   const LoginPage = lazy(() => import("./pages/registerPage/LoginPage"));
   const FollowFeed = lazy(() => import("./pages/FollowFeed.jsx"));
   const FavoriteFeed = lazy(() => import("./pages/FavoriteFeed.jsx"));
-  const Community = lazy(() => import("./pages/Community.jsx"));
+  const CommunityPage = lazy(() => import("./pages/CommunityPage.jsx"));
 
   const router = createBrowserRouter([
     {
@@ -68,15 +68,17 @@ function App() {
             </Suspense>
           ),
         },
-        {
-          path: "/main/community",
-          element: (
-            <Suspense>
-              <Community />
-            </Suspense>
-          ),
-        },
       ],
+    },
+    {
+      path: "/community",
+      element: (
+        <Suspense>
+          <AuthGuard>
+            <CommunityPage />
+          </AuthGuard>
+        </Suspense>
+      ),
     },
   ]);
   return (
