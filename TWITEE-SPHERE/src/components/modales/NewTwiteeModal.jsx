@@ -149,6 +149,7 @@ export default function NewTwiteeModal({
                 w="250px"
                 h="50px"
                 className="mb-10 bg-blueLogo hover:bg-blueLogoDark"
+                type="submit"
               />
             </form>
           </div>

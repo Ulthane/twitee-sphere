@@ -7,11 +7,13 @@ const token = sessionStorage.getItem("token");
 const actionTypes = {
   SET_USER: "SET_USER",
   SET_ARTICLES: "SET_ARTICLES",
+  // Community ACTIONS
 };
 
 export const TwiteeContext = createContext({
   articles: [],
   user: {},
+  // Community
   setArticles: () => {},
   setUser: () => {},
   addTwitee: () => {},
@@ -36,12 +38,15 @@ function twiteeReducer(state, action) {
 
       return newDataForUser;
   }
+
+  // Community CASE setCommunity
 }
 
 export default function TwiteeProvider({ children }) {
   const [state, dispatch] = useReducer(twiteeReducer, {
     articles: [],
     user: {},
+    // Community
   });
 
   //VARIABLES
@@ -65,6 +70,7 @@ export default function TwiteeProvider({ children }) {
           },
         }
       );
+      // Community setCommunity
 
       if (request.status !== 200) {
         toast.error(json.message);
