@@ -162,7 +162,7 @@ export default function CommunityPage() {
             <Input
               type={"search"}
               placeholder={"Rechercher"}
-              className="placeholder:pl-5 focus:border-blue-500"
+              className="placeholder:pl-5 hover:border-blue-500"
               reference={searchRef}
               onchange={removeSearch}
             />
