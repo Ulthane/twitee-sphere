@@ -1,9 +1,7 @@
 import { useContext } from "react";
 //Composant
 import UserZone from "../UserZone/UserZone";
-
-//Context
-import TwiteeContext from "../../store/TwiteeContext";
+import TrashIcon from "../../assets/SVG/TrashIcon";
 
 export default function Comment({ commentInformation }) {
   return (
@@ -12,7 +10,10 @@ export default function Comment({ commentInformation }) {
         <div className=" self-start">
           <UserZone userInformations={commentInformation.user} />
         </div>
-        <div>{commentInformation.description}</div>
+        <div>
+          {commentInformation.description}
+          <TrashIcon />
+        </div>
       </div>
     </>
   );
