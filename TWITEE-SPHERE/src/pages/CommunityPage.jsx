@@ -3,6 +3,7 @@ import Input from "../components/Input/Input";
 import Logo from "../components/Logo/Logo";
 import NavBar from "../components/NavBar/NavBar";
 import Community from "../components/Community/Community";
+import TopCommunity from "../components/Community/TopCommunity";
 
 import { useEffect, useRef, useState } from "react";
 import { useToken } from "../hook/useToke";
@@ -17,6 +18,7 @@ export default function CommunityPage() {
   //ref
   const name = useRef("");
   const description = useRef("");
+  const icone = useRef("");
   const form = useRef("");
   const searchRef = useRef("");
 
@@ -25,7 +27,7 @@ export default function CommunityPage() {
 
   //functions
 
-  //Récupération des communauté
+  //Récupération des communautés
   const fetchCommunities = async () => {
     try {
       const url =
@@ -44,11 +46,15 @@ export default function CommunityPage() {
     }
   };
 
-  //Chargement des communauté
+  // Chargement des communautés
   const loadCommunities = async () => {
     try {
       const json = await fetchCommunities();
-      setCommunities(json); // Initialisation de l'état avec les données chargées
+      // Tri des communautés de la plus récente à la plus ancienne
+      const sortedCommunities = json.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setCommunities(sortedCommunities); // Initialisation de l'état avec les données chargées
     } catch (e) {
       toast.error("Erreur lors de la récupération des communautés");
     }
@@ -57,13 +63,13 @@ export default function CommunityPage() {
   // function pour rechercher une communauté
   const searchCommunities = async (e) => {
     e.preventDefault();
-    // rechercher des donné
+    // Rechercher des données
     try {
       const json = await fetchCommunities();
-      // stockage de la communauté rechercher dans une variable
+      // Stockage de la communauté recherchée dans une variable
       const communitieSearch = searchRef.current.value;
 
-      // filtration des communautées avec celle rechercher ( filtration avec mot clée )
+      // Filtration des communautés avec celle recherchée (filtration avec mot-clé)
       const filteredCommunities = json.filter((community) => {
         const regex = new RegExp(`\\b${communitieSearch}`, "i"); // Recherche de mot complet, insensible à la casse (majuscule/minuscule)
         return regex.test(community.name);
@@ -71,24 +77,25 @@ export default function CommunityPage() {
       setCommunities(json);
       setCommunitieFilter(filteredCommunities);
       if (filteredCommunities.length === 0) {
-        toast.error("aucune communauté trouver");
+        toast.error("Aucune communauté trouvée");
       } else {
         setSearch(true);
       }
     } catch (e) {
-      toast.error("aucune communauté trouver");
+      toast.error("Une erreur s'est produite, veuillez réessayer");
     }
   };
 
-  // function pour créer une nouvelle communauté
+  // function Pour créer une nouvelle communauté
   const submit = async (e) => {
     e.preventDefault();
-    // envoi des donné
+    // Envoi des données
     try {
-      // création d'un objet pour stocker les donnés
+      // Création d'un objet pour stocker les données
       const data = {
         name: name.current.value,
         description: description.current.value,
+        icon: icone.current.value,
       };
       let communityExist = false;
       const community = await fetchCommunities();
@@ -100,7 +107,7 @@ export default function CommunityPage() {
       });
 
       if (communityExist) {
-        toast.error("Le nom de votre communauté existe déjà.");
+        toast.error("Le nom de cette communauté existe déjà.");
         return;
       }
       const url = "https://twitee-api.gamosaurus.fr/api/communities/create";
@@ -113,12 +120,15 @@ export default function CommunityPage() {
         body: JSON.stringify(data),
       });
 
-      const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
+      const json = await response.json(); // Stocke les données reçues de l'API dans la variable json
       if (json.message !== "success") {
-        toast.error("une erreur vient de ce passer ");
+        toast.error("Une erreur s'est produite, veuillez réessayer");
       } else {
         form.current.reset();
-        toast.success("votre communauté vient d'être créer");
+        loadCommunities();
+        toast.success(
+          "Félicitations, votre communauté a été créée avec succès"
+        );
       }
     } catch (e) {
       console.log(e);
@@ -135,9 +145,9 @@ export default function CommunityPage() {
     }
   };
 
-  // useEffect
+  useEffect;
 
-  //Affichage des communauté
+  // Affichage des communautés
   useEffect(() => {
     loadCommunities();
   }, []);
@@ -152,7 +162,7 @@ export default function CommunityPage() {
             <Input
               type={"search"}
               placeholder={"Rechercher"}
-              className="placeholder:pl-5 focus:outline-none focus:border-blueLogo"
+              className="placeholder:pl-5 focus:border-blue-500"
               reference={searchRef}
               onchange={removeSearch}
             />
@@ -168,7 +178,7 @@ export default function CommunityPage() {
               className={
                 " transition-all duration-200 ease-in-out ml-2 hover:font-bold hover:bg-blue-500 "
               }
-              style={{ width: "100px", height: "40px" }}
+              style={{ width: "150px", height: "40px" }}
             />
           </form>
         </div>
@@ -181,12 +191,12 @@ export default function CommunityPage() {
           <NavBar />
         </div>
         {/* community */}
-        <div className=" w-full ">
+        <div className=" w-full flex flex-col align-top  items-center">
+          {/* Top community */}
+          <TopCommunity />
           <Community
             communitiesToDisplay={seacrh ? communitieFilter : communities}
           />
-
-          {/* Outlet */}
         </div>
 
         {/* Formulaire de création de communauté */}
@@ -196,7 +206,7 @@ export default function CommunityPage() {
             ref={form}
             className="p-2 flex justify-center flex-col items-center "
           >
-            <h2 className="text-center mt-[30px]">
+            <h2 className="text-center mt-[30px] text-[36px]">
               <b>
                 <span className="text-blueLogo">Créer</span> en une !
               </b>
@@ -221,8 +231,14 @@ export default function CommunityPage() {
             <Input
               placeholder={"Lien de votre image"}
               className={"mt-[25px]"}
+              reference={icone}
             />
-            <Button value={"Créer moi !"} className={"mt-[20px]"} />
+            <Button
+              value={"Créer moi !"}
+              className={
+                "mt-[20px] transition-all duration-200 ease-in-out hover:font-bold  hover:bg-blue-500"
+              }
+            />
           </form>
         </div>
       </div>
