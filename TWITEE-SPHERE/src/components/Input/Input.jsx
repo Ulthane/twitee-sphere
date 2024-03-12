@@ -13,7 +13,7 @@ export default function Input({
 }) {
   return (
     <input
-      className={`inputCustom ${className}`}
+      className={` ${className} inputCustom `}
       type={type}
       placeholder={placeholder}
       name={name}
