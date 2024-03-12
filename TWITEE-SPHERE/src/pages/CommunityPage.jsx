@@ -68,9 +68,14 @@ export default function CommunityPage() {
       const json = await fetchCommunities();
       // Stockage de la communauté recherchée dans une variable
       const communitieSearch = searchRef.current.value;
+      // Tri des communautés de la plus récente à la plus ancienne
 
+      const sortedCommunities = json.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
       // Filtration des communautés avec celle recherchée (filtration avec mot-clé)
-      const filteredCommunities = json.filter((community) => {
+
+      const filteredCommunities = sortedCommunities.filter((community) => {
         const regex = new RegExp(`\\b${communitieSearch}`, "i"); // Recherche de mot complet, insensible à la casse (majuscule/minuscule)
         return regex.test(community.name);
       });
@@ -140,7 +145,7 @@ export default function CommunityPage() {
 
   const removeSearch = () => {
     if (searchRef.current.value == "") {
-      fetchCommunities();
+      loadCommunities();
       setSearch(false);
     }
   };
