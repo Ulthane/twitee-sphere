@@ -10,7 +10,7 @@ export default function Community({ communitiesToDisplay }) {
           style={{ background: "rgba(42, 163, 239, 0.1)" }}
         >
           {/* Mapping des communautés pour afficher dynamiquement */}
-
+          {console.log(community.id_communities)}
           <div className="flex justify-between mb-[5px]">
             <h3>profil ..</h3>
             <img
@@ -33,7 +33,8 @@ export default function Community({ communitiesToDisplay }) {
               <p>2532</p>
             </div>
             <Button
-              value={"Rejoindre"}
+              click={() => handleClick()}
+              value={Rejoindre}
               className={
                 "transition-all duration-200 ease-in-out hover:font-bold  hover:bg-blue-500"
               }
