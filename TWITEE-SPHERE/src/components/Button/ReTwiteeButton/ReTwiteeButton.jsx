@@ -13,7 +13,10 @@ export default function ReTwiteeButton({ twiteeValue }) {
 
   return (
     <>
-      <div className="flex flex-row gap-1" onClick={displayModaleHandler}>
+      <div
+        className="flex flex-row gap-1 hover:cursor-pointer"
+        onClick={displayModaleHandler}
+      >
         <img
           src="../../../public/icons/article/repostIcon.svg"
           alt="repost icon"

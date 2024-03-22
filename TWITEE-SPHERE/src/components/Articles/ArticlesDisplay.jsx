@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import Article from "./Article/Article";
 import { TwiteeContext } from "../../store/TwiteeContext";
+import Button from "../Button/Button";
 
 export default function ArticlesDisplay() {
   //Context
-  const { articles, getThirtyArticlesWhithOffset } = useContext(TwiteeContext);
-  const { user } = useContext(TwiteeContext);
+  const { articles, getThirtyArticlesWhithOffset, setArticleOffset, user } =
+    useContext(TwiteeContext);
 
   //STATE
-  const [articlesOffset, setArticlesOffset] = useState(0);
+  // const [articlesOffset, setArticlesOffset] = useState(0);
 
   //Methode
   const prepareArticlesToDisplay = () => {
@@ -22,10 +23,11 @@ export default function ArticlesDisplay() {
     ));
   };
 
-  // //CYCLES
-  // useEffect(() => {
-  //   setArticlesToDisplay(prepareArticlesToDisplay());
-  // }, [articles]);
+  const displayMoreArticles = () => {
+    setArticleOffset();
+    setTimeout("null", 20000);
+    getThirtyArticlesWhithOffset();
+  };
 
   useEffect(() => {
     getThirtyArticlesWhithOffset();
@@ -34,6 +36,12 @@ export default function ArticlesDisplay() {
   return (
     <div className="flex flex-col justify-start items-center mt-8 gap-5 ">
       {prepareArticlesToDisplay()}
+      <Button
+        value="Plus de Twitee"
+        h="50px"
+        className="bg-blueLogo hover:bg-blueLogoDark my-2 w-full"
+        fn={() => displayMoreArticles()}
+      />
     </div>
   );
 }

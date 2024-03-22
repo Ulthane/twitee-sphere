@@ -91,7 +91,7 @@ export default function Article({ articleInformations, communityId }) {
   //JSX
   return (
     <>
-      <div className="max-w-md p-6 bg-blueBgArticle rounded-3xl shadow">
+      <div className="max-w-md min-w-[450px] p-6 bg-blueBgArticle rounded-3xl shadow">
         {/* Header Container */}
         <div className="flex flex-row justify-between items-center gap-3 mb-3 ">
           {/* User's informations */}
@@ -126,11 +126,14 @@ export default function Article({ articleInformations, communityId }) {
           {articleInformations.description}
         </p>
         {/* article's image */}
-        <img
-          className="rounded-3xl w-max-[300px] h-max-[150px]"
-          src={articleInformations.img_src}
-          alt="default"
-        />
+        {articleInformations.img_src !== "" && (
+          <img
+            className="rounded-3xl w-max-[300px] h-max-[150px]"
+            src={articleInformations.img_src}
+            alt="default"
+          />
+        )}
+
         {/* Footer container */}
         <div className="flex flex-row justify-evenly items-center mt-6">
           {/* COMMENT BUTTON */}
@@ -150,6 +153,7 @@ export default function Article({ articleInformations, communityId }) {
             articleId={articleInformations.id_articles}
             communityId={communityId}
             token={token.getToken()}
+            userID={articleInformations}
           />
           <div className="flex flex-row gap-1">
             <img

@@ -48,23 +48,25 @@ export default function ReTwiteeModal({ displayModaleHandler, twiteeValue }) {
   return (
     <>
       <ModaleTempalte displayModaleHandler={displayModaleHandler}>
-        <h2 className=" text-2xl font-bold my-4">
-          Souhaitez-vous ReTwitee ce message ?
-        </h2>
-        <Button
-          value="Oui"
-          w="200px"
-          h="50px"
-          className="bg-blueLogo hover:bg-blueLogoDark my-1"
-          fn={() => reTwiteeHandler()}
-        />
-        <Button
-          value="Non"
-          w="200px"
-          h="50px"
-          className="bg-blueLogo hover:bg-blueLogoDark my-1"
-          fn={() => displayModaleHandler(false)}
-        />
+        <div className="m-6 flex flex-col justify-center items-center ">
+          <h2 className=" text-2xl font-bold my-4">
+            Souhaitez-vous ReTwitee ce message ?
+          </h2>
+          <Button
+            value="Oui"
+            w="200px"
+            h="50px"
+            className="bg-blueLogo hover:bg-blueLogoDark my-2"
+            fn={() => reTwiteeHandler()}
+          />
+          <Button
+            value="Non"
+            w="200px"
+            h="50px"
+            className="bg-blueLogo hover:bg-blueLogoDark my-2"
+            fn={() => displayModaleHandler(false)}
+          />
+        </div>
       </ModaleTempalte>
     </>
   );

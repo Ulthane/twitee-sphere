@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import LikeIcon from "../../../assets/SVG/LikeIcon";
 import { postFetch, deleteFetch, getFetch } from "../../../utils/Fetch";
 import { toast } from "react-toastify";
+import { TwiteeContext } from "../../../store/TwiteeContext";
 
 export default function LikeButton({
   articleId,
@@ -12,6 +13,9 @@ export default function LikeButton({
   //STATES
   const [isLike, setIsLike] = useState(false);
   const [numberOfLike, setNumberOfLike] = useState(0);
+
+  //Context
+  const { user } = useContext(TwiteeContext);
 
   //METHODES
   const getNumberOflike = () => {
@@ -26,6 +30,8 @@ export default function LikeButton({
   };
 
   const likeHandler = async (articleId, communityId) => {
+    // Si userIdConnecté === userIdAuteur alors isLike = true
+
     if (isLike === false) {
       const request = await postFetch(
         "https://twitee-api.gamosaurus.fr/api/likes/create",
