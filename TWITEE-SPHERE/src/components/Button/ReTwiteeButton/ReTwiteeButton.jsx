@@ -1,32 +1,31 @@
 import { useState } from "react";
+import ReTwiteeModal from "../../modales/ReTwiteeModal";
 
-export default function ReTwiteeButton() {
+export default function ReTwiteeButton({ twiteeValue }) {
   //STATES
-
-  const [commentModalDisplay, setCommentModalDisplay] = useState(false);
+  const [reTwiteeModalDisplay, setReTwiteeModalDisplay] = useState(false);
 
   //METHODES
 
   const displayModaleHandler = (value) => {
-    setCommentModalDisplay(value);
+    setReTwiteeModalDisplay(value);
   };
 
   return (
     <>
-      <div className="flex flex-row gap-1">
+      <div className="flex flex-row gap-1" onClick={displayModaleHandler}>
         <img
           src="../../../public/icons/article/repostIcon.svg"
           alt="repost icon"
           width={"25px"}
         />
       </div>
-      {/* 
-      <CommentModal
-        displayModaleHandler={displayModaleHandler}
-        commentModalDisplay={commentModalDisplay}
-        id_article={articleId}
-        getNumberOfComment={getNumberOfComment}
-      /> */}
+      {reTwiteeModalDisplay && (
+        <ReTwiteeModal
+          displayModaleHandler={displayModaleHandler}
+          twiteeValue={twiteeValue}
+        />
+      )}
     </>
   );
 }

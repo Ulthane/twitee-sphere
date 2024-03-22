@@ -139,7 +139,12 @@ export default function Article({ articleInformations, communityId }) {
             token={token.getToken()}
           />
           {/* RETWITEE BUTTON */}
-          <ReTwiteeButton />
+          <ReTwiteeButton
+            twiteeValue={{
+              textValue: articleInformations.description,
+              imgSrcValue: articleInformations.img_src,
+            }}
+          />
           {/* LIKE BUTTON */}
           <LikeButton
             articleId={articleInformations.id_articles}
