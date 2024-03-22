@@ -1,17 +1,17 @@
 export default function TrashIcon({ tailwindClasse, ...props }) {
   return (
     <svg
-      fill="white"
+      fill="currentColor"
       version="1.1"
       id="Capa_1"
       xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
       width="15px"
       height="15px"
       viewBox="0 0 41.336 41.336"
-      xml:space="preserve"
+      xmlSpace="preserve"
       className={
-        " hover:bg-red-500 hover:cursor-pointer" + " " + tailwindClasse
+        " hover:text-red-500 hover:cursor-pointer" + " " + tailwindClasse
       }
     >
       <g>

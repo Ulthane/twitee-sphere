@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import LikeIcon from "../../../assets/SVG/LikeIcon";
 import { postFetch, deleteFetch, getFetch } from "../../../utils/Fetch";
+import { toast } from "react-toastify";
 
 export default function LikeButton({
   articleId,
@@ -26,7 +27,7 @@ export default function LikeButton({
 
   const likeHandler = async (articleId, communityId) => {
     if (isLike === false) {
-      const request = postFetch(
+      const request = await postFetch(
         "https://twitee-api.gamosaurus.fr/api/likes/create",
         { Authorization: token },
         {
@@ -39,24 +40,19 @@ export default function LikeButton({
         toast.error(request.message);
       } else {
         setIsLike(!isLike);
-        console.log(isLike);
       }
       return;
     } else {
       // ERREUR DANS LA REQUETE
-      console.log(articleId);
-      const request = deleteFetch(
+      const request = await deleteFetch(
         `https://twitee-api.gamosaurus.fr/api/likes/delete/${articleId}`,
         { Authorization: token }
       );
 
-      console.log(request);
-
-      if (request.status === 500) {
+      if (request.message !== "success") {
         toast.error(request.message);
       } else {
         setIsLike(!isLike);
-        console.log(isLike);
       }
       return;
     }

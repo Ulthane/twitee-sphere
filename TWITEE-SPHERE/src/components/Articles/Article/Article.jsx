@@ -8,6 +8,7 @@ import { TwiteeContext } from "../../../store/TwiteeContext";
 //Components
 import LikeButton from "../../Button/LikeButton/Likebutton";
 import CommentButton from "../../Button/CommentButton/CommentButton";
+import ReTwiteeButton from "../../Button/ReTwiteeButton/ReTwiteeButton";
 import NewTwiteeModal from "../../modales/NewTwiteeModal";
 
 export default function Article({ articleInformations, communityId }) {
@@ -18,21 +19,23 @@ export default function Article({ articleInformations, communityId }) {
   const [updateTwiteeModalDisplay, setUpdateTwiteeModalDisplay] =
     useState(false);
 
-  // const [articleInformation, setArticleInformation] =
-  //   useState(articleInformations);
-
   //Varaibles
   const token = useToken();
 
   // Méthode
-  const deleteArticleHandler = () => {
+  const deleteArticleHandler = async () => {
     setOpen(!isOpen);
-    const resquest = deleteFetch(
+    console.log(token.getToken());
+    const request = await deleteFetch(
       `https://twitee-api.gamosaurus.fr/api/articles/delete/${articleInformations.id_articles}`,
       { Authorization: token.getToken() }
     );
 
-    getThirtyArticlesWhithOffset();
+    if (request.message !== "success") {
+      toast.error(request.message);
+    } else {
+      getThirtyArticlesWhithOffset();
+    }
   };
 
   const updateTwiteeModalDisplayHandler = (value) => {
@@ -130,17 +133,13 @@ export default function Article({ articleInformations, communityId }) {
         />
         {/* Footer container */}
         <div className="flex flex-row justify-evenly items-center mt-6">
+          {/* COMMENT BUTTON */}
           <CommentButton
             articleId={articleInformations.id_articles}
             token={token.getToken()}
           />
-          <div className="flex flex-row gap-1">
-            <img
-              src="../../../public/icons/article/repostIcon.svg"
-              alt="repost icon"
-              width={"25px"}
-            />
-          </div>
+          {/* RETWITEE BUTTON */}
+          <ReTwiteeButton />
           {/* LIKE BUTTON */}
           <LikeButton
             articleId={articleInformations.id_articles}

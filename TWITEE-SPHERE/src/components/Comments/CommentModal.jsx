@@ -40,6 +40,8 @@ export default function CommentModal({
 
   // Méthode
 
+  const refreshCommentHandler = () => setRefreshComment(!refreshComment);
+
   const sendComment = async (event) => {
     event.preventDefault();
     console.log("send");
@@ -69,7 +71,7 @@ export default function CommentModal({
         },
       ];
       setComments(newComment);
-      setRefreshComment(!refreshComment);
+      refreshCommentHandler();
       comment.current.value = "";
     }
   };
@@ -90,7 +92,11 @@ export default function CommentModal({
     return (
       <>
         {newComments.map((comment, index) => (
-          <Comment key={index} commentInformation={comment} />
+          <Comment
+            key={index}
+            commentInformation={comment}
+            refreshCommentHandler={refreshCommentHandler}
+          />
         ))}
       </>
     );
