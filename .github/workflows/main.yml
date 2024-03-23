@@ -9,14 +9,14 @@ jobs:
   build:
     name: Build Docker Image API
     runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      DOCKER_TAG: twitee-api-0.3.2
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Docker Login
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKER_TAG: twitee-api-0.3.2
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Docker Build
