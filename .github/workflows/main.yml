@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Twitee Sphere API
-        run: cd backend && docker build . --file Dockerfile --tag ulthane/project:twitee-api-0.3.2 --no-cache
+        run: pwd & cd backend && docker build . --file Dockerfile --tag ulthane/project:twitee-api-0.3.2 --no-cache
 
       - name: Publish Twitee Sphere API
         uses: elgohr/Publish-Docker-Github-Action@v5
