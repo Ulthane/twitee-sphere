@@ -11,12 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build Twitee Sphere API
-        run: cd backend && docker build . --file Dockerfile --tag ulthane/project:twitee-api-0.3.2 --no-cache
+      
+      - name: Docker Login
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_TAG: twitee-api-0.3.2
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-      - name: Publish Twitee Sphere API
-        uses: elgohr/Publish-Docker-Github-Action@v5
-        with:
-          name: ulthane/project
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Docker Build
+        run: cd backend && docker build . --file Dockerfile --tag ulthane/project:$DOCKER_TAG --no-cache
+
+      - name: Docker push
+        run: docker push ${{secrets.DOCKER_USERNAME}}/project:$DOCKER_TAG
