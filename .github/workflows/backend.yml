@@ -22,5 +22,8 @@ jobs:
       - name: Docker Build Backend
         run: cd backend && docker build . --file Dockerfile --tag ulthane/project:$DOCKER_TAG --no-cache
 
-      - name: Docker push
+      - name: Docker push version
         run: docker push ${{secrets.DOCKER_USERNAME}}/project:$DOCKER_TAG
+
+      - name: Docker push latest
+        run: docker push ${{secrets.DOCKER_USERNAME}}/project:twitee-api-latest
