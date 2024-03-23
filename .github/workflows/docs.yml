@@ -22,5 +22,8 @@ jobs:
       - name: Docker Build Docs
         run: cd docs && docker build . --file Dockerfile --tag ulthane/project:$DOCKER_TAG --tag ulthane/project:twitee-docs-latest --no-cache
 
-      - name: Docker push
-        run: docker push ${{secrets.DOCKER_USERNAME}}/project:$DOCKER_TAG ${{secrets.DOCKER_USERNAME}}/project:twitee-docs-latest
+      - name: Docker push version
+        run: docker push ${{secrets.DOCKER_USERNAME}}/project:$DOCKER_TAG
+
+      - name: Docker push latest
+        run: docker push ${{secrets.DOCKER_USERNAME}}/project:twitee-docs-latest
