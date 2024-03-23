@@ -5,11 +5,16 @@ import Button from "../Button/Button";
 
 export default function ArticlesDisplay() {
   //Context
-  const { articles, getThirtyArticlesWhithOffset, setArticleOffset, user } =
-    useContext(TwiteeContext);
+  const {
+    articles,
+    getThirtyArticlesWhithOffset,
+    setArticleOffset,
+    user,
+    articleOffset,
+  } = useContext(TwiteeContext);
 
   //STATE
-  // const [articlesOffset, setArticlesOffset] = useState(0);
+  const [articlesOffsetLocal, setArticlesOffsetLocal] = useState(articleOffset);
 
   //Methode
   const prepareArticlesToDisplay = () => {
@@ -24,11 +29,15 @@ export default function ArticlesDisplay() {
   };
 
   const displayMoreArticles = () => {
-    setArticleOffset();
-    setTimeout("null", 20000);
-    getThirtyArticlesWhithOffset();
+    //Mettre local offset + 30
+    // Mettre context offset à +30
+    const newOffset = articlesOffsetLocal + 30;
+    setArticlesOffsetLocal(newOffset);
+    setArticleOffset(newOffset);
+    getThirtyArticlesWhithOffset(articlesOffsetLocal);
   };
 
+  //CYCLES
   useEffect(() => {
     getThirtyArticlesWhithOffset();
   }, []);

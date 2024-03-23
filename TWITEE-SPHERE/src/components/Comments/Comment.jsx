@@ -59,7 +59,7 @@ export default function Comment({ commentInformation, refreshCommentHandler }) {
         <div className=" self-start">
           <UserZone userInformations={commentInformation.user} />
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between w-max-full break-words">
           {commentInformation.description}
           {/* FINIR LA CONDITION DANS LA FONCTION POUR AFFICHER QUE SI LE USER EST LE MEME */}
           {TrashIconDisplay()}

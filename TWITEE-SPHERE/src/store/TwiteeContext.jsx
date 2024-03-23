@@ -41,10 +41,9 @@ function twiteeReducer(state, action) {
       return newDataForUser;
 
     case actionTypes.SET_ARTICLE_OFFSET:
-      const currentArticleOffset = state.articleOffset;
       const newDataForArticleOffset = {
         ...state,
-        articleOffset: currentArticleOffset + 30,
+        articleOffset: action.payload.newOffset,
       };
 
       console.log("newDataForArticleOffset");
@@ -75,8 +74,11 @@ export default function TwiteeProvider({ children }) {
     setUser: (userInformations) => {
       dispatch({ type: actionTypes.SET_USER, payload: { userInformations } });
     },
-    setArticleOffset: () => {
-      dispatch({ type: actionTypes.SET_ARTICLE_OFFSET });
+    setArticleOffset: (newOffset) => {
+      dispatch({
+        type: actionTypes.SET_ARTICLE_OFFSET,
+        payload: { newOffset },
+      });
     },
     getThirtyArticlesWhithOffset: async (offset = state.articleOffset) => {
       const currentArticles = [...state.articles];

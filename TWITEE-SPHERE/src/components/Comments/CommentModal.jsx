@@ -9,6 +9,7 @@ import { getFetch, postFetch } from "../../utils/Fetch";
 import ModaleTempalte from "../modales/ModaleTemplate";
 import Button from "../Button/Button";
 import Comment from "./Comment.jsx";
+import AlerteModal from "../modales/AlertModal.jsx";
 
 //Context
 import { TwiteeContext } from "../../store/TwiteeContext.jsx";
@@ -28,6 +29,7 @@ export default function CommentModal({
   //States
   const [comments, setComments] = useState([]);
   const [refreshComment, setRefreshComment] = useState(false);
+  const [alertModalDisplay, setAlertModalDisplay] = useState(false);
 
   //Ref
   const comment = useRef();
@@ -42,37 +44,49 @@ export default function CommentModal({
 
   const refreshCommentHandler = () => setRefreshComment(!refreshComment);
 
+  const alertModaleDisplayHandler = (value) => {
+    setAlertModalDisplay(value);
+  };
+
   const sendComment = async (event) => {
     event.preventDefault();
     console.log("send");
-    const request = await postFetch(
-      "https://twitee-api.gamosaurus.fr/api/comentaries/create",
-      { Authorization: token },
-      {
-        id_article: id_article,
-        description: comment.current.value,
-      }
-    );
 
-    if (request.message !== "success") {
-      toast.error(request.message);
+    if (
+      comment.current.value == "" ||
+      [...comment.current.value].length > 281
+    ) {
+      alertModaleDisplayHandler(true);
     } else {
-      const newComment = [
-        ...comments,
+      const request = await postFetch(
+        "https://twitee-api.gamosaurus.fr/api/comentaries/create",
+        { Authorization: token },
         {
           id_article: id_article,
           description: comment.current.value,
-          user: {
-            firstName: "",
-            lastname: "",
-            id_communities: "",
-            img_src: "",
+        }
+      );
+
+      if (request.message !== "success") {
+        toast.error(request.message);
+      } else {
+        const newComment = [
+          ...comments,
+          {
+            id_article: id_article,
+            description: comment.current.value,
+            user: {
+              firstName: "",
+              lastname: "",
+              id_communities: "",
+              img_src: "",
+            },
           },
-        },
-      ];
-      setComments(newComment);
-      refreshCommentHandler();
-      comment.current.value = "";
+        ];
+        setComments(newComment);
+        refreshCommentHandler();
+        comment.current.value = "";
+      }
     }
   };
 
@@ -149,6 +163,14 @@ export default function CommentModal({
             </div>
           </div>
         </ModaleTempalte>
+      )}
+      {alertModalDisplay && (
+        <AlerteModal
+          displayModaleHandler={alertModaleDisplayHandler}
+          alertMessage={
+            "Votre commentaire doit contenir entre 1 et 281 caractères"
+          }
+        />
       )}
     </>
   );

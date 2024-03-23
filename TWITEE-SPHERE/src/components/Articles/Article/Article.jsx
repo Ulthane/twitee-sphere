@@ -122,7 +122,7 @@ export default function Article({ articleInformations, communityId }) {
           </div>
         </div>
         {/* article's message */}
-        <p className="mb-3 text-sm text-white">
+        <p className="mb-3 text-sm text-white w-max-full break-words">
           {articleInformations.description}
         </p>
         {/* article's image */}

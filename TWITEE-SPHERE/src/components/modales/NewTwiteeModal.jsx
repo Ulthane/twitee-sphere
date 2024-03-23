@@ -10,6 +10,7 @@ import { useToken } from "../../hooks/useToken";
 import Button from "../Button/Button";
 import { toast } from "react-toastify";
 import { TwiteeContext } from "../../store/TwiteeContext";
+import AlerteModal from "./AlertModal";
 //Utils
 import { postFetch, putFetch } from "../../utils/Fetch";
 
@@ -24,6 +25,7 @@ export default function NewTwiteeModal({
 
   //State
   const [twiteeValue, setTwiteeValue] = useState(value);
+  const [alertModalDisplay, setAlertModalDisplay] = useState(false);
 
   //ref
   const twitee = useRef();
@@ -34,31 +36,33 @@ export default function NewTwiteeModal({
   const token = getToken();
 
   //METHODES
-  // const onSubmitHandler = (event, update, id) => {
-  //   update
-  //     ? () => updateTwiteeHandler(event, id)
-  //     : () => sendNewTwiteeHandler(event);
-  // };
+  const alertModaleDisplayHandler = (value) => {
+    setAlertModalDisplay(value);
+  };
 
   const sendNewTwiteeHandler = async (event) => {
     event.preventDefault();
 
     console.log("Send");
 
-    const request = await postFetch(
-      "https://twitee-api.gamosaurus.fr/api/articles/create",
-      { Authorization: token },
-      {
-        description: twitee.current.value,
-        img_src: articleImg.current.value,
-      }
-    );
-
-    if (request.message !== "success") {
-      toast.error(request.message);
+    if (twitee.current.value == "" || [...twitee.current.value].length > 281) {
+      alertModaleDisplayHandler(true);
     } else {
-      getThirtyArticlesWhithOffset();
-      updateStateModalDisplay(false);
+      const request = await postFetch(
+        "https://twitee-api.gamosaurus.fr/api/articles/create",
+        { Authorization: token },
+        {
+          description: twitee.current.value,
+          img_src: articleImg.current.value,
+        }
+      );
+
+      if (request.message !== "success") {
+        toast.error(request.message);
+      } else {
+        getThirtyArticlesWhithOffset();
+        updateStateModalDisplay(false);
+      }
     }
   };
 
@@ -67,20 +71,24 @@ export default function NewTwiteeModal({
 
     console.log("Update");
 
-    const request = await putFetch(
-      `https://twitee-api.gamosaurus.fr/api/articles/modify/${id}`,
-      { Authorization: token },
-      {
-        description: twitee.current.value,
-        img_src: articleImg.current.value,
-      }
-    );
-    console.log(request);
-    if (request.message !== "success") {
-      toast.error(request.message);
+    if (twitee.current.value == "" || [...twitee.current.value].length > 281) {
+      alertModaleDisplayHandler(true);
     } else {
-      getThirtyArticlesWhithOffset();
-      updateStateModalDisplay(false);
+      const request = await putFetch(
+        `https://twitee-api.gamosaurus.fr/api/articles/modify/${id}`,
+        { Authorization: token },
+        {
+          description: twitee.current.value,
+          img_src: articleImg.current.value,
+        }
+      );
+      console.log(request);
+      if (request.message !== "success") {
+        toast.error(request.message);
+      } else {
+        getThirtyArticlesWhithOffset();
+        updateStateModalDisplay(false);
+      }
     }
   };
   return (
@@ -155,6 +163,13 @@ export default function NewTwiteeModal({
           </div>
         </div>,
         document.querySelector("body")
+      )}
+
+      {alertModalDisplay && (
+        <AlerteModal
+          displayModaleHandler={alertModaleDisplayHandler}
+          alertMessage={"Votre twitee doit contenir entre 1 et 281 caractères"}
+        />
       )}
     </>
   );
