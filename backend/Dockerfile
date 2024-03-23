@@ -10,8 +10,8 @@ ARG TOKEN_KEY
 ENV SRVPORT="5057"
 
 WORKDIR /app
-COPY /backend/app/package.json .
+COPY /app/package.json .
 RUN npm install
-COPY /backend/app .
+COPY /app .
 EXPOSE 5057
 CMD [ "node", "server.js" ]
