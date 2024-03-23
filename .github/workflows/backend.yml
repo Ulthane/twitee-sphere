@@ -20,7 +20,7 @@ jobs:
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Docker Build Backend
-        run: cd backend && docker build . --file Dockerfile --tag ulthane/project:$DOCKER_TAG --no-cache
+        run: cd backend && docker build . --file Dockerfile --tag $DOCKER_USER/project:$DOCKER_TAG --tag $DOCKER_USER/project:twitee-api-latest --no-cache
 
       - name: Docker push version
         run: docker push ${{secrets.DOCKER_USERNAME}}/project:$DOCKER_TAG
