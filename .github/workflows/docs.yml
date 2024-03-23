@@ -3,7 +3,7 @@ name: dockerize_twitee_docs
 on:
   push:
     branches:
-      - "development"
+      - "RELEASE/docs"
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       
       - name: Docker Build Docs
-        run: cd docs && docker build . --file Dockerfile --tag ulthane/project:$DOCKER_TAG --no-cache
+        run: cd docs && docker build . --file Dockerfile --tag ulthane/project:$DOCKER_TAG --tag ulthane/project:twitee-docs-latest --no-cache
 
       - name: Docker push
-        run: docker push ${{secrets.DOCKER_USERNAME}}/project:$DOCKER_TAG
+        run: docker push ${{secrets.DOCKER_USERNAME}}/project:$DOCKER_TAG ${{secrets.DOCKER_USERNAME}}/project:twitee-docs-latest

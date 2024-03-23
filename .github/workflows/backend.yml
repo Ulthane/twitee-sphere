@@ -3,7 +3,7 @@ name: dockerize_twitee_backend
 on:
   push:
     branches:
-      - "development"
+      - "RELEASE/backend"
 
 jobs:
   build:
