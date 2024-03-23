@@ -1,0 +1,23 @@
+name: dockerize_twitee_backend
+
+on:
+  push:
+    branches:
+      - "development"
+
+jobs:
+  build:
+    name: Build Docker Image API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Twitee Sphere API
+        run: docker build . --file backend/Dockerfile --tag ulthane/project:twitee-api-0.3.2
+
+      - name: Publish Twitee Sphere API
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: ulthane/project
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
