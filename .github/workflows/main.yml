@@ -14,10 +14,9 @@ jobs:
       - name: Build Twitee Sphere API
         run: cd backend && docker build . --file Dockerfile --tag ulthane/project:twitee-api-0.3.2 --no-cache
 
-      # - name: Publish Twitee Sphere API
-      #   uses: elgohr/Publish-Docker-Github-Action@v5
-      #   with:
-      #     name: ulthane/project
-      #     username: ${{ secrets.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
-      
+      - name: Publish Twitee Sphere API
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: ulthane/project
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
