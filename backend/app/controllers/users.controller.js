@@ -1,8 +1,8 @@
 const db = require('../models');
 const Users = db.Users;
 const Communities = db.Communities;
-const { createSecretToken } = require('../utils/secretToken');
 const bcrypt = require('bcrypt');
+const { createSecretToken } = require('../utils/secretToken');
 const { Op } = require('sequelize');
 
 // Retourne tout les objets disponible dans la BDD
@@ -48,6 +48,26 @@ exports.getUsersById = async (request, reply) => {
     reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
+
+// Retourne les utilisateurs par leur nom (regex)
+exports.getUsersByName = async (request, reply) => {
+  const pattern = `%${request.params.username}%`;
+
+  try {
+    const users = await Users.findAll({
+      attributes: ['id_user', 'firstname', 'lastname', 'surname', 'email', 'img_src', 'id_communities'],
+      where: {
+        surname: {
+          [Op.like]: pattern
+        },
+      },
+    });
+    reply.send(users);
+  }
+  catch (err) {
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err })
+  }
+}
 
 // Retourne tout les objets disponible dans la BDD
 exports.signIn = async (request, reply) => {

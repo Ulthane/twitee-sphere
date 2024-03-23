@@ -8,12 +8,12 @@ module.exports = [
     handler: Communities.getCommunitiesWithOffset,
     preHandler: jwtVerify,
   },
-  // {
-  //   method: 'GET',
-  //   url: '/api/articles/get/:id',
-  //   handler: Articles.getArticlesWithOffsetAndUserId,
-  //   preHandler: jwtVerify,
-  // },
+  {
+    method: 'GET',
+    url: '/api/communities/get/:name',
+    handler: Communities.getCommunitiesByName,
+    preHandler: jwtVerify
+  },
   {
     method: 'POST',
     url: '/api/communities/create',

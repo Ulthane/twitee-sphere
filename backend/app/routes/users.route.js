@@ -15,6 +15,12 @@ module.exports = [
     preHandler: jwtVerify
   },
   {
+    method: 'GET',
+    url: '/api/users/get/:username',
+    handler: Users.getUsersByName,
+    preHandler: jwtVerify
+  },
+  {
     method: 'POST',
     url: '/api/users/signin',
     handler: Users.signIn

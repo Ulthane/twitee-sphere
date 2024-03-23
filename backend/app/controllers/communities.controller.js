@@ -1,6 +1,7 @@
 const db = require('../models');
 const Communities = db.Communities;
 const Users = db.Users;
+const { Op } = require('sequelize');
 
 // Retourne les communauté disponible dans la BDD avec un offset et une limite
 exports.getCommunitiesWithOffset = async (request, reply) => {
@@ -21,13 +22,45 @@ exports.getCommunitiesWithOffset = async (request, reply) => {
   }
 };
 
+// Retourne les communauté par leur nom (regex)
+exports.getCommunitiesByName = async (request, reply) => {
+  const pattern = `%${request.params.name}%`;
+
+  try {
+    const communities = await Communities.findAll({
+      where: {
+        name: {
+          [Op.like]: pattern
+        },
+      },
+    });
+    reply.send(communities);
+  }
+  catch (err) {
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err })
+  }
+}
+
 // Créer une communauté dans la BDD
 exports.createCommunities = async (request, reply) => {
   const newBody = { id_user: request.ctx.users, ...request.body };
 
+  // Vérification si la communauté existe & Création de la communauté
   try {
+    // Vérification
+    const result = await Communities.count({
+      where: {
+        name: request.body.name,
+      },
+    });
+
+    if (result !== 0) {
+      return reply.code(409).send({ message: 'La communauté existe déja' });
+    }
+
+    // Création
     const communities = await Communities.create(newBody);
-    console.log(communities);
+
     await Users.update(
       {
         id_communities: communities.id_communities,
