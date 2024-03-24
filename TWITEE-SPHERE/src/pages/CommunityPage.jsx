@@ -166,24 +166,25 @@ export default function CommunityPage() {
             <Input
               type={"search"}
               placeholder={"Rechercher"}
-              className="placeholder:pl-5 hover:border-blue-500"
+              className=" w-[300px] h-[50px] "
               reference={searchRef}
               onchange={removeSearch}
             />
-            <img
-              className="absolute left-2 top-1/2 transform -translate-y-1/2"
-              width="20"
-              height="20"
-              src="../../public/Icons/searchBar/search_white.svg"
-              alt="icone search"
-            />
             <Button
-              value={"Chercher"}
-              className={
-                " transition-all duration-200 ease-in-out ml-2 hover:font-bold hover:bg-blue-500 "
+              click={() => handleClick()}
+              value={
+                <img
+                  className="mx-auto"
+                  width="15"
+                  height="100px"
+                  src="../../public/Icons/searchBar/search_white.svg"
+                  alt="icone search"
+                />
               }
-              style={{ width: "150px", height: "40px" }}
-              type={"submit"}
+              type={"button"}
+              w={"80px"}
+              h={"50px"}
+              className=" bg-blueLogo hover:bg-blueLogoDark absolute right-0 top-3"
             />
           </form>
         </div>
