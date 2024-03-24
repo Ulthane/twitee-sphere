@@ -30,8 +30,7 @@ export default function CommunityPage() {
   //Récupération des communautés
   const fetchCommunities = async () => {
     try {
-      const url =
-        "https://twitee-api.gamosaurus.fr/api/communities/get?limit=30&offset=0";
+      const url = "https://twitee-api.gamosaurus.fr/api/communities/get/";
       const response = await fetch(url, {
         method: "GET",
         headers: {
