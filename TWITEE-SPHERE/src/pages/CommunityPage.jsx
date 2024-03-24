@@ -171,7 +171,6 @@ export default function CommunityPage() {
               onchange={removeSearch}
             />
             <Button
-              click={() => handleClick()}
               value={
                 <img
                   className="mx-auto"
@@ -181,7 +180,7 @@ export default function CommunityPage() {
                   alt="icone search"
                 />
               }
-              type={"button"}
+              type={"submit"}
               w={"80px"}
               h={"50px"}
               className=" bg-blueLogo hover:bg-blueLogoDark absolute right-0 top-3"
@@ -240,11 +239,11 @@ export default function CommunityPage() {
               reference={icone}
             />
             <Button
-              value={"Créer moi !"}
-              className={
-                "mt-[20px] transition-all duration-200 ease-in-out hover:font-bold  hover:bg-blue-500"
-              }
-              type="submit"
+              value={"créer moi"}
+              type={"submit"}
+              w={"200px"}
+              h={"40px"}
+              className=" bg-blueLogo hover:bg-blueLogoDark "
             />
           </form>
         </div>
