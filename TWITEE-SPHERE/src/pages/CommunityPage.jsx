@@ -64,29 +64,31 @@ export default function CommunityPage() {
     e.preventDefault();
     // Rechercher des données
     try {
-      const json = await fetchCommunities();
       // Stockage de la communauté recherchée dans une variable
       const communitieSearch = searchRef.current.value;
-      // Tri des communautés de la plus récente à la plus ancienne
+      const url = `https://twitee-api.gamosaurus.fr/api/communities/get/${communitieSearch}`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: getToken(),
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await response.json();
 
+      // Tri des communautés de la plus récente à la plus ancienne
       const sortedCommunities = json.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-      // Filtration des communautés avec celle recherchée (filtration avec mot-clé)
 
-      const filteredCommunities = sortedCommunities.filter((community) => {
-        const regex = new RegExp(`\\b${communitieSearch}`, "i"); // Recherche de mot complet, insensible à la casse (majuscule/minuscule)
-        return regex.test(community.name);
-      });
-      setCommunities(json);
-      setCommunitieFilter(filteredCommunities);
-      if (filteredCommunities.length === 0) {
+      setCommunitieFilter(json);
+      if (communitieFilter.length === 0) {
         toast.error("Aucune communauté trouvée");
       } else {
         setSearch(true);
       }
     } catch (e) {
-      toast.error("Une erreur s'est produite, veuillez réessayer");
+      toast.error("Erreur lors du chargement des communautés");
     }
   };
 
@@ -149,8 +151,6 @@ export default function CommunityPage() {
     }
   };
 
-  useEffect;
-
   // Affichage des communautés
   useEffect(() => {
     loadCommunities();
@@ -183,6 +183,7 @@ export default function CommunityPage() {
                 " transition-all duration-200 ease-in-out ml-2 hover:font-bold hover:bg-blue-500 "
               }
               style={{ width: "150px", height: "40px" }}
+              type={"submit"}
             />
           </form>
         </div>
@@ -258,5 +259,3 @@ export default function CommunityPage() {
     </div>
   );
 }
-
-// communitieFilter.length > 0
