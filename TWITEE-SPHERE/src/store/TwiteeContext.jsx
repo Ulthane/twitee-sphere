@@ -83,8 +83,8 @@ export default function TwiteeProvider({ children }) {
     getThirtyArticlesWhithOffset: async (offset = state.articleOffset) => {
       const currentArticles = [...state.articles];
 
-      console.log("offset");
-      console.log(offset);
+      // console.log("offset");
+      // console.log(offset);
 
       const request = await fetch(
         `https://twitee-api.gamosaurus.fr/api/articles/get?limit=30&offset=${offset}`,
@@ -102,11 +102,11 @@ export default function TwiteeProvider({ children }) {
       } else {
         const response = await request.json();
         const newArticles = [...response];
-        console.log("newArticles");
-        console.log(newArticles);
+        // console.log("newArticles");
+        // console.log(newArticles);
 
-        console.log("currentArticles");
-        console.log(currentArticles);
+        // console.log("currentArticles");
+        // console.log(currentArticles);
 
         let allArticles = [];
 
@@ -115,12 +115,12 @@ export default function TwiteeProvider({ children }) {
           currentArticles[0]["id_articles"] !== newArticles[0]["id_articles"]
         ) {
           allArticles = [...currentArticles, ...response];
-          console.log("allArticles 2");
-          console.log(allArticles);
+          // console.log("allArticles 2");
+          // console.log(allArticles);
         } else {
           allArticles = [...response];
-          console.log("allArticles");
-          console.log(allArticles);
+          // console.log("allArticles");
+          // console.log(allArticles);
         }
 
         dispatch({ type: actionTypes.SET_ARTICLES, payload: allArticles });

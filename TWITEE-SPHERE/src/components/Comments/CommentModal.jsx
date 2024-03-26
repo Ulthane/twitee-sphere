@@ -91,7 +91,7 @@ export default function CommentModal({
   };
 
   const getComments = async () => {
-    console.log("Get_Comments");
+    // console.log("Get_Comments");
     const response = await getFetch(
       `https://twitee-api.gamosaurus.fr/api/comentaries/get?limit=30&offset=0&id=${id_article}`,
       { Authorization: token }
