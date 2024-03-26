@@ -6,6 +6,7 @@ import "./button.css";
 export default function Button({
   w,
   h,
+  textSize,
   value,
   className,
   disabled,
@@ -17,7 +18,7 @@ export default function Button({
       type={type}
       disabled={disabled}
       className={`buttonCustom ${className}`}
-      style={{ width: w, height: h }}
+      style={{ width: w, height: h, fontSize: textSize }}
       onClick={fn}
     >
       {value}
