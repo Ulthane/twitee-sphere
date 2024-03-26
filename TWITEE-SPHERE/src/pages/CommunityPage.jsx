@@ -4,6 +4,7 @@ import Logo from "../components/Logo/Logo";
 import NavBar from "../components/NavBar/NavBar";
 import Community from "../components/Community/Community";
 import TopCommunity from "../components/Community/TopCommunity";
+import UserZone from "../components/UserZone/UserZone";
 
 import { useEffect, useRef, useState } from "react";
 import { useToken } from "../hooks/useToken";
@@ -187,7 +188,8 @@ export default function CommunityPage() {
             />
           </form>
         </div>
-        <h2>Profil..</h2>
+        profil
+        {/* <UserZone userInformations={} /> */}
       </div>
 
       <div className="h-full grid gap-6 grid-cols-[1fr_2fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">
