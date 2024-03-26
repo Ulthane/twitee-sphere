@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import LikeIcon from "../../../assets/SVG/LikeIcon";
 import { postFetch, deleteFetch, getFetch } from "../../../utils/Fetch";
+import { toast } from "react-toastify";
+import { TwiteeContext } from "../../../store/TwiteeContext";
 
 export default function LikeButton({
   articleId,
@@ -11,6 +13,9 @@ export default function LikeButton({
   //STATES
   const [isLike, setIsLike] = useState(false);
   const [numberOfLike, setNumberOfLike] = useState(0);
+
+  //Context
+  const { user } = useContext(TwiteeContext);
 
   //METHODES
   const getNumberOflike = () => {
@@ -25,8 +30,10 @@ export default function LikeButton({
   };
 
   const likeHandler = async (articleId, communityId) => {
+    // Si userIdConnecté === userIdAuteur alors isLike = true
+
     if (isLike === false) {
-      const request = postFetch(
+      const request = await postFetch(
         "https://twitee-api.gamosaurus.fr/api/likes/create",
         { Authorization: token },
         {
@@ -39,24 +46,19 @@ export default function LikeButton({
         toast.error(request.message);
       } else {
         setIsLike(!isLike);
-        console.log(isLike);
       }
       return;
     } else {
       // ERREUR DANS LA REQUETE
-      console.log(articleId);
-      const request = deleteFetch(
+      const request = await deleteFetch(
         `https://twitee-api.gamosaurus.fr/api/likes/delete/${articleId}`,
         { Authorization: token }
       );
 
-      console.log(request);
-
-      if (request.status === 500) {
+      if (request.message !== "success") {
         toast.error(request.message);
       } else {
         setIsLike(!isLike);
-        console.log(isLike);
       }
       return;
     }

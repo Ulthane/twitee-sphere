@@ -8,6 +8,7 @@ import { TwiteeContext } from "../../../store/TwiteeContext";
 //Components
 import LikeButton from "../../Button/LikeButton/Likebutton";
 import CommentButton from "../../Button/CommentButton/CommentButton";
+import ReTwiteeButton from "../../Button/ReTwiteeButton/ReTwiteeButton";
 import NewTwiteeModal from "../../modales/NewTwiteeModal";
 
 export default function Article({ articleInformations, communityId }) {
@@ -18,21 +19,23 @@ export default function Article({ articleInformations, communityId }) {
   const [updateTwiteeModalDisplay, setUpdateTwiteeModalDisplay] =
     useState(false);
 
-  // const [articleInformation, setArticleInformation] =
-  //   useState(articleInformations);
-
   //Varaibles
   const token = useToken();
 
   // Méthode
-  const deleteArticleHandler = () => {
+  const deleteArticleHandler = async () => {
     setOpen(!isOpen);
-    const resquest = deleteFetch(
+    console.log(token.getToken());
+    const request = await deleteFetch(
       `https://twitee-api.gamosaurus.fr/api/articles/delete/${articleInformations.id_articles}`,
       { Authorization: token.getToken() }
     );
 
-    getThirtyArticlesWhithOffset();
+    if (request.message !== "success") {
+      toast.error(request.message);
+    } else {
+      getThirtyArticlesWhithOffset();
+    }
   };
 
   const updateTwiteeModalDisplayHandler = (value) => {
@@ -88,7 +91,7 @@ export default function Article({ articleInformations, communityId }) {
   //JSX
   return (
     <>
-      <div className="max-w-md p-6 bg-blueBgArticle rounded-3xl shadow">
+      <div className="max-w-md min-w-[450px] p-6 bg-blueBgArticle rounded-3xl shadow">
         {/* Header Container */}
         <div className="flex flex-row justify-between items-center gap-3 mb-3 ">
           {/* User's informations */}
@@ -119,33 +122,38 @@ export default function Article({ articleInformations, communityId }) {
           </div>
         </div>
         {/* article's message */}
-        <p className="mb-3 text-sm text-white">
+        <p className="mb-3 text-sm text-white w-max-full break-words">
           {articleInformations.description}
         </p>
         {/* article's image */}
-        <img
-          className="rounded-3xl w-max-[300px] h-max-[150px]"
-          src={articleInformations.img_src}
-          alt="default"
-        />
+        {articleInformations.img_src !== "" && (
+          <img
+            className="rounded-3xl w-max-[300px] h-max-[150px]"
+            src={articleInformations.img_src}
+            alt="default"
+          />
+        )}
+
         {/* Footer container */}
         <div className="flex flex-row justify-evenly items-center mt-6">
+          {/* COMMENT BUTTON */}
           <CommentButton
             articleId={articleInformations.id_articles}
             token={token.getToken()}
           />
-          <div className="flex flex-row gap-1">
-            <img
-              src="../../../public/icons/article/repostIcon.svg"
-              alt="repost icon"
-              width={"25px"}
-            />
-          </div>
+          {/* RETWITEE BUTTON */}
+          <ReTwiteeButton
+            twiteeValue={{
+              textValue: articleInformations.description,
+              imgSrcValue: articleInformations.img_src,
+            }}
+          />
           {/* LIKE BUTTON */}
           <LikeButton
             articleId={articleInformations.id_articles}
             communityId={communityId}
             token={token.getToken()}
+            userID={articleInformations}
           />
           <div className="flex flex-row gap-1">
             <img
