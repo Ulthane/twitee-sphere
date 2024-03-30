@@ -21,12 +21,15 @@ export default function TopCommunity({ topCommunity }) {
         </span>
         <br /> <span className="text-[20px]">points</span>
       </h3>
-      <button
-        style={{ background: " #2aa3ef" }}
-        className="  transition-all duration-200 ease-in-out rounded-[25px] w-[64px] h-[64px] text-[30px] font-bold   hover:bg-blue-900"
-      >
-        +
-      </button>
+      <Button
+        click={() => handleClick()}
+        value={"+"}
+        type={"button"}
+        w={"60px"}
+        h={"60px"}
+        textSize={"30px"}
+        className=" bg-blueLogo hover:bg-blueLogoDark"
+      />
     </div>
   );
 }

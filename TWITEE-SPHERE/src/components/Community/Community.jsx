@@ -35,9 +35,10 @@ export default function Community({ communitiesToDisplay }) {
             <Button
               click={() => handleClick()}
               value={"Rejoindre"}
-              className={
-                "transition-all duration-200 ease-in-out hover:font-bold  hover:bg-blue-500"
-              }
+              type={"button"}
+              w={"200px"}
+              h={"50px"}
+              className=" p-3 bg-blueLogo hover:bg-blueLogoDark"
             />
           </div>
         </div>
