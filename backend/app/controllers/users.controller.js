@@ -58,16 +58,29 @@ exports.getUsersByName = async (request, reply) => {
       attributes: ['id_user', 'firstname', 'lastname', 'surname', 'email', 'img_src', 'id_communities'],
       where: {
         surname: {
-          [Op.like]: pattern
+          [Op.like]: pattern,
         },
       },
     });
     reply.send(users);
+  } catch (err) {
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
-  catch (err) {
-    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err })
+};
+
+// Permet de modifier l'utilisateur
+exports.modifyUser = async (request, reply) => {
+  try {
+    await Users.update(request.body, {
+      where: {
+        id_user: request.ctx.users,
+      },
+    });
+    reply.code(200).send({ message: 'Modification effectuée avec succès' });
+  } catch (err) {
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
-}
+};
 
 // Retourne tout les objets disponible dans la BDD
 exports.signIn = async (request, reply) => {

@@ -41,6 +41,21 @@ exports.getCommunitiesByName = async (request, reply) => {
   }
 }
 
+// Retourne les communauté par leur nom (regex)
+exports.getCommunitiesById = async (request, reply) => {
+  try {
+    const communities = await Communities.findAll({
+      where: {
+        id_communities: request.params.id
+      },
+    });
+    reply.send(communities);
+  }
+  catch (err) {
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err })
+  }
+}
+
 // Créer une communauté dans la BDD
 exports.createCommunities = async (request, reply) => {
   const newBody = { id_user: request.ctx.users, ...request.body };
