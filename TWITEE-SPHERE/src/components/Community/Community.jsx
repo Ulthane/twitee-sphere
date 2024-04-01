@@ -1,4 +1,5 @@
 import Button from "../Button/Button";
+import UserCommunity from "../userCommunityPage/UserCommunity";
 
 export default function Community({ communitiesToDisplay }) {
   return (
@@ -12,7 +13,7 @@ export default function Community({ communitiesToDisplay }) {
           {/* Mapping des communautés pour afficher dynamiquement */}
           {console.log(community.id_communities)}
           <div className="flex justify-between mb-[5px]">
-            <h3>profil ..</h3>
+            <UserCommunity />
             <img
               className="w-[40px] h-[30px] object-contain rounded-[10px]"
               src={community.icon}
