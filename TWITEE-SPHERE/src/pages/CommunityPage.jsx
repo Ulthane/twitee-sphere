@@ -9,6 +9,7 @@ import UserZone from "../components/UserZone/UserZone";
 import { useEffect, useRef, useState } from "react";
 import { useToken } from "../hooks/useToken";
 import { toast } from "react-toastify";
+import UserCommunity from "../components/userCommunityPage/UserCommunity";
 
 export default function CommunityPage() {
   //state
@@ -188,7 +189,7 @@ export default function CommunityPage() {
             />
           </form>
         </div>
-        profil
+        <UserCommunity />
         {/* <UserZone userInformations={} /> */}
       </div>
 
