@@ -15,6 +15,12 @@ module.exports = [
     preHandler: jwtVerify,
   },
   {
+    method: 'GET',
+    url: '/api/articles/count/all',
+    handler: Articles.getArticlesCount,
+    preHandler: jwtVerify,
+  },
+  {
     method: 'POST',
     url: '/api/articles/get/multiple',
     handler: Articles.getArticlesWithOffsetAndMultipleUserId,

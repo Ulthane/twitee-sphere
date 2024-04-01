@@ -15,6 +15,12 @@ module.exports = [
     preHandler: jwtVerify
   },
   {
+    method: 'GET',
+    url: '/api/communities/get/id/:id',
+    handler: Communities.getCommunitiesById,
+    preHandler: jwtVerify
+  },
+  {
     method: 'POST',
     url: '/api/communities/create',
     handler: Communities.createCommunities,

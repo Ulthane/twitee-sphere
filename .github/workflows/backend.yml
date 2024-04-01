@@ -12,7 +12,7 @@ jobs:
     env:
       DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      DOCKER_TAG: twitee-api-0.3.2
+      DOCKER_TAG: twitee-api-0.4.0
     steps:
       - uses: actions/checkout@v3
 

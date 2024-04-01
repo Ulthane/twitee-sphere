@@ -23,28 +23,26 @@ exports.getArticlesWithOffset = async (request, reply) => {
     // Boucle
     articles.forEach((article) => {
       // On met tout nos promesse dans le tableau pour pouvoir ressortir le résultat après
-      allPromise.push(new Promise(async (resolve, reject) => {
-        const isLike = await Likes.findOne({
-          attributes: [
-            [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'total'],
-          ],
-          where: {
-            id_user: request.ctx.users,
-            id_article: article.id_articles
-          },
-        });
-        
-        resolve({...article.dataValues, isLike: isLike.dataValues.total});
-      }
-    ))});
+      allPromise.push(
+        new Promise(async (resolve, reject) => {
+          const isLike = await Likes.findOne({
+            attributes: [[db.sequelize.fn('COUNT', db.sequelize.col('*')), 'total']],
+            where: {
+              id_user: request.ctx.users,
+              id_article: article.id_articles,
+            },
+          });
+
+          resolve({ ...article.dataValues, isLike: isLike.dataValues.total });
+        })
+      );
+    });
 
     // ICI on va vérifier toutes les réponses des promesses pour envoyer la réponse
-    const response = await Promise.all(allPromise)
+    const response = await Promise.all(allPromise);
     reply.send(response);
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -67,9 +65,7 @@ exports.getArticlesWithOffsetAndUserId = async (request, reply) => {
     });
     reply.send(articles);
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -92,9 +88,17 @@ exports.getArticlesWithOffsetAndMultipleUserId = async (request, reply) => {
     });
     reply.send(articles);
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+  }
+};
+
+// Retourne le nombre d'article total en base
+exports.getArticlesCount = async (request, reply) => {
+  try {
+    const result = await Articles.findAndCountAll({});
+    reply.code(200).send({ total: result.count });
+  } catch (err) {
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -107,9 +111,7 @@ exports.createArticles = async (request, reply) => {
     await Articles.create(newBody);
     reply.send({ message: 'success' });
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -127,9 +129,7 @@ exports.modifyArticles = async (request, reply) => {
     );
     reply.send({ message: 'success' });
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -141,8 +141,6 @@ exports.deleteArticles = async (request, reply) => {
     });
     reply.send({ message: 'success' });
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
