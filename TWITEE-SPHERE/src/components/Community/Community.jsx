@@ -1,18 +1,47 @@
+import { toast } from "react-toastify";
+import { useToken } from "../../hooks/useToken";
 import Button from "../Button/Button";
-import UserCommunity from "../userCommunityPage/UserCommunity";
+import UserCommunity from "./userCommunityPage/UserCommunity";
 
 export default function Community({ communitiesToDisplay }) {
+  //
+  //Hook personnaliser
+  const { getToken } = useToken();
+
+  //Function
+
+  //Rejoindre la commnunauté
+  const changeCommunity = async (e, communityId, name) => {
+    e.preventDefault();
+    const data = communityId;
+    console.log(communityId);
+    try {
+      const url = "https://twitee-api.gamosaurus.fr/api/users/modify";
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Authorization: getToken(),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      toast.success(`Bravo vous venez de rejoindre ${name}`);
+    } catch (e) {
+      toast.error("Erreur inattendue, veuillez réessayer");
+    }
+  };
+
   return (
     <>
       {communitiesToDisplay.map((community, index) => (
         <div
-          key={index}
+          key={community.community_id}
           className="rounded-[25px] p-5 w-[600px] h-[auto] community mb-[15px]"
           style={{ background: "rgba(42, 163, 239, 0.1)" }}
         >
           {/* Mapping des communautés pour afficher dynamiquement */}
-          {console.log(community.id_communities)}
           <div className="flex justify-between mb-[5px]">
+            {console.log(community.id_communities)}
             <UserCommunity />
             <img
               className="w-[40px] h-[30px] object-contain rounded-[10px]"
@@ -33,8 +62,11 @@ export default function Community({ communitiesToDisplay }) {
               />
               <p>2532</p>
             </div>
+
             <Button
-              click={() => handleClick()}
+              fn={(e) =>
+                changeCommunity(e, community.id_communities, community.name)
+              }
               value={"Rejoindre"}
               type={"button"}
               w={"200px"}
