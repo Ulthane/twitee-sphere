@@ -1,19 +1,30 @@
 import { toast } from "react-toastify";
 import { useToken } from "../../hooks/useToken";
 import Button from "../Button/Button";
+import { useEffect, useState } from "react";
+
+//composant
 import UserCommunity from "./userCommunityPage/UserCommunity";
 
 export default function Community({ communitiesToDisplay }) {
-  //
   //Hook personnaliser
   const { getToken } = useToken();
 
+  //state
+  const [userData, setUserData] = useState();
   //Function
 
   //Rejoindre la commnunauté
   const changeCommunity = async (e, communityId, name) => {
     e.preventDefault();
-    const data = communityId;
+    let data;
+
+    if (communityId === userData.id_communities) {
+      data = { id_communities: null };
+    } else {
+      data = { id_communities: communityId };
+    }
+
     console.log(communityId);
     try {
       const url = "https://twitee-api.gamosaurus.fr/api/users/modify";
@@ -25,11 +36,38 @@ export default function Community({ communitiesToDisplay }) {
         },
         body: JSON.stringify(data),
       });
-      toast.success(`Bravo vous venez de rejoindre ${name}`);
+      if (communityId === userData.id_communities) {
+        toast.success(`vous venez de quitter ${name}`);
+      } else {
+        toast.success(`Bravo vous venez de rejoindre ${name}`);
+      }
+      userDisplay();
     } catch (e) {
       toast.error("Erreur inattendue, veuillez réessayer");
     }
   };
+
+  // fetch du profil du user
+  const userDisplay = async () => {
+    try {
+      const url = "https://twitee-api.gamosaurus.fr/api/users/get/id";
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: getToken(),
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await response.json();
+      setUserData(json);
+    } catch (e) {
+      toast.error("Erreur lors du chargement du profil");
+    }
+  };
+
+  useEffect(() => {
+    userDisplay();
+  }, []);
 
   return (
     <>
@@ -64,14 +102,23 @@ export default function Community({ communitiesToDisplay }) {
             </div>
 
             <Button
-              fn={(e) =>
-                changeCommunity(e, community.id_communities, community.name)
+              fn={(e) => {
+                changeCommunity(e, community.id_communities, community.name);
+                handleClick(index);
+              }}
+              value={
+                userData && community.id_communities === userData.id_communities
+                  ? "Quitter"
+                  : "Rejoindre"
               }
-              value={"Rejoindre"}
               type={"button"}
               w={"200px"}
               h={"50px"}
-              className=" p-3 bg-blueLogo hover:bg-blueLogoDark"
+              className={
+                userData && community.id_communities === userData.id_communities
+                  ? "p-3 bg-blue-700 hover:bg-red-500"
+                  : "p-3 bg-blueLogo hover:bg-blueLogoDark"
+              }
             />
           </div>
         </div>
