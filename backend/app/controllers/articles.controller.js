@@ -18,6 +18,7 @@ exports.getArticlesWithOffset = async (request, reply) => {
         },
       ],
       attributes: ['id_articles', 'description', 'img_src'],
+      order: [['createdAt', 'DESC']]
     });
 
     // Boucle

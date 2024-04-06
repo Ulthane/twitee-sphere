@@ -7,5 +7,11 @@ module.exports = [
     url: '/api/friends/create',
     handler: Friends.createFriends,
     preHandler: jwtVerify,
+  },
+  {
+    method: 'DELETE',
+    url: '/api/friends/delete',
+    handler: Friends.removeFriends,
+    preHandler: jwtVerify,
   }
 ];
