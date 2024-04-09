@@ -6,6 +6,7 @@ const route = {
   FOLLOW: "/main/followFeed",
   FAVORITE: "/main/favoriteFeed",
   COMMUNITY: "/community",
+  USER_INFORMATION: "/main/userInformations",
 };
 
 export default route;

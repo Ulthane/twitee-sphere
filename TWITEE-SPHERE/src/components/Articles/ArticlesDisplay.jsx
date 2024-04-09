@@ -23,7 +23,7 @@ export default function ArticlesDisplay() {
 
   //Methodes
   const prepareArticlesToDisplay = () => {
-    const articlesToDisplay = [...articles].reverse();
+    const articlesToDisplay = [...articles];
     return articlesToDisplay.map((article, index) => (
       <Article
         key={index}

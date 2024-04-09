@@ -52,12 +52,13 @@ export async function putFetch(url, headers, bodyData) {
 }
 
 //DELETE******************************************************
-export async function deleteFetch(url, headers) {
+export async function deleteFetch(url, headers, bodyData = null) {
   const request = await fetch(url, {
     method: "DELETE",
     headers: {
       ...headers,
     },
+    body: JSON.stringify(bodyData),
   });
 
   const responseData = await request.json();
