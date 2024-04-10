@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useToken } from "../../../hooks/useToken";
+import IconeCommunity from "../iconeCommunity/IconeCommunity";
 
 export default function UserCommunity() {
   //Hook personaliser
@@ -43,8 +44,10 @@ export default function UserCommunity() {
         <p className="text-lg">
           <b>{userData.firstname + " " + userData.lastname}</b>
         </p>
-        <img src={userData.img_src} alt="dd" />
         <p className="text-sm">{userData.surname}</p>
+      </div>
+      <div className="items-center ml-[50px]">
+        <IconeCommunity />
       </div>
     </div>
   );
