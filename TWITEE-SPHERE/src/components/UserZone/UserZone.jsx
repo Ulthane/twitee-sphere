@@ -15,11 +15,14 @@ export default function UserZone({ userInformations }) {
           className="w-[70px]  shadow-lg "
           src={userInformations.img_src}
           alt="user's picture"
-          style={{ "clip-path": "ellipse(33% 50%)" }}
+          style={{ clipPath: "ellipse(33% 50%)" }}
         />
         {/* User first name and last name */}
         <span className=" font-bold">
-          <Link to={route.USER_INFORMATION}>
+          <Link
+            to={route.USER_INFORMATION}
+            state={{ authorId: userInformations.id_user }}
+          >
             {firstLetterUpperCase(userInformations.firstname) +
               " " +
               firstLetterUpperCase(userInformations.lastname)}

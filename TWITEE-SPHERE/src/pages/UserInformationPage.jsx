@@ -1,5 +1,6 @@
-// React
+// Librairy
 import { useContext, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 //Component
 import Button from "../components/Button/Button";
@@ -24,20 +25,25 @@ export default function UserInformationsPage() {
   //Variables
   const userInformations = { ...user };
 
+  //author article ID
+  const { state } = useLocation();
+
   const userFriendsDisplay = (
     <>
       {userInformations.friends.map((friendInformation, index) => (
         <div
-          className="pr-2 flex flex-row justify-between items-center w-full"
+          className="pr-2 flex flex-row justify-between items-center w-full mb-4"
           key={index}
         >
           <UserZone userInformations={friendInformation} />
 
-          <RemoveFriendButton
-            firstName={firstLetterUpperCase(friendInformation.firstname)}
-            lastName={firstLetterUpperCase(friendInformation.lastname)}
-            idUser={friendInformation.id_user}
-          />
+          {state.authorId === userInformations.id_user && (
+            <RemoveFriendButton
+              firstName={firstLetterUpperCase(friendInformation.firstname)}
+              lastName={firstLetterUpperCase(friendInformation.lastname)}
+              idUser={friendInformation.id_user}
+            />
+          )}
         </div>
       ))}
     </>
@@ -58,7 +64,7 @@ export default function UserInformationsPage() {
           src={userInformations.img_src}
           alt="avatar"
           className=" w-[120px]  overflow-y-hidden"
-          style={{ "clip-path": "ellipse(33% 50%)" }}
+          style={{ clipPath: "ellipse(33% 50%)" }}
         />
 
         <div className=" font-bold text-4xl">
@@ -67,14 +73,16 @@ export default function UserInformationsPage() {
             firstLetterUpperCase(userInformations.lastname)}
         </div>
       </div>
-      <Button
-        value="Modifier profil"
-        w="110px"
-        h="40px"
-        className="bg-blueLogo hover:bg-blueLogoDark my-2"
-        textSize="0.8rem"
-        fn={() => updateProfilModalDisplayHandler(true)}
-      />
+      {state.authorId === userInformations.id_user && (
+        <Button
+          value="Modifier profil"
+          w="110px"
+          h="40px"
+          className="bg-blueLogo hover:bg-blueLogoDark my-2"
+          textSize="0.8rem"
+          fn={() => updateProfilModalDisplayHandler(true)}
+        />
+      )}
       {/* User's community informations */}
       <div className=" mt-9 mx-auto  text-white flex flex-row gap-3 justify-start items-center">
         <div className=" font-bold text-2xl">Ma communauté</div>
@@ -83,9 +91,7 @@ export default function UserInformationsPage() {
       {/* User's friends */}
       <div className=" mt-9 mx-auto  text-white flex flex-col gap-3 ">
         <div className=" font-bold text-2xl mb-4">Friends</div>
-        <div className=" my-1 flex flex-row gap-3  justify-between items-center">
-          {userFriendsDisplay}
-        </div>
+        <div className=" my-1">{userFriendsDisplay}</div>
       </div>
 
       {updateProfilModalDisplay && (

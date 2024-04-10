@@ -163,6 +163,7 @@ export default function RegisterPage() {
               w="250px"
               h="50px"
               className="m-8 bg-blueLogo hover:bg-blueLogoDark"
+              type="submit"
             />
           )}
           <div

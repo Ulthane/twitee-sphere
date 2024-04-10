@@ -13,7 +13,11 @@ import NewTwiteeModal from "../../modales/NewTwiteeModal";
 import AddFriendButton from "../../Button/AddFriendButton/AddFriendButton";
 import UserZone from "../../UserZone/UserZone";
 
-export default function Article({ articleInformations, communityId }) {
+export default function Article({
+  articleInformations,
+  communityId,
+  connectedUserId,
+}) {
   //Context
   const { getThirtyArticlesWhithOffset } = useContext(TwiteeContext);
   //States
@@ -101,11 +105,13 @@ export default function Article({ articleInformations, communityId }) {
             <UserZone userInformations={articleInformations.user} />
 
             {/* Add Friends */}
-            <AddFriendButton
-              firstName={articleInformations.user.firstname}
-              lastName={articleInformations.user.lastname}
-              idUser={articleInformations.user.id_user}
-            />
+            {articleInformations.user.id_user != connectedUserId && (
+              <AddFriendButton
+                firstName={articleInformations.user.firstname}
+                lastName={articleInformations.user.lastname}
+                idUser={articleInformations.user.id_user}
+              />
+            )}
           </div>
           {/* actions and Community */}
           <div className="flex flex-row justify-center items-center gap-3">

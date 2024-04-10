@@ -131,7 +131,7 @@ export default function UpdateProfilModal({
                 />
               </div>
               <Button
-                value="Envoyer"
+                value="Mettre à jour"
                 w="250px"
                 h="50px"
                 className="mb-10 bg-blueLogo hover:bg-blueLogoDark"

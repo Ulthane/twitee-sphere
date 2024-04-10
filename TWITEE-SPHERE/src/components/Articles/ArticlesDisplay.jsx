@@ -29,6 +29,7 @@ export default function ArticlesDisplay() {
         key={index}
         articleInformations={article}
         communityId={(user.id_communities = 2)}
+        connectedUserId={user.id_user}
       />
     ));
   };
