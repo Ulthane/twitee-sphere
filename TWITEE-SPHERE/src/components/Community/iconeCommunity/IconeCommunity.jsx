@@ -2,11 +2,29 @@ import { useEffect, useState } from "react";
 import { useToken } from "../../../hooks/useToken";
 
 export default function IconeCommunity() {
-  const [icon, setIcon] = useState();
   //Hook personaliser
   const { getToken } = useToken();
   //state
   const [userData, setUserData] = useState([]);
+  const [icon, setIcon] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchCommunity = async () => {
+    try {
+      const url = `https://twitee-api.gamosaurus.fr/api/communities/get/id/3`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: getToken(),
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await response.json();
+      setIcon(json);
+    } catch (e) {
+      toast.error("Erreur lors du chargement des communautés");
+    }
+  };
 
   // fetch du profil du user
   const userDisplay = async () => {
@@ -26,35 +44,36 @@ export default function IconeCommunity() {
     }
   };
 
-  const fetchCommunity = async () => {
-    try {
-      const url = `https://twitee-api.gamosaurus.fr/api/communities/get/id/3`;
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: getToken(),
-          "Content-Type": "application/json",
-        },
-      });
-      const json = await response.json();
-      setIcon(json);
-    } catch (e) {
-      toast.error("Erreur lors du chargement des communautés");
-    }
-  };
-
-  //affichage
+  // Effect pour fetchCommunity
   useEffect(() => {
-    userDisplay();
     fetchCommunity();
+    // console.log();
   }, []);
 
+  useEffect(() => {
+    if (icon.length > 0) {
+      userDisplay();
+      setLoading(true);
+      console.log(icon);
+    }
+  }, [icon]);
+
+  // console.log(icon);
   return (
     <div>
-      <img src={icon} alt="icone community" />
-      <p>{userData.id_communities}</p>
-      {console.log(icon)}
-      {icon && icon.description && <p>{icon.description}</p>}
+      {loading ? (
+        icon.map((item, index) => (
+          <div key={index}>
+            <img
+              className="w-[35px] rounded-lg"
+              src={item.icon}
+              alt="Icône de la communauté"
+            />
+          </div>
+        ))
+      ) : (
+        <p>Chargement...</p>
+      )}
     </div>
   );
 }
