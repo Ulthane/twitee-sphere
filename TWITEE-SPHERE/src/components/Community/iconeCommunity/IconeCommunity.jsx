@@ -65,7 +65,7 @@ export default function IconeCommunity() {
         icon.map((item, index) => (
           <div key={index}>
             <img
-              className="w-[35px] rounded-lg"
+              className="w-[60px] h-[40px] rounded-[10px]"
               src={item.icon}
               alt="Icône de la communauté"
             />
