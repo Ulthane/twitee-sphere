@@ -1,6 +1,9 @@
+//composant
+import IconeCommunity from "../iconeCommunity/IconeCommunity";
+
+//hook
 import { useEffect, useState } from "react";
 import { useToken } from "../../../hooks/useToken";
-import IconeCommunity from "../iconeCommunity/IconeCommunity";
 
 export default function UserCommunity() {
   //Hook personaliser

@@ -1,3 +1,4 @@
+//composant
 import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import Logo from "../components/Logo/Logo";
@@ -5,10 +6,12 @@ import NavBar from "../components/NavBar/NavBar";
 import Community from "../components/Community/Community";
 import TopCommunity from "../components/Community/TopCommunity";
 import UserCommunity from "../components/Community/userCommunityPage/UserCommunity";
-import IconeCommunity from "../components/Community/iconeCommunity/IconeCommunity";
 
+//Hook
 import { useEffect, useRef, useState } from "react";
 import { useToken } from "../hooks/useToken";
+
+//style
 import { toast } from "react-toastify";
 
 export default function CommunityPage() {

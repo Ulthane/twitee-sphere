@@ -1,10 +1,13 @@
-import { toast } from "react-toastify";
+//hook
 import { useToken } from "../../hooks/useToken";
-import Button from "../Button/Button";
 import { useEffect, useState } from "react";
+
+//style
+import { toast } from "react-toastify";
 
 //composant
 import UserCommunity from "./userCommunityPage/UserCommunity";
+import Button from "../Button/Button";
 
 export default function Community({ communitiesToDisplay }) {
   //Hook personnaliser
@@ -79,7 +82,7 @@ export default function Community({ communitiesToDisplay }) {
         >
           {/* Mapping des communautés pour afficher dynamiquement */}
           <div className="flex justify-between mb-[5px]">
-            {console.log(community.id_communities)}
+            {/* {console.log(community.id_communities)} */}
             <UserCommunity />
             <img
               className="w-[40px] h-[30px] object-contain rounded-[10px]"
