@@ -190,7 +190,6 @@ export default function CommunityPage() {
           </form>
         </div>
         <UserCommunity />
-        <IconeCommunity />
       </div>
 
       <div className="h-full grid gap-6 grid-cols-[1fr_2fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">
