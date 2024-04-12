@@ -1,7 +1,5 @@
 const db = require('../models');
-// const Communities = db.Communities;
-// const Users = db.Users;
-// const Articles = db.Articles;
+const { addScore, removeScore } = require('../utils/scoring');
 const Likes = db.Likes;
 
 // Retourne les commentaire disponible dans la BDD avec un offset et une limite
@@ -65,6 +63,7 @@ exports.createLikes = async (request, reply) => {
 
   try {
     await Likes.create(newBody);
+    addScore(db, request.ctx.users, 'like');
     reply.send({ message: 'success' });
   } catch (err) {
     reply
@@ -79,6 +78,8 @@ exports.deleteLikes = async (request, reply) => {
     await Likes.destroy({
       where: { id_article: request.params.id, id_user: request.ctx.users },
     });
+
+    removeScore(db, request.ctx.users, 'like');
     reply.send({ message: 'success' });
   } catch (err) {
     reply
