@@ -16,6 +16,12 @@ module.exports = [
   },
   {
     method: 'GET',
+    url: '/api/users/get/other/:id',
+    handler: Users.getFriendById,
+    preHandler: jwtVerify
+  },
+  {
+    method: 'GET',
     url: '/api/users/get/:username',
     handler: Users.getUsersByName,
     preHandler: jwtVerify

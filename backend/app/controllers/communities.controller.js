@@ -15,6 +15,7 @@ exports.getCommunitiesWithOffset = async (request, reply) => {
           attributes: ['firstname', 'lastname', 'surname', 'email', 'img_src', 'id_communities'],
         },
       ],
+      order: [['score', 'DESC']],
     });
     reply.send(communities);
   } catch (err) {

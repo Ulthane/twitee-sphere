@@ -29,26 +29,3 @@ exports.removeFriends = async (request, reply) => {
     reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
-
-// Retourne les amis
-// exports.getFriendsWithOffset = async (request, reply) => {
-//   // On retourne tout les articles avec un offset
-//   try {
-//     const friends = await Users.findAll({
-//       offset: parseInt(request.query.offset),
-//       limit: parseInt(request.query.limit),
-//       include: [
-//         {
-//           model: Friends,
-//           // attributes: ['firstname', 'lastname', 'img_src', 'community'],
-//         },
-//       ],
-//       attributes:  ['firstname', 'lastname', 'img_src', 'community'],
-//     });
-//     reply.send(friends);
-//   } catch (err) {
-//     reply
-//       .code(500)
-//       .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
-//   }
-// };
