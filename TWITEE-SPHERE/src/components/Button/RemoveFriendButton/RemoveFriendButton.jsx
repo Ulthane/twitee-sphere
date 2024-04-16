@@ -33,8 +33,8 @@ export default function RemoveFriendButton({
     console.log(idUser);
     const request = await deleteFetch(
       "https://twitee-api.gamosaurus.fr/api/friends/delete",
-      { Authorization: token.getToken() },
-      { "Content-Type": "application/json", friend: idUser }
+      { "Content-Type": "application/json", Authorization: token.getToken() },
+      { friend: idUser }
     );
 
     console.log(request);

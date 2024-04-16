@@ -42,6 +42,7 @@ export default function LoginPage() {
   //useEffect
   useEffect(() => {
     const token = getToken();
+    // console.log("Bug 5");
 
     if (token !== null && token !== "") {
       navigate(route.HOME);

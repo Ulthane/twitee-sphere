@@ -6,6 +6,8 @@ import route from "../../routes/route";
 import { Link } from "react-router-dom";
 
 export default function UserZone({ userInformations }) {
+  // console.log("User Zone user");
+  // console.log(userInformations);
   //JSX
   return (
     <>
@@ -21,7 +23,7 @@ export default function UserZone({ userInformations }) {
         <span className=" font-bold">
           <Link
             to={route.USER_INFORMATION}
-            state={{ authorId: userInformations.id_user }}
+            state={{ targetedUserId: userInformations.id_user }}
           >
             {firstLetterUpperCase(userInformations.firstname) +
               " " +

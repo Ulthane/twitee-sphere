@@ -53,6 +53,7 @@ export default function ArticlesDisplay() {
   //CYCLES
   useEffect(() => {
     getThirtyArticlesWhithOffset();
+    // console.log("Bug 2");
   }, []);
 
   return (

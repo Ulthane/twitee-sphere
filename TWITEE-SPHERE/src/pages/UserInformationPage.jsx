@@ -1,5 +1,5 @@
 // Librairy
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 //Component
@@ -13,90 +13,142 @@ import { TwiteeContext } from "../store/TwiteeContext";
 
 //Utils
 import { firstLetterUpperCase } from "../utils/stringFunction";
+import { getFetch } from "../utils/Fetch";
+import { useToken } from "../hooks/useToken";
+import { toast } from "react-toastify";
 
 export default function UserInformationsPage() {
   // Context
-  const { user } = useContext(TwiteeContext);
+  const { user: connectedUserInformations } = useContext(TwiteeContext);
 
-  //State
-  const [updateProfilModalDisplay, setUpdateProfilModalDisplay] =
-    useState(false);
-
-  //Variables
-  const userInformations = { ...user };
-
-  //author article ID
+  //Targeted User
   const { state } = useLocation();
 
-  const userFriendsDisplay = (
-    <>
-      {userInformations.friends.map((friendInformation, index) => (
-        <div
-          className="pr-2 flex flex-row justify-between items-center w-full mb-4"
-          key={index}
-        >
-          <UserZone userInformations={friendInformation} />
+  //token
+  const token = useToken();
 
-          {state.authorId === userInformations.id_user && (
-            <RemoveFriendButton
-              firstName={firstLetterUpperCase(friendInformation.firstname)}
-              lastName={firstLetterUpperCase(friendInformation.lastname)}
-              idUser={friendInformation.id_user}
-            />
-          )}
-        </div>
-      ))}
-    </>
+  //State
+  const [targetedUserInformations, setTargetedUserInformations] = useState();
+  const [updateProfilModalDisplay, setUpdateProfilModalDisplay] =
+    useState(false);
+  const [targetedUserId, setTargetedUserId] = useState();
+  const [connectedUserId, setConnectedUserId] = useState(
+    connectedUserInformations.id_user
   );
 
-  console.log(userInformations);
+  // console.log(targetedUserId);
+  // console.log(connectedUserId);
 
   //Méthodes
+  const targetedUserFriendsDisplay = () => {
+    if (targetedUserInformations.friends !== undefined) {
+      return (
+        <>
+          {targetedUserInformations.friends[0] !== "initial" &&
+            targetedUserInformations.friends.map((friendInformation, index) => (
+              <div
+                className="pr-2 flex flex-row justify-between items-center w-full mb-4"
+                key={index}
+              >
+                <UserZone userInformations={friendInformation} />
+
+                {targetedUserId === connectedUserInformations.id_user && (
+                  <RemoveFriendButton
+                    firstName={firstLetterUpperCase(
+                      friendInformation.firstname
+                    )}
+                    lastName={firstLetterUpperCase(friendInformation.lastname)}
+                    idUser={friendInformation.id_user}
+                  />
+                )}
+              </div>
+            ))}
+        </>
+      );
+    }
+  };
+
   const updateProfilModalDisplayHandler = (value) => {
     setUpdateProfilModalDisplay(value);
   };
 
+  const getTargetedUserInformations = async () => {
+    const response = await getFetch(
+      `https://twitee-api.gamosaurus.fr/api/users/get/other/${state.targetedUserId}`,
+      { Authorization: token.getToken() }
+    );
+
+    if (response.message) {
+      toast.error(response.message);
+    } else {
+      const userInformations = { ...response };
+      setTargetedUserInformations({ ...userInformations });
+    }
+  };
+
+  const targetedUserIdHandler = () => {
+    if (state.targetedUserId !== targetedUserId) {
+      setTargetedUserId(state.targetedUserId);
+    }
+
+    if (connectedUserInformations.id_user && !connectedUserId) {
+      setConnectedUserId(connectedUserInformations.id_user);
+    }
+  };
+
+  //Cycle
+  useEffect(() => {
+    getTargetedUserInformations();
+  }, [targetedUserId]);
+
   return (
     <>
-      {/* User informations */}
-      <div className=" mt-9 mx-auto  text-white flex flex-row gap-3 justify-start items-center">
-        <img
-          src={userInformations.img_src}
-          alt="avatar"
-          className=" w-[120px]  overflow-y-hidden"
-          style={{ clipPath: "ellipse(33% 50%)" }}
-        />
+      {targetedUserIdHandler()}
+      {targetedUserInformations == undefined ? (
+        <div></div>
+      ) : (
+        <div>
+          {/* User informations */}
+          <div className=" mt-9 mx-auto  text-white flex flex-row gap-3 justify-start items-center">
+            <img
+              src={targetedUserInformations.img_src}
+              alt="avatar"
+              className=" w-[120px]  overflow-y-hidden"
+              style={{ clipPath: "ellipse(33% 50%)" }}
+            />
 
-        <div className=" font-bold text-4xl">
-          {firstLetterUpperCase(userInformations.firstname) +
-            " " +
-            firstLetterUpperCase(userInformations.lastname)}
+            <div className=" font-bold text-4xl">
+              {firstLetterUpperCase(targetedUserInformations.firstname) +
+                " " +
+                firstLetterUpperCase(targetedUserInformations.lastname)}
+            </div>
+          </div>
+          {state.targetedUserId === connectedUserInformations.id_user && (
+            <Button
+              value="Modifier profil"
+              w="110px"
+              h="40px"
+              className="bg-blueLogo hover:bg-blueLogoDark my-2"
+              textSize="0.8rem"
+              fn={() => updateProfilModalDisplayHandler(true)}
+            />
+          )}
+          {/* User's community informations */}
+          <div className=" mt-9 mx-auto  text-white flex flex-row gap-3 justify-start items-center">
+            <div className=" font-bold text-2xl">Ma communauté</div>
+          </div>
+
+          {/* User's friends */}
+          <div className=" mt-9 mx-auto  text-white flex flex-col gap-3 ">
+            <div className=" font-bold text-2xl mb-4">Friends</div>
+            <div className=" my-1">{targetedUserFriendsDisplay()}</div>
+          </div>
         </div>
-      </div>
-      {state.authorId === userInformations.id_user && (
-        <Button
-          value="Modifier profil"
-          w="110px"
-          h="40px"
-          className="bg-blueLogo hover:bg-blueLogoDark my-2"
-          textSize="0.8rem"
-          fn={() => updateProfilModalDisplayHandler(true)}
-        />
       )}
-      {/* User's community informations */}
-      <div className=" mt-9 mx-auto  text-white flex flex-row gap-3 justify-start items-center">
-        <div className=" font-bold text-2xl">Ma communauté</div>
-      </div>
-
-      {/* User's friends */}
-      <div className=" mt-9 mx-auto  text-white flex flex-col gap-3 ">
-        <div className=" font-bold text-2xl mb-4">Friends</div>
-        <div className=" my-1">{userFriendsDisplay}</div>
-      </div>
 
       {updateProfilModalDisplay && (
         <UpdateProfilModal
-          userInformations={userInformations}
+          userInformations={connectedUserInformations}
           displayModaleHandler={updateProfilModalDisplayHandler}
         />
       )}
