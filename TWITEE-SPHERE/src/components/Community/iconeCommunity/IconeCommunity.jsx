@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useToken } from "../../../hooks/useToken";
+import { TwiteeContext } from "../../../store/TwiteeContext";
+import { useFetchCommunity } from "../../../hooks/useFetchCommunity";
 
-export default function IconeCommunity() {
+export default function IconeCommunity({ time }) {
   //Hook personaliser
   const { getToken } = useToken();
   //state
@@ -9,18 +11,17 @@ export default function IconeCommunity() {
   const [icon, setIcon] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  //context
+  const { setCommunity, community } = useContext(TwiteeContext);
+
+  const { communitiesById } = useFetchCommunity();
+
   const fetchCommunity = async () => {
     try {
-      const url = `https://twitee-api.gamosaurus.fr/api/communities/get/id/3`;
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: getToken(),
-          "Content-Type": "application/json",
-        },
-      });
-      const json = await response.json();
-      setIcon(json);
+      const communityData = await communitiesById(userData.id_communities);
+      setIcon(communityData);
+      setCommunity(communityData);
+      console.log(communityData);
     } catch (e) {
       toast.error("Erreur lors du chargement des communautés");
     }
@@ -44,21 +45,22 @@ export default function IconeCommunity() {
     }
   };
 
-  // Effect pour fetchCommunity
+  // Cycles
   useEffect(() => {
-    fetchCommunity();
-    // console.log();
+    userDisplay();
   }, []);
 
   useEffect(() => {
-    if (icon.length > 0) {
-      userDisplay();
+    if (userData.id_user !== undefined) {
+      fetchCommunity();
       setLoading(true);
-      console.log(icon);
     }
-  }, [icon]);
+  }, [userData]);
 
-  // console.log(icon);
+  useEffect(() => {
+    console.log(community);
+  }, [community]);
+
   return (
     <div>
       {loading ? (
@@ -72,7 +74,9 @@ export default function IconeCommunity() {
           </div>
         ))
       ) : (
-        <p>Chargement...</p>
+        <div className="h-[100vh] flex items-center text-white font-bold text-2xl my-5 w-[90px]">
+          <img src="loading/ripple-loading.svg" alt="Loading" />
+        </div>
       )}
     </div>
   );

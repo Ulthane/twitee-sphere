@@ -4,7 +4,6 @@ import Input from "../components/Input/Input";
 import Logo from "../components/Logo/Logo";
 import NavBar from "../components/NavBar/NavBar";
 import Community from "../components/Community/Community";
-import TopCommunity from "../components/Community/TopCommunity";
 import UserCommunity from "../components/Community/userCommunityPage/UserCommunity";
 
 //Hook
@@ -13,6 +12,7 @@ import { useToken } from "../hooks/useToken";
 
 //style
 import { toast } from "react-toastify";
+import { useFetchCommunity } from "../hooks/useFetchCommunity";
 
 export default function CommunityPage() {
   //state
@@ -29,31 +29,13 @@ export default function CommunityPage() {
 
   //hook personaliser
   const { getToken } = useToken();
-
-  //functions
-
-  //Récupération des communautés
-  const fetchCommunities = async () => {
-    try {
-      const url = "https://twitee-api.gamosaurus.fr/api/communities/get/";
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: getToken(),
-          "Content-Type": "application/json",
-        },
-      });
-      const json = await response.json();
-      return json;
-    } catch (e) {
-      toast.error("Erreur lors du chargement des communautés");
-    }
-  };
+  const { getAllCommunities } = useFetchCommunity();
 
   // Chargement des communautés
   const loadCommunities = async () => {
     try {
-      const json = await fetchCommunities();
+      const json = await getAllCommunities();
+      console.log(json);
       // Tri des communautés de la plus récente à la plus ancienne
       const sortedCommunities = json.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -109,7 +91,7 @@ export default function CommunityPage() {
         icon: icone.current.value,
       };
       let communityExist = false;
-      const community = await fetchCommunities();
+      const community = await getAllCommunities();
 
       community.forEach((communaute) => {
         if (data.name === communaute.name) {
@@ -201,9 +183,7 @@ export default function CommunityPage() {
           <NavBar />
         </div>
         {/* community */}
-        <div className=" w-full flex flex-col align-top  items-center">
-          {/* Top community */}
-          <TopCommunity />
+        <div className="flex flex-col items-center h-full w-full ">
           <Community
             communitiesToDisplay={seacrh ? communitieFilter : communities}
           />
