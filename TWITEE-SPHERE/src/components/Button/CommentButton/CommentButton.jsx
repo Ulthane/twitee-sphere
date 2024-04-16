@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CommentModal from "../../Comments/CommentModal";
 
 export default function LikeButton({ articleId, token, ...props }) {

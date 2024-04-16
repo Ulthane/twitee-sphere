@@ -10,7 +10,6 @@ module.exports.jwtVerify = (request, reply, done) => {
 
     // On vérifie le token, si inexistant alors 401. sinon on envoie l'id user dans le contexte suivant
     jwt.verify(bearerToken, process.env.TOKEN_KEY, async (err, data) => {
-      console.log(data);
       if (err) {
         reply
           .code(401)

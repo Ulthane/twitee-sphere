@@ -49,6 +49,32 @@ exports.getUsersById = async (request, reply) => {
   }
 };
 
+// Retourne tout les objets disponible dans la BDD
+exports.getFriendById = async (request, reply) => {
+  // On récupère les informations utilisateur en fonction de sont id décrypté dans le token
+  try {
+    const users = await Users.findOne({
+      attributes: ['firstname', 'lastname', 'surname', 'img_src', 'id_communities'],
+      include: [
+        {
+          model: Users,
+          as: 'friends',
+          attributes: ['id_user', 'firstname', 'lastname', 'surname', 'img_src'],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+      where: {
+        id_user: request.params.id,
+      },
+    });
+    reply.send(users);
+  } catch (err) {
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+  }
+};
+
 // Retourne les utilisateurs par leur nom (regex)
 exports.getUsersByName = async (request, reply) => {
   const pattern = `%${request.params.username}%`;

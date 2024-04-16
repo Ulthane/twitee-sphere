@@ -22,6 +22,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
+    score: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      default: 0
+    }
   });
 
   return Communities;

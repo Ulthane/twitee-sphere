@@ -1,17 +1,34 @@
+//Utils
+import { firstLetterUpperCase } from "../../utils/stringFunction";
+import route from "../../routes/route";
+
+//Librairies
+import { Link } from "react-router-dom";
+
 export default function UserZone({ userInformations }) {
+  // console.log("User Zone user");
+  // console.log(userInformations);
   //JSX
   return (
     <>
       <div className="flex flex-row justify-center items-center gap-2">
         {/* user's picture */}
         <img
-          className="w-[40px] h-[40px] rounded-full shadow-lg "
-          src="https://cdn.pixabay.com/photo/2016/12/17/16/16/woman-1913737_1280.jpg"
+          className="w-[70px]  shadow-lg "
+          src={userInformations.img_src}
           alt="user's picture"
+          style={{ clipPath: "ellipse(33% 50%)" }}
         />
         {/* User first name and last name */}
         <span className=" font-bold">
-          {userInformations.firstname + " " + userInformations.lastname}
+          <Link
+            to={route.USER_INFORMATION}
+            state={{ targetedUserId: userInformations.id_user }}
+          >
+            {firstLetterUpperCase(userInformations.firstname) +
+              " " +
+              firstLetterUpperCase(userInformations.lastname)}
+          </Link>
         </span>
       </div>
     </>

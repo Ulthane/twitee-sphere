@@ -11,6 +11,9 @@ function App() {
   const FollowFeed = lazy(() => import("./pages/FollowFeed.jsx"));
   const FavoriteFeed = lazy(() => import("./pages/FavoriteFeed.jsx"));
   const CommunityPage = lazy(() => import("./pages/CommunityPage.jsx"));
+  const UserInformationsPage = lazy(() =>
+    import("./pages/UserInformationPage.jsx")
+  );
 
   const router = createBrowserRouter([
     {
@@ -65,6 +68,14 @@ function App() {
           element: (
             <Suspense>
               <FavoriteFeed />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/main/userInformations",
+          element: (
+            <Suspense>
+              <UserInformationsPage />
             </Suspense>
           ),
         },

@@ -1,4 +1,6 @@
+const { where } = require('sequelize');
 const db = require('../models');
+const { removeScore, addScore } = require('../utils/scoring');
 const Articles = db.Articles;
 const Users = db.Users;
 const Likes = db.Likes;
@@ -18,6 +20,7 @@ exports.getArticlesWithOffset = async (request, reply) => {
         },
       ],
       attributes: ['id_articles', 'description', 'img_src'],
+      order: [['createdAt', 'DESC']],
     });
 
     // Boucle
@@ -110,6 +113,8 @@ exports.createArticles = async (request, reply) => {
   try {
     await Articles.create(newBody);
     reply.send({ message: 'success' });
+
+    addScore(db, request.ctx.users, 'article');
   } catch (err) {
     reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
@@ -136,9 +141,24 @@ exports.modifyArticles = async (request, reply) => {
 // Supprime un article dans la BDD (logiquement pas de suppression mais un paramètre de delete. pour le projet on supprime par simplicité)
 exports.deleteArticles = async (request, reply) => {
   try {
+    const count = await Likes.findAll({
+      where: {
+        id_article: request.params.id,
+      },
+    });
+
+    if (count > 0) {
+      reply.code(403).send({
+        message: "Erreur, au moins un like est actif sur l'article.",
+      });
+      return false;
+    }
+
     await Articles.destroy({
       where: { id_articles: request.params.id },
     });
+    removeScore(db, request.ctx.users, 'article');
+
     reply.send({ message: 'success' });
   } catch (err) {
     reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
