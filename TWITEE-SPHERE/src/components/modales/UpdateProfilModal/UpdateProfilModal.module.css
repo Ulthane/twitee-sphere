@@ -1,0 +1,11 @@
+.labelInput {
+  @apply text-white text-[16px] font-bold;
+}
+
+.input {
+  @apply pl-[65px] relative bg-blueLogo/10 w-[600px] h-[50px] border-none rounded-full text-white focus:outline-none my-3 text-[16px] font-bold;
+}
+
+.inputDiv {
+  @apply flex flex-col justify-start items-start gap-1;
+}

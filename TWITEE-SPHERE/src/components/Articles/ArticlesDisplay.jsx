@@ -23,12 +23,13 @@ export default function ArticlesDisplay() {
 
   //Methodes
   const prepareArticlesToDisplay = () => {
-    const articlesToDisplay = [...articles].reverse();
+    const articlesToDisplay = [...articles];
     return articlesToDisplay.map((article, index) => (
       <Article
         key={index}
         articleInformations={article}
         communityId={(user.id_communities = 2)}
+        connectedUserId={user.id_user}
       />
     ));
   };
@@ -52,6 +53,7 @@ export default function ArticlesDisplay() {
   //CYCLES
   useEffect(() => {
     getThirtyArticlesWhithOffset();
+    // console.log("Bug 2");
   }, []);
 
   return (

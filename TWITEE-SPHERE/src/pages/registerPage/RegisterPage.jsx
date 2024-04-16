@@ -31,6 +31,7 @@ export default function RegisterPage() {
 
   //useEffect
   useEffect(() => {
+    // console.log("Bug 6");
     // Donne le focus au champ firstname lors du montage du composant
     if (firstnameRef.current) {
       firstnameRef.current.focus();
@@ -42,6 +43,7 @@ export default function RegisterPage() {
 
   //useEffect
   useEffect(() => {
+    // console.log("Bug 7");
     const token = getToken();
 
     if (token !== null && token !== "") {
@@ -163,6 +165,7 @@ export default function RegisterPage() {
               w="250px"
               h="50px"
               className="m-8 bg-blueLogo hover:bg-blueLogoDark"
+              type="submit"
             />
           )}
           <div

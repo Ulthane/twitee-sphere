@@ -120,10 +120,12 @@ export default function CommentModal({
   useEffect(() => {
     getComments();
     getNumberOfComment(comments.length);
+    // console.log("Bug 3");
   }, [refreshComment, articles]);
 
   useEffect(() => {
     getNumberOfComment(comments.length);
+    // console.log("Bug 4");
   }, [comments]);
 
   return (
