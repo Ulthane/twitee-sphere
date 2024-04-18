@@ -7,6 +7,7 @@ import Button from "../components/Button/Button";
 import UserZone from "../components/UserZone/UserZone";
 import RemoveFriendButton from "../components/Button/RemoveFriendButton/RemoveFriendButton";
 import UpdateProfilModal from "../components/modales/UpdateProfilModal/UpdateProfilModal";
+import AddFriendButton from "../components/Button/AddFriendButton/AddFriendButton";
 
 //Context
 import { TwiteeContext } from "../store/TwiteeContext";
@@ -96,6 +97,21 @@ export default function UserInformationsPage() {
     }
   };
 
+  const isFriend = () => {
+    let count = 0;
+    if (connectedUserInformations.friends !== undefined) {
+      connectedUserInformations.friends.forEach((friend) => {
+        if (friend.id_user === state.targetedUserId) {
+          count++;
+        }
+      });
+    }
+    if (state.targetedUserId === connectedUserInformations.id_user) {
+      count++;
+    }
+    return count === 0 ? true : false;
+  };
+
   //Cycle
   useEffect(() => {
     getTargetedUserInformations();
@@ -122,6 +138,14 @@ export default function UserInformationsPage() {
                 " " +
                 firstLetterUpperCase(targetedUserInformations.lastname)}
             </div>
+
+            {isFriend() && (
+              <AddFriendButton
+                firstName={targetedUserInformations.firstname}
+                lastName={targetedUserInformations.lastname}
+                idUser={state.targetedUserId}
+              />
+            )}
           </div>
           {state.targetedUserId === connectedUserInformations.id_user && (
             <Button
