@@ -8,6 +8,7 @@ const actionTypes = {
   SET_USER: "SET_USER",
   SET_ARTICLES: "SET_ARTICLES",
   SET_ARTICLE_OFFSET: "SET_ARTICLE_OFFSET",
+  SET_COMMUNITY: "SET_COMMUNITY",
   // Community ACTIONS
 };
 
@@ -15,7 +16,9 @@ export const TwiteeContext = createContext({
   articles: [],
   user: {},
   articleOffset: 0,
+  community: [],
   // Community
+  setCommunity: () => {},
   setArticles: () => {},
   setUser: () => {},
   setArticleOffset: () => {},
@@ -50,8 +53,15 @@ function twiteeReducer(state, action) {
       console.log(newDataForArticleOffset);
 
       return newDataForArticleOffset;
-  }
 
+    case actionTypes.SET_COMMUNITY:
+      const newCommunity = {
+        ...state,
+        community: action.payload.newCommunity,
+      };
+
+      return newCommunity;
+  }
   // Community CASE setCommunity
 }
 
@@ -60,6 +70,7 @@ export default function TwiteeProvider({ children }) {
     articles: [],
     user: {},
     articleOffset: 0,
+    community: [],
     // Community
   });
 
@@ -125,6 +136,12 @@ export default function TwiteeProvider({ children }) {
 
         dispatch({ type: actionTypes.SET_ARTICLES, payload: allArticles });
       }
+    },
+    setCommunity: (newCommunity) => {
+      dispatch({
+        type: actionTypes.SET_COMMUNITY,
+        payload: { newCommunity },
+      });
     },
     // Community setCommunity
   };
