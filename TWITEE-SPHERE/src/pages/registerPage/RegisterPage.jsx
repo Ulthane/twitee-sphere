@@ -86,6 +86,7 @@ export default function RegisterPage() {
         });
 
         const json = await response.json(); // stocke les donnés reçut de l'API dans la variable json
+        console.log(json);
         sessionStorage.setItem("token", json.accessToken); // stocke accessToke dans dans mon state token
         setLoading(false);
 

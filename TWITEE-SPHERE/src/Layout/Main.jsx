@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar.jsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { TwiteeContext } from "../store/TwiteeContext";
 
 export default function Main() {
   //Context
-  const { setUser } = useContext(TwiteeContext);
+  const { user, setUser } = useContext(TwiteeContext);
+
+  //State:
+  const [userInformations, setUserInformations] = useState(user);
 
   // VARIABLE
   const token = sessionStorage.getItem("token");
@@ -27,19 +30,24 @@ export default function Main() {
     if (response.status !== 200) {
       toast.error(json.message);
     } else {
-      let user = await response.json();
-      let newUser = { ...user };
-      // console.log("newUser");
-      // console.log(newUser);
-      setUser(newUser);
+      let userInformations = await response.json();
+      let newUser = { ...userInformations };
+
+      //setState
+      setUserInformations(newUser);
     }
   };
 
   //CYCLE
   useEffect(() => {
     getUserInformations();
-    // console.log("BUUUUUUUUUUUUUUUUUUUG");
   }, []);
+
+  useEffect(() => {
+    setUser(userInformations);
+    sessionStorage.setItem("user_informations", JSON.stringify(user));
+  }, [userInformations]);
+
   return (
     <div className="h-screen text-white grid grid-rows-[1fr_10fr_0.5fr] box-border ">
       <div

@@ -3,7 +3,7 @@ const route = {
   REGISTER: "/RegisterPage",
   MAIN: "/main",
   HOME: "/main/home",
-  FOLLOW: "/main/followFeed",
+  FOLLOW: "/main/friendsfeed",
   FAVORITE: "/main/favoriteFeed",
   COMMUNITY: "/community",
   USER_INFORMATION: "/main/userInformations",

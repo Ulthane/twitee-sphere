@@ -17,6 +17,7 @@ export default function Article({
   articleInformations,
   communityId,
   connectedUserId,
+  setRefreshHomeHandler,
 }) {
   //Context
   const { getThirtyArticlesWhithOffset } = useContext(TwiteeContext);
@@ -31,7 +32,6 @@ export default function Article({
   // Méthode
   const deleteArticleHandler = async () => {
     setOpen(!isOpen);
-    console.log(token.getToken());
     const request = await deleteFetch(
       `https://twitee-api.gamosaurus.fr/api/articles/delete/${articleInformations.id_articles}`,
       { Authorization: token.getToken() }
@@ -41,6 +41,7 @@ export default function Article({
       toast.error(request.message);
     } else {
       getThirtyArticlesWhithOffset();
+      setRefreshHomeHandler();
     }
   };
 
