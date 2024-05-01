@@ -15,7 +15,7 @@ import route from "../../routes/route";
 
 export default function UserProfile({
   communityDisplay = false,
-  userInformations = null,
+  userInformations = { img_src: "" },
 }) {
   //Hook personaliser
   const { getToken } = useToken();
@@ -42,6 +42,7 @@ export default function UserProfile({
 
   //affichage
   useEffect(() => {
+    console.log("userInformations", userInformations);
     userDisplay();
   }, []);
 
@@ -56,11 +57,14 @@ export default function UserProfile({
         to={route.USER_INFORMATION}
         state={{ targetedUserId: userInformations.id_user }}
       >
-        <p className="text-xl mb-1">
-          {firstLetterUpperCase(userInformations.firstname) +
-            " " +
-            firstLetterUpperCase(userInformations.lastname)}
-        </p>
+        {userInformations.firstname && (
+          <p className="text-xl mb-1">
+            {firstLetterUpperCase(userInformations.firstname) +
+              " " +
+              firstLetterUpperCase(userInformations.lastname)}
+          </p>
+        )}
+
         <p className="text-sm">{userData.surname}</p>
       </Link>
       {communityDisplay && (
