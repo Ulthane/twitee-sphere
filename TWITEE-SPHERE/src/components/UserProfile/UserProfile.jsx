@@ -1,5 +1,6 @@
 // librairie
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 //composant
 import IconeCommunity from "../Community/iconeCommunity/IconeCommunity";
@@ -8,7 +9,14 @@ import IconeCommunity from "../Community/iconeCommunity/IconeCommunity";
 import { useEffect, useState } from "react";
 import { useToken } from "../../hooks/useToken";
 
-export default function UserProfile({ communityDisplay = false }) {
+//Utils
+import { firstLetterUpperCase } from "../../utils/stringFunction";
+import route from "../../routes/route";
+
+export default function UserProfile({
+  communityDisplay = false,
+  userInformations = null,
+}) {
   //Hook personaliser
   const { getToken } = useToken();
   //state
@@ -39,17 +47,22 @@ export default function UserProfile({ communityDisplay = false }) {
 
   return (
     <div className="flex justify-between items-center">
-        <img
-          className="w-14 h-14 rounded-full object-cover mr-5"
-          src="https://cdn.dribbble.com/users/3253684/screenshots/19281779/media/f91d93b3811f2e3929ee09543b80691e.jpg?resize=1600x1200&vertical=center"
-          alt="Photo de profil"
-        />
-      <div>
+      <img
+        className="w-14 h-14 rounded-full object-cover mr-5"
+        src={userInformations.img_src}
+        alt="Photo de profil"
+      />
+      <Link
+        to={route.USER_INFORMATION}
+        state={{ targetedUserId: userInformations.id_user }}
+      >
         <p className="text-xl mb-1">
-          <b>{userData.firstname + " " + userData.lastname}</b>
+          {firstLetterUpperCase(userInformations.firstname) +
+            " " +
+            firstLetterUpperCase(userInformations.lastname)}
         </p>
         <p className="text-sm">{userData.surname}</p>
-      </div>
+      </Link>
       {communityDisplay && (
         <div className="items-center mx-[35px]">
           <IconeCommunity />

@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 //Component
 import Button from "../components/Button/Button";
 import UserZone from "../components/UserZone/UserZone";
+import UserProfile from "../components/UserProfile/UserProfile";
 import RemoveFriendButton from "../components/Button/RemoveFriendButton/RemoveFriendButton";
 import UpdateProfilModal from "../components/modales/UpdateProfilModal/UpdateProfilModal";
 import AddFriendButton from "../components/Button/AddFriendButton/AddFriendButton";
@@ -51,7 +52,7 @@ export default function UserInformationsPage() {
                 className="pr-2 flex flex-row justify-between items-center w-full mb-4"
                 key={index}
               >
-                <UserZone userInformations={friendInformation} />
+                <UserProfile userInformations={friendInformation} />
 
                 {targetedUserId === connectedUserInformations.id_user && (
                   <RemoveFriendButton

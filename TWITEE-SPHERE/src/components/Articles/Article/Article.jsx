@@ -105,7 +105,7 @@ export default function Article({
           {/* User's informations */}
           <div className="flex flex-row justify-center items-center gap-2 relative">
             {/* <UserZone userInformations={articleInformations.user} /> */}
-            <UserProfile />
+            <UserProfile userInformations={articleInformations.user} />
 
             {/* Add Friends */}
             {articleInformations.user.id_user != connectedUserId && (
