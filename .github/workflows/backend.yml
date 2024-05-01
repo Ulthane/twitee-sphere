@@ -15,7 +15,7 @@ jobs:
       DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       DOCKER_PROJECT: twitee-api
-      DOCKER_TAG: 0.5.1
+      DOCKER_TAG: 0.5.2
     steps:
       - uses: actions/checkout@v3
 
