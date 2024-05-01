@@ -81,7 +81,7 @@ exports.getArticlesWithOffsetAndMultipleUserId = async (request, reply) => {
       include: [
         {
           model: Users,
-          attributes: ['firstname', 'lastname', 'img_src', 'id_communities'],
+          attributes: ['id_user', 'firstname', 'lastname', 'img_src', 'id_communities'],
         },
       ],
       attributes: ['id_articles', 'description', 'img_src', 'user.firstname'],
