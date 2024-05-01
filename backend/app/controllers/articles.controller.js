@@ -88,6 +88,7 @@ exports.getArticlesWithOffsetAndMultipleUserId = async (request, reply) => {
       where: {
         id_user: request.body,
       },
+      order: [['createdAt', 'DESC']],
     });
     reply.send(articles);
   } catch (err) {
