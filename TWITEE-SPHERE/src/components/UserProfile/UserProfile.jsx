@@ -1,12 +1,14 @@
+// librairie
 import { toast } from "react-toastify";
+
 //composant
-import IconeCommunity from "../iconeCommunity/IconeCommunity";
+import IconeCommunity from "../Community/iconeCommunity/IconeCommunity";
 
 //hook
 import { useEffect, useState } from "react";
-import { useToken } from "../../../hooks/useToken";
+import { useToken } from "../../hooks/useToken";
 
-export default function UserCommunity() {
+export default function UserProfile({ communityDisplay = false }) {
   //Hook personaliser
   const { getToken } = useToken();
   //state
@@ -37,22 +39,22 @@ export default function UserCommunity() {
 
   return (
     <div className="flex justify-between items-center">
-      <div>
         <img
-          className="w-[25px] mr-4"
-          src="https://cdn.pixabay.com/photo/2013/07/13/10/50/one-eyed-monster-157897_960_720.png"
+          className="w-14 h-14 rounded-full object-cover mr-5"
+          src="https://cdn.dribbble.com/users/3253684/screenshots/19281779/media/f91d93b3811f2e3929ee09543b80691e.jpg?resize=1600x1200&vertical=center"
           alt="Photo de profil"
         />
-      </div>
       <div>
-        <p className="text-lg">
+        <p className="text-xl mb-1">
           <b>{userData.firstname + " " + userData.lastname}</b>
         </p>
         <p className="text-sm">{userData.surname}</p>
       </div>
-      <div className="items-center ml-[50px]">
-        <IconeCommunity />
-      </div>
+      {communityDisplay && (
+        <div className="items-center mx-[35px]">
+          <IconeCommunity />
+        </div>
+      )}
     </div>
   );
 }

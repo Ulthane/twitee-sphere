@@ -6,10 +6,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 //composant
-import UserCommunity from "./userCommunityPage/UserCommunity";
+// import UserCommunity from "./userCommunityPage/UserCommunity";
 import Button from "../Button/Button";
 import TopCommunity from "./TopCommunity";
 import { useFetchCommunity } from "../../hooks/useFetchCommunity";
+import UserProfile from "../UserProfile/UserProfile";
 
 export default function Community({ communitiesToDisplay }) {
   //Hook personnaliser
@@ -90,10 +91,9 @@ export default function Community({ communitiesToDisplay }) {
           >
             {/* Mapping des communautés pour afficher dynamiquement */}
             <div className="flex justify-between mb-[5px]">
-              {/* {console.log(community.id_communities)} */}
-              <UserCommunity />
+              <UserProfile />
               <img
-                className="w-[40px] h-[30px] object-contain rounded-[10px]"
+                className="w-[35px] h-[35px] object-contain rounded-full object-cover"
                 src={community.icon}
                 alt="icone de la communauté"
               />
@@ -114,7 +114,6 @@ export default function Community({ communitiesToDisplay }) {
               <Button
                 fn={(e) => {
                   changeCommunity(e, community.id_communities, community.name);
-                  handleClick(index);
                 }}
                 value={
                   userData &&

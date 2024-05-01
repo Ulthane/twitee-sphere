@@ -11,7 +11,8 @@ import CommentButton from "../../Button/CommentButton/CommentButton";
 import ReTwiteeButton from "../../Button/ReTwiteeButton/ReTwiteeButton";
 import NewTwiteeModal from "../../modales/NewTwiteeModal";
 import AddFriendButton from "../../Button/AddFriendButton/AddFriendButton";
-import UserZone from "../../UserZone/UserZone";
+// import UserZone from "../../UserZone/UserZone";
+import UserProfile from "../../UserProfile/UserProfile";
 
 export default function Article({
   articleInformations,
@@ -101,8 +102,9 @@ export default function Article({
         {/* Header Container */}
         <div className="flex flex-row justify-between items-center gap-3 mb-3 ">
           {/* User's informations */}
-          <div className="flex flex-row justify-center items-center gap-2">
-            <UserZone userInformations={articleInformations.user} />
+          <div className="flex flex-row justify-center items-center gap-2 relative">
+            {/* <UserZone userInformations={articleInformations.user} /> */}
+            <UserProfile />
 
             {/* Add Friends */}
             {articleInformations.user.id_user != connectedUserId && (

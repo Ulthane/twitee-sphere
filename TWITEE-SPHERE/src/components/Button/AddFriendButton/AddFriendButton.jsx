@@ -1,5 +1,6 @@
 // React
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 //Components
 import AddFriend from "../../../assets/SVG/AddFriend";
@@ -13,8 +14,7 @@ import { useToken } from "../../../hooks/useToken";
 export default function AddFriendButton({
   firstName,
   lastName,
-  idUser,
-  ...props
+  idUser
 }) {
   //STATES
   const [AddFriendModalDisplay, setAddFriendModalDisplay] = useState(false);
@@ -48,8 +48,8 @@ export default function AddFriendButton({
 
   return (
     <>
-      <div onClick={() => displayModaleHandler(true)}>
-        {" "}
+      <div onClick={() => displayModaleHandler(true)} className="ml-3 absolute bottom-[1px] right-[7px]">
+        {/* {" "} */}
         <AddFriend
           tailwindClasse={
             "text-white hover:cursor-pointer hover:text-blueLogo hover:font-semibold"

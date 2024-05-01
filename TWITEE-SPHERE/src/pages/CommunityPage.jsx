@@ -4,7 +4,7 @@ import Input from "../components/Input/Input";
 import Logo from "../components/Logo/Logo";
 import NavBar from "../components/NavBar/NavBar";
 import Community from "../components/Community/Community";
-import UserCommunity from "../components/Community/userCommunityPage/UserCommunity";
+import UserProfile from "../components/UserProfile/UserProfile";
 
 //Hook
 import { useEffect, useRef, useState } from "react";
@@ -62,11 +62,6 @@ export default function CommunityPage() {
         },
       });
       const json = await response.json();
-
-      // Tri des communautés de la plus récente à la plus ancienne
-      const sortedCommunities = json.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
 
       setCommunitieFilter(json);
       if (communitieFilter.length === 0) {
@@ -145,7 +140,7 @@ export default function CommunityPage() {
 
   return (
     <div className="h-screen gradientBackGround text-white grid grid-rows-[1fr_10fr_0.5fr] box-border ">
-      <div className="px-4 py-2 flex justify-between ">
+      <div className="px-4 py-2 flex justify-between items-center">
         {/* HEADER */}
         <Logo />
         <div className="relative">
@@ -153,7 +148,7 @@ export default function CommunityPage() {
             <Input
               type={"search"}
               placeholder={"Rechercher"}
-              className=" w-[300px] h-[50px] "
+              className=" w-[600px] h-[50px] "
               reference={searchRef}
               onchange={removeSearch}
             />
@@ -174,7 +169,7 @@ export default function CommunityPage() {
             />
           </form>
         </div>
-        <UserCommunity />
+        <UserProfile communityDisplay={true} />
       </div>
 
       <div className="h-full grid gap-6 grid-cols-[1fr_2fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">
@@ -190,7 +185,7 @@ export default function CommunityPage() {
         </div>
 
         {/* Formulaire de création de communauté */}
-        <div className="sticky top-0">
+        <div className="sticky top-[50%] translate-y-[-33%]">
           <form
             onSubmit={(e) => submit(e)}
             ref={form}
@@ -204,13 +199,13 @@ export default function CommunityPage() {
             <Input
               placeholder={"Titre"}
               type={"text"}
-              className={"mt-[20px] mb-[25px]"}
+              className={"mt-[20px] mb-[25px] py-3 w-[375px]"}
               reference={name}
             />
 
             <textarea
               style={{ background: "rgba(42, 163, 239, 0.1)" }}
-              className=" rounded-[25px] placeholder: p-3 placeholder-white focus:outline-none"
+              className=" rounded-[25px] p-5 w-[375px] placeholder:font-bold pl-4 text-white focus:outline-none my-3 text-[16px] font-bold font-poppins placeholder:text-gray-300  placeholder:text-[16px]"
               name=""
               id=""
               cols="30"
@@ -220,7 +215,7 @@ export default function CommunityPage() {
             ></textarea>
             <Input
               placeholder={"Lien de votre image"}
-              className={"mt-[25px]"}
+              className={"mt-[25px] mb-[25px] py-3 w-[375px]"}
               reference={icone}
             />
             <Button
@@ -228,7 +223,7 @@ export default function CommunityPage() {
               type={"submit"}
               w={"200px"}
               h={"40px"}
-              className=" bg-blueLogo hover:bg-blueLogoDark "
+              className=" bg-blueLogo hover:bg-blueLogoDark mt-5"
             />
           </form>
         </div>

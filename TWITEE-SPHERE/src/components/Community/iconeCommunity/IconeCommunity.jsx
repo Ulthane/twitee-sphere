@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useToken } from "../../../hooks/useToken";
 import { TwiteeContext } from "../../../store/TwiteeContext";
 import { useFetchCommunity } from "../../../hooks/useFetchCommunity";
+import { toast } from "react-toastify";
 
-export default function IconeCommunity({ time }) {
+export default function IconeCommunity() {
   //Hook personaliser
   const { getToken } = useToken();
   //state
@@ -67,7 +68,7 @@ export default function IconeCommunity({ time }) {
         icon.map((item, index) => (
           <div key={index}>
             <img
-              className="w-[60px] h-[40px] rounded-[10px]"
+              className="w-[45px] h-[45px] rounded-full object-cover"
               src={item.icon}
               alt="Icône de la communauté"
             />

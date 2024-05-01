@@ -1,10 +1,10 @@
-export default function AddFriend({ tailwindClasse, ...props }) {
+export default function AddFriend({ tailwindClasse }) {
   return (
     <svg
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"
-      width="15"
-      height="15"
+      width="20"
+      height="20"
       viewBox="0 0 1280.000000 1280.000000"
       preserveAspectRatio="xMidYMid meet"
       className={tailwindClasse}
