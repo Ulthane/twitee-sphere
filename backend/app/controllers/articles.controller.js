@@ -76,8 +76,8 @@ exports.getArticlesWithOffsetAndUserId = async (request, reply) => {
 exports.getArticlesWithOffsetAndMultipleUserId = async (request, reply) => {
   try {
     const articles = await Articles.findAll({
-      offset: 0,
-      limit: 30,
+      offset: parseInt(request.query.offset),
+      limit: parseInt(request.query.limit),
       include: [
         {
           model: Users,
