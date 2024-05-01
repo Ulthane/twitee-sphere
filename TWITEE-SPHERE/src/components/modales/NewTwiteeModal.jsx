@@ -19,9 +19,11 @@ export default function NewTwiteeModal({
   value = { textValue: "", imgSrcValue: "" },
   update = false,
   id = "",
+  setRefreshHomeHandler = () => {},
 }) {
   //Context
-  const { getThirtyArticlesWhithOffset } = useContext(TwiteeContext);
+  const { getThirtyArticlesWhithOffset, setRefreshHomeFromContext } =
+    useContext(TwiteeContext);
 
   //State
   const [twiteeValue, setTwiteeValue] = useState(value);
@@ -43,8 +45,6 @@ export default function NewTwiteeModal({
   const sendNewTwiteeHandler = async (event) => {
     event.preventDefault();
 
-    console.log("Send");
-
     if (twitee.current.value == "" || [...twitee.current.value].length > 281) {
       alertModaleDisplayHandler(true);
     } else {
@@ -60,7 +60,10 @@ export default function NewTwiteeModal({
       if (request.message !== "success") {
         toast.error(request.message);
       } else {
-        getThirtyArticlesWhithOffset();
+        // getThirtyArticlesWhithOffset();
+        console.log(setRefreshHomeHandler);
+        setRefreshHomeHandler();
+        setRefreshHomeFromContext();
         updateStateModalDisplay(false);
       }
     }
@@ -86,7 +89,9 @@ export default function NewTwiteeModal({
       if (request.message !== "success") {
         toast.error(request.message);
       } else {
-        getThirtyArticlesWhithOffset();
+        // getThirtyArticlesWhithOffset();
+        console.log(setRefreshHomeHandler);
+        setRefreshHomeHandler();
         updateStateModalDisplay(false);
       }
     }

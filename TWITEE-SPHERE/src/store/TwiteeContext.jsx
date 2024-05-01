@@ -9,6 +9,7 @@ const actionTypes = {
   SET_ARTICLES: "SET_ARTICLES",
   SET_ARTICLE_OFFSET: "SET_ARTICLE_OFFSET",
   SET_COMMUNITY: "SET_COMMUNITY",
+  SET_REFRESH_HOME_FROM_CONTEXT: "SET_REFRESH_HOME_FROM_CONTEXT",
   // Community ACTIONS
 };
 
@@ -17,12 +18,14 @@ export const TwiteeContext = createContext({
   user: {},
   articleOffset: 0,
   community: [],
+  refreshHomeFromContext: 0,
   // Community
   setCommunity: () => {},
   setArticles: () => {},
   setUser: () => {},
   setArticleOffset: () => {},
   getThirtyArticlesWhithOffset: () => {},
+  setRefreshHomeFromContext: () => {},
 });
 
 function twiteeReducer(state, action) {
@@ -61,8 +64,21 @@ function twiteeReducer(state, action) {
         ...state,
         community: action.payload.newCommunity,
       };
-
       return newCommunity;
+
+    case actionTypes.SET_REFRESH_HOME_FROM_CONTEXT:
+      const oldRefreshHomeFromContext = state.refreshHomeFromContext;
+      const newsRefreshHomeFromContext = {
+        ...state,
+        refreshHomeFromContext: oldRefreshHomeFromContext + 1,
+      };
+
+      console.log(
+        "newsRefreshHomeFromContext",
+        newsRefreshHomeFromContext.refreshHomeFromContext
+      );
+
+      return newsRefreshHomeFromContext;
   }
   // Community CASE setCommunity
 }
@@ -73,6 +89,7 @@ export default function TwiteeProvider({ children }) {
     user: { friends: [] },
     articleOffset: 0,
     community: [],
+    refreshHomeFromContext: 0,
     // Community
   });
 
@@ -81,6 +98,7 @@ export default function TwiteeProvider({ children }) {
     articles: state.articles,
     user: state.user,
     articleOffset: state.articleOffset,
+    refreshHomeFromContext: state.refreshHomeFromContext,
     setArticles: (articles) => {
       dispatch({ type: actionTypes.SET_ARTICLES, payload: { articles } });
     },
@@ -91,6 +109,11 @@ export default function TwiteeProvider({ children }) {
       dispatch({
         type: actionTypes.SET_ARTICLE_OFFSET,
         payload: { newOffset },
+      });
+    },
+    setRefreshHomeFromContext: () => {
+      dispatch({
+        type: actionTypes.SET_REFRESH_HOME_FROM_CONTEXT,
       });
     },
     getThirtyArticlesWhithOffset: async (

@@ -44,9 +44,9 @@ export default function FriendsFeed({ friendFeed = true }) {
 
   const getArticles = async (offset) => {
     // console.log("userInformations", userInformations);
-    if (userInformations.id_user) {
-      setUser(userInformations);
-    }
+    // if (userInformations.id_user) {
+    //   setUser(userInformations);
+    // }
 
     const friends_id = user.friends.map((friend) => friend.id_user);
 
@@ -64,23 +64,23 @@ export default function FriendsFeed({ friendFeed = true }) {
 
     const response = await request.json();
 
-    console.log("response", response);
+    // console.log("response", response);
 
     if (response.message) {
       toast.error(response.message);
     } else {
       const articlesAlreadyDisplay = [...articles];
+
       const getedArticles = () =>
         offset === 0 ? [...response] : [...articlesAlreadyDisplay, ...response];
-
-      setArticles(getedArticles);
+      // console.log("getedArticles", getedArticles());
+      setArticles(getedArticles());
     }
   };
 
   //Cycle
   useEffect(() => {
     getArticles(offset);
-    console.log("refreshComponent", refreshComponent);
   }, [refreshComponent]);
 
   //JSX

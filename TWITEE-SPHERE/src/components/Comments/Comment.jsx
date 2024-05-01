@@ -18,11 +18,9 @@ export default function Comment({ commentInformation, refreshCommentHandler }) {
   const token = getToken();
 
   // Mettre ma trash icon que si id comment = user co
-  console.log(user);
-  console.log(commentInformation);
   const TrashIconDisplay = () => {
-    console.log(user.id);
-    console.log(commentInformation);
+    // console.log("user", user);
+    // console.log("commentInformation", commentInformation);
     // const isUser
     return (
       <>
@@ -55,14 +53,14 @@ export default function Comment({ commentInformation, refreshCommentHandler }) {
 
   return (
     <>
-      <div className="rounded-xl backdrop-blur-md bg-blueBgArticle/50 text-white grid grid-cols-[2fr_7fr] p-2 gap-1">
+      <div className="rounded-xl backdrop-blur-md bg-blueBgArticle/50 text-white grid grid-cols-[2fr_7fr] p-2 gap-3">
         <div className=" self-start">
           <UserZone userInformations={commentInformation.user} />
         </div>
-        <div className="flex justify-between w-max-full break-words">
+        <div className="flex justify-between w-max-full break-words text-sm ml-2">
           {commentInformation.description}
-          {/* FINIR LA CONDITION DANS LA FONCTION POUR AFFICHER QUE SI LE USER EST LE MEME */}
-          {TrashIconDisplay()}
+          {user.id_user === commentInformation.user.id_user &&
+            TrashIconDisplay()}
         </div>
       </div>
     </>

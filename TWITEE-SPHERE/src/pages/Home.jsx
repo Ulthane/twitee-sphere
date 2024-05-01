@@ -8,11 +8,7 @@ import { getFetch } from "../utils/Fetch";
 
 export default function Home({ friendFeed }) {
   //Context
-  const {
-    setArticleOffset,
-    user: userInformations,
-    articleOffset,
-  } = useContext(TwiteeContext);
+  const { refreshHomeFromContext } = useContext(TwiteeContext);
 
   //State
   const [articles, setArticles] = useState([]);
@@ -30,6 +26,8 @@ export default function Home({ friendFeed }) {
 
   const setRefreshHomeHandler = () => {
     const newRefresh = refreshComponent + 1;
+    console.log("newRefresh");
+    getArticles();
     setRefreshComponent(newRefresh);
   };
 
@@ -85,7 +83,11 @@ export default function Home({ friendFeed }) {
   useEffect(() => {
     getArticles(offset);
     getArticlesCount();
-  }, [refreshComponent]);
+  }, [refreshComponent, refreshHomeFromContext]);
+
+  // useEffect(() => {
+  //   console.log("refreshHomeFromContext HOME:", refreshHomeFromContext);
+  // }, [refreshHomeFromContext]);
 
   // console.log("Articles", articles);
 

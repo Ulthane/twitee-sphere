@@ -40,7 +40,7 @@ export default function Article({
     if (request.message !== "success") {
       toast.error(request.message);
     } else {
-      getThirtyArticlesWhithOffset();
+      // getThirtyArticlesWhithOffset();
       setRefreshHomeHandler();
     }
   };
@@ -116,7 +116,7 @@ export default function Article({
           </div>
           {/* actions and Community */}
           <div className="flex flex-row justify-center items-center gap-3">
-            {DropDown()}
+            {articleInformations.user.id_user === connectedUserId && DropDown()}
 
             {/* Community's image */}
             <img
@@ -180,6 +180,7 @@ export default function Article({
           }}
           update={true}
           id={articleInformations.id_articles}
+          setRefreshHomeHandler={setRefreshHomeHandler}
         />
       )}
     </>

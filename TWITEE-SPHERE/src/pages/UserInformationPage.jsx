@@ -74,6 +74,7 @@ export default function UserInformationsPage() {
   };
 
   const getTargetedUserInformations = async () => {
+    console.log("state", state);
     const response = await getFetch(
       `https://twitee-api.gamosaurus.fr/api/users/get/other/${state.targetedUserId}`,
       { Authorization: token.getToken() }
