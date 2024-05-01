@@ -13,11 +13,39 @@ export default function LikeButton({
   //STATES
   const [isLike, setIsLike] = useState(false);
   const [numberOfLike, setNumberOfLike] = useState(0);
+  const [articlesLikeByConnectedUser, setArticlesLikeByConnectedUser] =
+    useState([]);
 
-  //Context
-  const { user } = useContext(TwiteeContext);
+  //Variable
+  const connectedUserInformation = JSON.parse(
+    sessionStorage.getItem("user_informations")
+  );
 
   //METHODES
+
+  const initialisazionIsLike = (allArticlesLikeByConnectedUser) => {
+    if (allArticlesLikeByConnectedUser.includes(articleId) && isLike == false) {
+      setIsLike(true);
+    }
+  };
+
+  const getArticlesLikeByConnectedUser = () => {
+    let allArticlesLikeByConnectedUser;
+
+    const request = getFetch(
+      `https://twitee-api.gamosaurus.fr/api/likes/get/user`,
+      {
+        Authorization: token,
+      }
+    );
+
+    request.then((result) => {
+      allArticlesLikeByConnectedUser = result.map((like) => like.id_article);
+      setArticlesLikeByConnectedUser([...allArticlesLikeByConnectedUser]);
+      initialisazionIsLike(allArticlesLikeByConnectedUser);
+    });
+  };
+
   const getNumberOflike = () => {
     const numberOfLikeRequest = getFetch(
       `https://twitee-api.gamosaurus.fr/api/likes/get/${articleId}`,
@@ -30,8 +58,6 @@ export default function LikeButton({
   };
 
   const likeHandler = async (articleId, communityId) => {
-    // Si userIdConnecté === userIdAuteur alors isLike = true
-
     if (isLike === false) {
       const request = await postFetch(
         "https://twitee-api.gamosaurus.fr/api/likes/create",
@@ -45,7 +71,7 @@ export default function LikeButton({
       if (request.status === 500) {
         toast.error(request.message);
       } else {
-        setIsLike(!isLike);
+        setIsLike(true);
       }
       return;
     } else {
@@ -58,7 +84,7 @@ export default function LikeButton({
       if (request.message !== "success") {
         toast.error(request.message);
       } else {
-        setIsLike(!isLike);
+        setIsLike(false);
       }
       return;
     }
@@ -66,8 +92,9 @@ export default function LikeButton({
 
   //CYCLES
   useEffect(() => {
-    getNumberOflike(), [];
-  });
+    getNumberOflike();
+    getArticlesLikeByConnectedUser();
+  }, [isLike]);
 
   return (
     <div

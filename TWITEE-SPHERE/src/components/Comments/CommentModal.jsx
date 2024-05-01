@@ -39,6 +39,9 @@ export default function CommentModal({
 
   //Variables
   const token = getToken();
+  const connectedUserInformations = JSON.parse(
+    sessionStorage.getItem("user_informations")
+  );
 
   // Méthode
 
@@ -50,7 +53,7 @@ export default function CommentModal({
 
   const sendComment = async (event) => {
     event.preventDefault();
-    console.log("send");
+    // console.log("SEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNNNNNNNNNND");
 
     if (
       comment.current.value == "" ||
@@ -70,16 +73,18 @@ export default function CommentModal({
       if (request.message !== "success") {
         toast.error(request.message);
       } else {
+        // console.log("connectedUserInformations", connectedUserInformations);
         const newComment = [
           ...comments,
           {
             id_article: id_article,
             description: comment.current.value,
             user: {
-              firstName: "",
-              lastname: "",
-              id_communities: "",
-              img_src: "",
+              id_user: connectedUserInformations.id_user,
+              firstname: connectedUserInformations.firstname,
+              lastname: connectedUserInformations.lastname,
+              id_communities: connectedUserInformations.id_community,
+              img_src: connectedUserInformations.img_src,
             },
           },
         ];

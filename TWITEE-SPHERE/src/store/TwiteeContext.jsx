@@ -9,6 +9,7 @@ const actionTypes = {
   SET_ARTICLES: "SET_ARTICLES",
   SET_ARTICLE_OFFSET: "SET_ARTICLE_OFFSET",
   SET_COMMUNITY: "SET_COMMUNITY",
+  SET_REFRESH_HOME_FROM_CONTEXT: "SET_REFRESH_HOME_FROM_CONTEXT",
   // Community ACTIONS
 };
 
@@ -17,12 +18,14 @@ export const TwiteeContext = createContext({
   user: {},
   articleOffset: 0,
   community: [],
+  refreshHomeFromContext: 0,
   // Community
   setCommunity: () => {},
   setArticles: () => {},
   setUser: () => {},
   setArticleOffset: () => {},
   getThirtyArticlesWhithOffset: () => {},
+  setRefreshHomeFromContext: () => {},
 });
 
 function twiteeReducer(state, action) {
@@ -41,6 +44,8 @@ function twiteeReducer(state, action) {
         user: action.payload.userInformations,
       };
 
+      // console.log("newDataForUser", newDataForUser);
+
       return newDataForUser;
 
     case actionTypes.SET_ARTICLE_OFFSET:
@@ -49,8 +54,8 @@ function twiteeReducer(state, action) {
         articleOffset: action.payload.newOffset,
       };
 
-      console.log("newDataForArticleOffset");
-      console.log(newDataForArticleOffset);
+      // console.log("newDataForArticleOffset");
+      // console.log(newDataForArticleOffset);
 
       return newDataForArticleOffset;
 
@@ -59,8 +64,21 @@ function twiteeReducer(state, action) {
         ...state,
         community: action.payload.newCommunity,
       };
-
       return newCommunity;
+
+    case actionTypes.SET_REFRESH_HOME_FROM_CONTEXT:
+      const oldRefreshHomeFromContext = state.refreshHomeFromContext;
+      const newsRefreshHomeFromContext = {
+        ...state,
+        refreshHomeFromContext: oldRefreshHomeFromContext + 1,
+      };
+
+      console.log(
+        "newsRefreshHomeFromContext",
+        newsRefreshHomeFromContext.refreshHomeFromContext
+      );
+
+      return newsRefreshHomeFromContext;
   }
   // Community CASE setCommunity
 }
@@ -68,9 +86,10 @@ function twiteeReducer(state, action) {
 export default function TwiteeProvider({ children }) {
   const [state, dispatch] = useReducer(twiteeReducer, {
     articles: [],
-    user: {},
+    user: { friends: [] },
     articleOffset: 0,
     community: [],
+    refreshHomeFromContext: 0,
     // Community
   });
 
@@ -79,6 +98,7 @@ export default function TwiteeProvider({ children }) {
     articles: state.articles,
     user: state.user,
     articleOffset: state.articleOffset,
+    refreshHomeFromContext: state.refreshHomeFromContext,
     setArticles: (articles) => {
       dispatch({ type: actionTypes.SET_ARTICLES, payload: { articles } });
     },
@@ -91,50 +111,77 @@ export default function TwiteeProvider({ children }) {
         payload: { newOffset },
       });
     },
-    getThirtyArticlesWhithOffset: async (offset = state.articleOffset) => {
+    setRefreshHomeFromContext: () => {
+      dispatch({
+        type: actionTypes.SET_REFRESH_HOME_FROM_CONTEXT,
+      });
+    },
+    getThirtyArticlesWhithOffset: async (
+      offset = state.articleOffset,
+      friendFeed
+    ) => {
       const currentArticles = [...state.articles];
 
-      // console.log("offset");
-      // console.log(offset);
+      //Request initialisazion
+      let request;
 
-      const request = await fetch(
-        `https://twitee-api.gamosaurus.fr/api/articles/get?limit=30&offset=${offset}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        }
-      );
+      if (friendFeed) {
+        const friends_id = state.user.friends.map((friend) => friend.id_user);
+        console.log("friends_id", friends_id);
+
+        request = await fetch(
+          `https://twitee-api.gamosaurus.fr/api/articles/get/multiple?limit=30&offset=${offset}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+            body: JSON.stringify(friends_id),
+          }
+        );
+      } else {
+        request = await fetch(
+          `https://twitee-api.gamosaurus.fr/api/articles/get?limit=30&offset=${offset}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }
+        );
+      }
 
       if (request.status !== 200) {
         toast.error(json.message);
       } else {
         const response = await request.json();
         const newArticles = [...response];
-        // console.log("newArticles");
-        // console.log(newArticles);
 
-        // console.log("currentArticles");
-        // console.log(currentArticles);
+        // console.log("request", request);
 
         let allArticles = [];
 
-        if (
-          currentArticles[0] &&
-          currentArticles[0]["id_articles"] !== newArticles[0]["id_articles"]
-        ) {
-          allArticles = [...currentArticles, ...response];
-          // console.log("allArticles 2");
-          // console.log(allArticles);
+        // Remplace les articles ou les concataines
+        if (currentArticles[0] !== undefined && newArticles[0] !== undefined) {
+          if (
+            currentArticles[0]["id_articles"] !== newArticles[0]["id_articles"]
+          ) {
+            allArticles = [...currentArticles, ...response];
+            // console.log("allArticles 2");
+            // console.log(allArticles);
+          }
         } else {
           allArticles = [...response];
           // console.log("allArticles");
           // console.log(allArticles);
         }
 
-        dispatch({ type: actionTypes.SET_ARTICLES, payload: allArticles });
+        dispatch({
+          type: actionTypes.SET_ARTICLES,
+          payload: friendFeed ? allArticles.reverse() : allArticles,
+        });
       }
     },
     setCommunity: (newCommunity) => {

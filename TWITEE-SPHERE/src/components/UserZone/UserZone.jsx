@@ -6,8 +6,7 @@ import route from "../../routes/route";
 import { Link } from "react-router-dom";
 
 export default function UserZone({ userInformations }) {
-  // console.log("User Zone user");
-  // console.log(userInformations);
+  // console.log("User Zone user", userInformations);
   //JSX
   return (
     <>
