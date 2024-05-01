@@ -12,16 +12,21 @@ jobs:
     env:
       DOCKER_REGISTRY: localhost
       DOCKER_REGISTRY_PORT: 5000
+      DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       DOCKER_PROJECT: twitee-api
-      DOCKER_TAG: 0.5.0
+      DOCKER_TAG: 0.5.1
     steps:
       - uses: actions/checkout@v3
 
+      - name: Docker Login
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
       - name: Docker Build Backend
-        run: cd backend && docker build . --file Dockerfile --tag $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/$DOCKER_PROJECT:$DOCKER_TAG --tag $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/$DOCKER_PROJECT:latest --no-cache
+        run: cd backend && docker build . --file Dockerfile --tag $DOCKER_USER/project:$DOCKER_TAG --tag $DOCKER_USER/project:twitee-api-latest --no-cache
 
       - name: Docker push version
-        run: docker push $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/$DOCKER_PROJECT:$DOCKER_TAG
+        run: docker push ${{secrets.DOCKER_USERNAME}}/project:$DOCKER_TAG
 
       - name: Docker push latest
-        run: docker push $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/$DOCKER_PROJECT:latest
+        run: docker push ${{secrets.DOCKER_USERNAME}}/project:twitee-api-latest
