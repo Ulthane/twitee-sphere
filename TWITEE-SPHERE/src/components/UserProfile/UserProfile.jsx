@@ -42,7 +42,6 @@ export default function UserProfile({
 
   //affichage
   useEffect(() => {
-    console.log("userInformations", userInformations);
     userDisplay();
   }, []);
 

@@ -94,7 +94,6 @@ export default function Home({ friendFeed }) {
   //JSX
   return (
     <>
-      <h1 className="text-2xl">Feeds</h1>
       <ArticlesDisplay
         setRefreshHomeHandler={setRefreshHomeHandler}
         articlesToDisplay={articles}

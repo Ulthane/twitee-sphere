@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 
 //Component
 import Button from "../components/Button/Button";
-import UserZone from "../components/UserZone/UserZone";
 import UserProfile from "../components/UserProfile/UserProfile";
 import RemoveFriendButton from "../components/Button/RemoveFriendButton/RemoveFriendButton";
 import UpdateProfilModal from "../components/modales/UpdateProfilModal/UpdateProfilModal";

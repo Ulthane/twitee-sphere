@@ -1,8 +1,12 @@
-import { Outlet } from "react-router-dom";
-import NavBar from "../components/NavBar/NavBar.jsx";
+//Librairie
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { TwiteeContext } from "../store/TwiteeContext";
+import { Outlet } from "react-router-dom";
+
+//Components
+import NavBar from "../components/NavBar/NavBar.jsx";
+import Header from "../components/Header/Header.jsx";
 
 export default function Main() {
   //Context
@@ -50,12 +54,9 @@ export default function Main() {
 
   return (
     <div className="h-screen text-white grid grid-rows-[1fr_10fr_0.5fr] box-border ">
-      <div
-        className="px-4 py-2  "
-        style={{ background: "rgba(255,255,255,0.3)" }}
-      >
+      <div className="px-4 py-2  ">
         {/* HEADER */}
-        HEADER
+        <Header />
       </div>
 
       <div className="h-full grid gap-6 grid-cols-[1fr_2fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">

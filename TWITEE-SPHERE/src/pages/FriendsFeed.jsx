@@ -86,7 +86,6 @@ export default function FriendsFeed({ friendFeed = true }) {
   //JSX
   return (
     <>
-      <h1 className="text-2xl">Feeds</h1>
       <ArticlesDisplay friendFeed={friendFeed} articlesToDisplay={articles} />
       <Button
         value="Plus de Twitee"
