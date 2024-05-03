@@ -17,8 +17,7 @@ import { toast } from "react-toastify";
 
 export default function ReTwiteeModal({ displayModaleHandler, twiteeValue }) {
   //Context
-  const { getThirtyArticlesWhithOffset, setRefreshHomeFromContext } =
-    useContext(TwiteeContext);
+  const { setRefreshHomeFromContext } = useContext(TwiteeContext);
 
   //Variable
   const token = useToken();
@@ -41,7 +40,6 @@ export default function ReTwiteeModal({ displayModaleHandler, twiteeValue }) {
     if (request.message !== "success") {
       toast.error(request.message);
     } else {
-      // getThirtyArticlesWhithOffset();
       setRefreshHomeFromContext();
       displayModaleHandler(false);
     }

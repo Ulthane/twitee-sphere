@@ -1,9 +1,8 @@
 //Library
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useToken } from "../../../hooks/useToken";
 import { toast } from "react-toastify";
 import { deleteFetch } from "../../../utils/Fetch";
-import { TwiteeContext } from "../../../store/TwiteeContext";
 
 //Components
 import LikeButton from "../../Button/LikeButton/Likebutton";
@@ -19,8 +18,6 @@ export default function Article({
   connectedUserId,
   setRefreshHomeHandler,
 }) {
-  //Context
-  const { getThirtyArticlesWhithOffset } = useContext(TwiteeContext);
   //States
   const [isOpen, setOpen] = useState(false);
   const [updateTwiteeModalDisplay, setUpdateTwiteeModalDisplay] =
@@ -40,7 +37,6 @@ export default function Article({
     if (request.message !== "success") {
       toast.error(request.message);
     } else {
-      // getThirtyArticlesWhithOffset();
       setRefreshHomeHandler();
     }
   };

@@ -7,13 +7,16 @@ import { Outlet } from "react-router-dom";
 //Components
 import NavBar from "../components/NavBar/NavBar.jsx";
 import Header from "../components/Header/Header.jsx";
+import { getFetch } from "../utils/Fetch.js";
 
 export default function Main() {
   //Context
-  const { user, setUser } = useContext(TwiteeContext);
+  const { user, setUser, community, setCommunity } = useContext(TwiteeContext);
 
   //State:
   const [userInformations, setUserInformations] = useState(user);
+  const [userCommunityInformation, setUserCommunityInformation] =
+    useState(community);
 
   // VARIABLE
   const token = sessionStorage.getItem("token");
@@ -37,8 +40,33 @@ export default function Main() {
       let userInformations = await response.json();
       let newUser = { ...userInformations };
 
-      //setState
+      //User Informations to SessionStorage
+      // console.log("newUser", newUser);
+      sessionStorage.setItem("user_informations", JSON.stringify(newUser));
+      //setState Context
       setUserInformations(newUser);
+    }
+  };
+
+  const getUserCommunityInformations = async (communityId) => {
+    const request = await getFetch(
+      `https://twitee-api.gamosaurus.fr/api/communities/get/id/${communityId}`,
+      { Authorization: token }
+    );
+
+    const userCommunity = { ...request[0] };
+
+    if (request) {
+      //User Community Informations to SessionStorage
+      // sessionStorage.setItem("user_community", JSON.stringify(usercommunity));
+      //setCommunity Context
+      if (userCommunity.id_communities) {
+        setUserCommunityInformation(userCommunity);
+        console.log("usercommunity", userCommunity);
+      }
+      setCommunity(userCommunityInformation);
+    } else {
+      toast.error("Une erreur s'est produite");
     }
   };
 
@@ -48,8 +76,15 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
+    if (userInformations.id_communities) {
+      getUserCommunityInformations(userInformations.id_communities);
+    }
+
+    // console.log("userCommunityInformation", userCommunityInformation);
+  }, [userInformations]);
+
+  useEffect(() => {
     setUser(userInformations);
-    sessionStorage.setItem("user_informations", JSON.stringify(user));
   }, [userInformations]);
 
   return (

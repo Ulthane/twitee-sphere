@@ -1,19 +1,10 @@
 import ArticlesDisplay from "../components/Articles/ArticlesDisplay";
-import { useContext, useEffect, useState } from "react";
-import { TwiteeContext } from "../store/TwiteeContext";
-import { getFetch } from "../utils/Fetch";
+import { useEffect, useState } from "react";
 import { useToken } from "../hooks/useToken";
 import Button from "../components/Button/Button";
 import AlerteModal from "../components/modales/AlertModal";
 
 export default function FriendsFeed({ friendFeed = true }) {
-  //Context
-  const {
-    setArticleOffset,
-    user: userInformations,
-    articleOffset,
-  } = useContext(TwiteeContext);
-
   //State
   const [articles, setArticles] = useState([]);
   const [refreshComponent, setRefreshComponent] = useState(0);

@@ -59,8 +59,6 @@ export default function NewTwiteeModal({
       if (request.message !== "success") {
         toast.error(request.message);
       } else {
-        // getThirtyArticlesWhithOffset();
-        console.log(setRefreshHomeHandler);
         setRefreshHomeHandler();
         setRefreshHomeFromContext();
         updateStateModalDisplay(false);

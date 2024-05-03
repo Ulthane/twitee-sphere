@@ -1,12 +1,21 @@
 //Librairies
-import { useState } from "react";
+import { useContext, useState } from "react";
 //Component
 import Logo from "../Logo/Logo";
 import Button from "../Button/Button";
 import NewTwiteeModal from "../modales/NewTwiteeModal";
 import UserProfile from "../UserProfile/UserProfile";
+import { TwiteeContext } from "../../store/TwiteeContext";
 
 export default function Header() {
+  //Context
+  const { community } = useContext(TwiteeContext);
+
+  // const [userCommunityInformation, setUserCommunityInformation] =
+  //   useState(community);
+
+  console.log(community);
+
   // STATE
   const [newTwiteeModalDisplay, setnewTwiteeModalDisplay] = useState(false);
 

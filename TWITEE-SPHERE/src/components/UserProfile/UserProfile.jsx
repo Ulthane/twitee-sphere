@@ -15,7 +15,7 @@ import route from "../../routes/route";
 
 export default function UserProfile({
   communityDisplay = false,
-  userInformations = { img_src: "" },
+  userInformations = {},
 }) {
   //Hook personaliser
   const { getToken } = useToken();
@@ -39,6 +39,7 @@ export default function UserProfile({
       toast.error("Erreur lors du chargement du profil");
     }
   };
+  // console.log("User Profil", userInformations);
 
   //affichage
   useEffect(() => {
@@ -47,25 +48,29 @@ export default function UserProfile({
 
   return (
     <div className="flex justify-between items-center">
-      <img
-        className="w-14 h-14 rounded-full object-cover mr-5"
-        src={userInformations.img_src}
-        alt="Photo de profil"
-      />
-      <Link
-        to={route.USER_INFORMATION}
-        state={{ targetedUserId: userInformations.id_user }}
-      >
-        {userInformations.firstname && (
-          <p className="text-xl mb-1">
-            {firstLetterUpperCase(userInformations.firstname) +
-              " " +
-              firstLetterUpperCase(userInformations.lastname)}
-          </p>
-        )}
+      {userInformations && (
+        <img
+          className="w-14 h-14 rounded-full object-cover mr-5"
+          src={userInformations.img_src}
+          alt="Photo de profil"
+        />
+      )}
+      {userInformations && (
+        <Link
+          to={route.USER_INFORMATION}
+          state={{ targetedUserId: userInformations.id_user }}
+        >
+          {userInformations.firstname && (
+            <p className="text-xl mb-1">
+              {firstLetterUpperCase(userInformations.firstname) +
+                " " +
+                firstLetterUpperCase(userInformations.lastname)}
+            </p>
+          )}
 
-        <p className="text-sm">{userData.surname}</p>
-      </Link>
+          <p className="text-sm">{userData.surname}</p>
+        </Link>
+      )}
       {communityDisplay && (
         <div className="items-center mx-[35px]">
           <IconeCommunity />
