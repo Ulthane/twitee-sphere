@@ -1,11 +1,15 @@
 //Librairies
 import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+
 //Component
 import Logo from "../Logo/Logo";
 import Button from "../Button/Button";
 import NewTwiteeModal from "../modales/NewTwiteeModal";
 import UserProfile from "../UserProfile/UserProfile";
-import { TwiteeContext } from "../../store/TwiteeContext";
+
+//Utils
+import route from "../../routes/route";
 
 export default function Header() {
   //Context
@@ -31,7 +35,9 @@ export default function Header() {
   return (
     <>
       <div className="w-full flex flex-row justify-between items-center">
-        <Logo />
+        <Link to={route.HOME}>
+          <Logo />
+        </Link>
 
         <Button
           value="+"
