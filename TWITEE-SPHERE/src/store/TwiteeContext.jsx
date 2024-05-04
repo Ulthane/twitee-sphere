@@ -1,15 +1,10 @@
 import { createContext, useReducer } from "react";
-import { toast } from "react-toastify";
-
-//Variables
-const token = sessionStorage.getItem("token");
 
 const actionTypes = {
   SET_USER: "SET_USER",
   SET_ARTICLES: "SET_ARTICLES",
   SET_COMMUNITY: "SET_COMMUNITY",
   SET_REFRESH_HOME_FROM_CONTEXT: "SET_REFRESH_HOME_FROM_CONTEXT",
-  // Community ACTIONS
 };
 
 export const TwiteeContext = createContext({
@@ -49,6 +44,7 @@ function twiteeReducer(state, action) {
         ...state,
         community: { ...action.payload.newCommunity },
       };
+      // console.log("newCommunity", newCommunity);
       return newCommunity;
 
     case actionTypes.SET_REFRESH_HOME_FROM_CONTEXT:
@@ -75,6 +71,7 @@ export default function TwiteeProvider({ children }) {
     articles: state.articles,
     user: state.user,
     refreshHomeFromContext: state.refreshHomeFromContext,
+    community: state.community,
     setArticles: (articles) => {
       dispatch({ type: actionTypes.SET_ARTICLES, payload: { articles } });
     },

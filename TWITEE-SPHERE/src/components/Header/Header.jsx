@@ -9,14 +9,14 @@ import { TwiteeContext } from "../../store/TwiteeContext";
 
 export default function Header() {
   //Context
-  const { community } = useContext(TwiteeContext);
+  // const { community, user } = useContext(TwiteeContext);
 
-  // const [userCommunityInformation, setUserCommunityInformation] =
-  //   useState(community);
+  // // const [userCommunityInformation, setUserCommunityInformation] =
+  // //   useState(community);
 
-  console.log(community);
-
-  // STATE
+  // console.log("community", community);
+  // // console.log("user", user);
+  // // STATE
   const [newTwiteeModalDisplay, setnewTwiteeModalDisplay] = useState(false);
 
   const connectedUserInformation = JSON.parse(
@@ -41,7 +41,10 @@ export default function Header() {
           fn={() => setnewTwiteeModalDisplay(true)}
         />
 
-        <UserProfile userInformations={connectedUserInformation} />
+        <UserProfile
+          userInformations={connectedUserInformation}
+          communityDisplay={true}
+        />
       </div>
       {/* MODALE NEW TWITEE */}
       {newTwiteeModalDisplay && (

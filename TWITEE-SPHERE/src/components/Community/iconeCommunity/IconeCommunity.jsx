@@ -22,7 +22,6 @@ export default function IconeCommunity() {
       const communityData = await communitiesById(userData.id_communities);
       setIcon(communityData);
       setCommunity(communityData);
-      console.log(communityData);
     } catch (e) {
       toast.error("Erreur lors du chargement des communautés");
     }
@@ -57,10 +56,6 @@ export default function IconeCommunity() {
       setLoading(true);
     }
   }, [userData]);
-
-  useEffect(() => {
-    console.log(community);
-  }, [community]);
 
   return (
     <div>

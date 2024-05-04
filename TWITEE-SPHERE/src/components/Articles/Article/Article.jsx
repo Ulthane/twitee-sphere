@@ -1,8 +1,8 @@
 //Library
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToken } from "../../../hooks/useToken";
 import { toast } from "react-toastify";
-import { deleteFetch } from "../../../utils/Fetch";
+import { deleteFetch, getFetch } from "../../../utils/Fetch";
 
 //Components
 import LikeButton from "../../Button/LikeButton/Likebutton";
@@ -22,11 +22,12 @@ export default function Article({
   const [isOpen, setOpen] = useState(false);
   const [updateTwiteeModalDisplay, setUpdateTwiteeModalDisplay] =
     useState(false);
+  const [communityImg, setCommunityImg] = useState("");
 
   //Varaibles
   const token = useToken();
 
-  // Méthode
+  // Méthodes
   const deleteArticleHandler = async () => {
     setOpen(!isOpen);
     const request = await deleteFetch(
@@ -38,6 +39,23 @@ export default function Article({
       toast.error(request.message);
     } else {
       setRefreshHomeHandler();
+    }
+  };
+
+  const getCommunityImg = async (communityId) => {
+    const request = await getFetch(
+      `https://twitee-api.gamosaurus.fr/api/communities/get/id/${communityId}`,
+      { Authorization: token.getToken() }
+    );
+
+    const userCommunity = { ...request[0] };
+
+    if (request) {
+      if (userCommunity.id_communities) {
+        setCommunityImg(userCommunity.icon);
+      }
+    } else {
+      toast.error("Une erreur s'est produite");
     }
   };
 
@@ -91,6 +109,10 @@ export default function Article({
     );
   };
 
+  useEffect(() => {
+    getCommunityImg(articleInformations.user.id_communities);
+  }, []);
+
   //JSX
   return (
     <>
@@ -115,11 +137,13 @@ export default function Article({
             {articleInformations.user.id_user === connectedUserId && DropDown()}
 
             {/* Community's image */}
-            <img
-              className="w-[40px] h-[40px] rounded-xl"
-              // src={articleInformations.communityInformations.imgProfil}
-              alt="community's picture"
-            />
+            {communityImg != "" && (
+              <img
+                className="w-[40px] h-[40px] rounded-xl"
+                src={communityImg}
+                alt="community's picture"
+              />
+            )}
           </div>
         </div>
         {/* article's message */}

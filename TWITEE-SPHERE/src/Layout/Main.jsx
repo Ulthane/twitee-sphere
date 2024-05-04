@@ -62,9 +62,9 @@ export default function Main() {
       //setCommunity Context
       if (userCommunity.id_communities) {
         setUserCommunityInformation(userCommunity);
-        console.log("usercommunity", userCommunity);
+        // console.log("usercommunity", userCommunity);
+        setCommunity(userCommunity);
       }
-      setCommunity(userCommunityInformation);
     } else {
       toast.error("Une erreur s'est produite");
     }
@@ -80,10 +80,6 @@ export default function Main() {
       getUserCommunityInformations(userInformations.id_communities);
     }
 
-    // console.log("userCommunityInformation", userCommunityInformation);
-  }, [userInformations]);
-
-  useEffect(() => {
     setUser(userInformations);
   }, [userInformations]);
 
