@@ -15,7 +15,7 @@ services:
       TOKEN_KEY: $TOKEN_KEY
 
   twitee-doc:
-    image: ulthane/project:twitee-docs-latest
+    image: registry.gamosaurus.fr/twitee-doc:latest
     container_name: twitee-doc
     ports:
       - 8082:80
