@@ -8,8 +8,8 @@ function App() {
   const Home = lazy(() => import("./pages/Home.jsx"));
   const RegisterPage = lazy(() => import("./pages/registerPage/RegisterPage"));
   const LoginPage = lazy(() => import("./pages/registerPage/LoginPage"));
-  const FollowFeed = lazy(() => import("./pages/FollowFeed.jsx"));
   const FavoriteFeed = lazy(() => import("./pages/FavoriteFeed.jsx"));
+  const FriendsFeed = lazy(() => import("./pages/FriendsFeed.jsx"));
   const CommunityPage = lazy(() => import("./pages/CommunityPage.jsx"));
   const UserInformationsPage = lazy(() =>
     import("./pages/UserInformationPage.jsx")
@@ -51,15 +51,15 @@ function App() {
           path: "/main/home",
           element: (
             <Suspense>
-              <Home />
+              <Home friendFeed={false} />
             </Suspense>
           ),
         },
         {
-          path: "/main/followfeed",
+          path: "/main/friendsfeed",
           element: (
             <Suspense>
-              <FollowFeed />
+              <FriendsFeed friendFeed={true} />
             </Suspense>
           ),
         },

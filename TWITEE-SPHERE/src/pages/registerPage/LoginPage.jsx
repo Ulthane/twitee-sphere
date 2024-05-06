@@ -17,14 +17,6 @@ import { useToken } from "../../hooks/useToken";
 // Route
 import route from "../../routes/route";
 
-// dda024646@gmail.com
-// 00
-
-/**
- * john.doe@email.com
- * password
- */
-
 export default function LoginPage() {
   //ref
   const email = useRef();
@@ -67,7 +59,7 @@ export default function LoginPage() {
         },
         body: JSON.stringify({ email: emailValue, password: passwordValue }),
       });
-
+      console.log("response");
       const json = await response.json(); // stockage de donné recut par l'API dans la variable json
 
       // verification de la requête

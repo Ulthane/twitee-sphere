@@ -1,21 +1,18 @@
 import ArticlesDisplay from "../components/Articles/ArticlesDisplay";
-import { useContext, useEffect, useState } from "react";
-import { TwiteeContext } from "../store/TwiteeContext";
+import { useEffect, useState } from "react";
 import { useToken } from "../hooks/useToken";
 import Button from "../components/Button/Button";
 import AlerteModal from "../components/modales/AlertModal";
-import { getFetch } from "../utils/Fetch";
 
-export default function Home({ friendFeed }) {
-  //Context
-  const { refreshHomeFromContext } = useContext(TwiteeContext);
-
+export default function FriendsFeed({ friendFeed = true }) {
   //State
   const [articles, setArticles] = useState([]);
   const [refreshComponent, setRefreshComponent] = useState(0);
   const [offset, setOffset] = useState(0);
+  const [user, setUser] = useState(
+    JSON.parse(sessionStorage.getItem("user_informations"))
+  );
   const [alertModalDisplay, setAlertModalDisplay] = useState(false);
-  const [articlesCount, setArticlesCount] = useState();
 
   //Variable
   const token = useToken();
@@ -24,80 +21,63 @@ export default function Home({ friendFeed }) {
 
   const alertModaleDisplayHandler = (value) => setAlertModalDisplay(value);
 
-  const setRefreshHomeHandler = () => {
-    const newRefresh = refreshComponent + 1;
-    console.log("newRefresh");
-    getArticles();
-    setRefreshComponent(newRefresh);
-  };
-
   const displayMoreArticles = () => {
-    if (articlesCount > articles.length) {
+    if (articles.length % 30 == 0) {
       const newOffset = offset + 30;
       setOffset(newOffset);
 
-      getArticles(offset);
-      setRefreshHomeHandler();
+      getArticles(newOffset);
+      setRefreshComponent(refreshComponent + 1);
     } else {
       alertModaleDisplayHandler(true);
     }
   };
 
-  const getArticles = async (offset = 0) => {
+  const getArticles = async (offset) => {
+    // console.log("userInformations", userInformations);
+    // if (userInformations.id_user) {
+    //   setUser(userInformations);
+    // }
+
+    const friends_id = user.friends.map((friend) => friend.id_user);
+
     const request = await fetch(
-      `https://twitee-api.gamosaurus.fr/api/articles/get?limit=30&offset=${offset}`,
+      `https://twitee-api.gamosaurus.fr/api/articles/get/multiple?limit=30&offset=${offset}`,
       {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: token.getToken(),
         },
+        body: JSON.stringify(friends_id),
       }
     );
 
     const response = await request.json();
 
+    // console.log("response", response);
+
     if (response.message) {
       toast.error(response.message);
     } else {
       const articlesAlreadyDisplay = [...articles];
+
       const getedArticles = () =>
         offset === 0 ? [...response] : [...articlesAlreadyDisplay, ...response];
-
-      setArticles(getedArticles);
+      // console.log("getedArticles", getedArticles());
+      setArticles(getedArticles());
     }
-  };
-
-  const getArticlesCount = async () => {
-    const request = await getFetch(
-      `https://twitee-api.gamosaurus.fr/api/articles/count/all`,
-      {
-        Authorization: token.getToken(),
-      }
-    );
-
-    setArticlesCount(request.total);
   };
 
   //Cycle
   useEffect(() => {
     getArticles(offset);
-    getArticlesCount();
-  }, [refreshComponent, refreshHomeFromContext]);
-
-  // useEffect(() => {
-  //   console.log("refreshHomeFromContext HOME:", refreshHomeFromContext);
-  // }, [refreshHomeFromContext]);
-
-  // console.log("Articles", articles);
+  }, [refreshComponent]);
 
   //JSX
   return (
     <>
-      <ArticlesDisplay
-        setRefreshHomeHandler={setRefreshHomeHandler}
-        articlesToDisplay={articles}
-      />
+      <ArticlesDisplay friendFeed={friendFeed} articlesToDisplay={articles} />
       <Button
         value="Plus de Twitee"
         h="50px"

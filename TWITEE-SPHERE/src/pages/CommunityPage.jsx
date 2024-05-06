@@ -19,6 +19,9 @@ export default function CommunityPage() {
   const [communities, setCommunities] = useState([]);
   const [communitieFilter, setCommunitieFilter] = useState([]);
   const [seacrh, setSearch] = useState(false);
+  const [connectedUserInformations, setConnectedUserInformations] = useState(
+    {}
+  );
 
   //ref
   const name = useRef("");
@@ -135,7 +138,12 @@ export default function CommunityPage() {
 
   // Affichage des communautés
   useEffect(() => {
+    setConnectedUserInformations(
+      JSON.parse(sessionStorage.getItem("user_informations"))
+    );
     loadCommunities();
+
+    console.log(connectedUserInformations);
   }, []);
 
   return (
@@ -169,7 +177,10 @@ export default function CommunityPage() {
             />
           </form>
         </div>
-        <UserProfile communityDisplay={true} />
+        <UserProfile
+          communityDisplay={true}
+          userInformations={connectedUserInformations}
+        />
       </div>
 
       <div className="h-full grid gap-6 grid-cols-[1fr_2fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">

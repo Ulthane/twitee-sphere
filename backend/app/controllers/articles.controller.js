@@ -16,7 +16,7 @@ exports.getArticlesWithOffset = async (request, reply) => {
       include: [
         {
           model: Users,
-          attributes: ['id_user', 'firstname', 'lastname', 'img_src', 'id_communities'],
+          attributes: ['id_user', 'firstname', 'lastname', 'surname', 'img_src', 'id_communities'],
         },
       ],
       attributes: ['id_articles', 'description', 'img_src'],

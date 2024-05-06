@@ -27,6 +27,7 @@ export default function Home() {
   const { deleteToken } = useToken();
   const navigate = useNavigate();
 
+  //Méthodes
   const updateNewTwiteeModalDisplayHandler = (value) => {
     setnewTwiteeModalDisplay(value);
   };
@@ -53,14 +54,6 @@ export default function Home() {
             route={route.FOLLOW}
             img={<FireIcon />}
             value={"Suivis"}
-          />
-        </li>
-        {/* Link to My Favorite */}
-        <li>
-          <NavlinkDisplay
-            route={route.FAVORITE}
-            img={<FrameIcon />}
-            value={"Favoris"}
           />
         </li>
         {/* Link to Community */}

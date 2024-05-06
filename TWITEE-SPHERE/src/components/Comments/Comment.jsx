@@ -1,11 +1,11 @@
 import { useContext } from "react";
 //Composant
-import UserZone from "../UserZone/UserZone";
 import TrashIcon from "../../assets/SVG/TrashIcon";
 import { deleteFetch } from "../../utils/Fetch";
 import { useToken } from "../../hooks/useToken";
 import { toast } from "react-toastify";
 import { TwiteeContext } from "../../store/TwiteeContext";
+import UserProfile from "../UserProfile/UserProfile";
 
 export default function Comment({ commentInformation, refreshCommentHandler }) {
   //hooks
@@ -18,11 +18,9 @@ export default function Comment({ commentInformation, refreshCommentHandler }) {
   const token = getToken();
 
   // Mettre ma trash icon que si id comment = user co
-  console.log(user);
-  console.log(commentInformation);
   const TrashIconDisplay = () => {
-    console.log(user.id);
-    console.log(commentInformation);
+    // console.log("user", user);
+    // console.log("commentInformation", commentInformation);
     // const isUser
     return (
       <>
@@ -55,14 +53,16 @@ export default function Comment({ commentInformation, refreshCommentHandler }) {
 
   return (
     <>
-      <div className="rounded-xl backdrop-blur-md bg-blueBgArticle/50 text-white grid grid-cols-[2fr_7fr] p-2 gap-1">
-        <div className=" self-start">
-          <UserZone userInformations={commentInformation.user} />
+      <div className="rounded-xl backdrop-blur-md bg-blueBgArticle/50 text-white grid grid-cols-[2fr_7fr] p-2 gap-3 w-[500px]">
+        <div className=" self-start w-2/7">
+          <UserProfile userInformations={commentInformation.user} />
         </div>
-        <div className="flex justify-between w-max-full break-words">
-          {commentInformation.description}
-          {/* FINIR LA CONDITION DANS LA FONCTION POUR AFFICHER QUE SI LE USER EST LE MEME */}
-          {TrashIconDisplay()}
+        <div className="flex justify-between w-max-full break-words text-sm ml-8 text-wrap w-5/7">
+          <p className="ml-2 text-wrap w-full">
+            {commentInformation.description}
+          </p>
+          {user.id_user === commentInformation.user.id_user &&
+            TrashIconDisplay()}
         </div>
       </div>
     </>

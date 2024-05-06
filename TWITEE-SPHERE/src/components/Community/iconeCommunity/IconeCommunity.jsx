@@ -13,7 +13,7 @@ export default function IconeCommunity() {
   const [loading, setLoading] = useState(false);
 
   //context
-  const { setCommunity, community } = useContext(TwiteeContext);
+  const { setCommunity } = useContext(TwiteeContext);
 
   const { communitiesById } = useFetchCommunity();
 
@@ -22,7 +22,6 @@ export default function IconeCommunity() {
       const communityData = await communitiesById(userData.id_communities);
       setIcon(communityData);
       setCommunity(communityData);
-      console.log(communityData);
     } catch (e) {
       toast.error("Erreur lors du chargement des communautés");
     }
@@ -58,17 +57,13 @@ export default function IconeCommunity() {
     }
   }, [userData]);
 
-  useEffect(() => {
-    console.log(community);
-  }, [community]);
-
   return (
     <div>
       {loading ? (
         icon.map((item, index) => (
           <div key={index}>
             <img
-              className="w-[45px] h-[45px] rounded-full object-cover"
+              className="w-[50px] h-[50px] rounded-xl object-cover"
               src={item.icon}
               alt="Icône de la communauté"
             />

@@ -91,7 +91,7 @@ export default function Community({ communitiesToDisplay }) {
           >
             {/* Mapping des communautés pour afficher dynamiquement */}
             <div className="flex justify-between mb-[5px]">
-              <UserProfile />
+              <UserProfile userInformations={userData} />
               <img
                 className="w-[35px] h-[35px] object-contain rounded-full object-cover"
                 src={community.icon}

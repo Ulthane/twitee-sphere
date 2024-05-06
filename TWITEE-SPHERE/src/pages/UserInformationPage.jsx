@@ -4,9 +4,10 @@ import { useLocation } from "react-router-dom";
 
 //Component
 import Button from "../components/Button/Button";
-import UserZone from "../components/UserZone/UserZone";
+import UserProfile from "../components/UserProfile/UserProfile";
 import RemoveFriendButton from "../components/Button/RemoveFriendButton/RemoveFriendButton";
 import UpdateProfilModal from "../components/modales/UpdateProfilModal/UpdateProfilModal";
+import AddFriendButton from "../components/Button/AddFriendButton/AddFriendButton";
 
 //Context
 import { TwiteeContext } from "../store/TwiteeContext";
@@ -19,7 +20,8 @@ import { toast } from "react-toastify";
 
 export default function UserInformationsPage() {
   // Context
-  const { user: connectedUserInformations } = useContext(TwiteeContext);
+  const { user: connectedUserInformations, community } =
+    useContext(TwiteeContext);
 
   //Targeted User
   const { state } = useLocation();
@@ -35,6 +37,7 @@ export default function UserInformationsPage() {
   const [connectedUserId, setConnectedUserId] = useState(
     connectedUserInformations.id_user
   );
+  const [userCommunity, setUserCommunity] = useState("");
 
   // console.log(targetedUserId);
   // console.log(connectedUserId);
@@ -50,7 +53,7 @@ export default function UserInformationsPage() {
                 className="pr-2 flex flex-row justify-between items-center w-full mb-4"
                 key={index}
               >
-                <UserZone userInformations={friendInformation} />
+                <UserProfile userInformations={friendInformation} />
 
                 {targetedUserId === connectedUserInformations.id_user && (
                   <RemoveFriendButton
@@ -68,11 +71,29 @@ export default function UserInformationsPage() {
     }
   };
 
+  const getUserCommunity = async (communityId) => {
+    const request = await getFetch(
+      `https://twitee-api.gamosaurus.fr/api/communities/get/id/${communityId}`,
+      { Authorization: token.getToken() }
+    );
+
+    const userCommunity = { ...request[0] };
+
+    if (request) {
+      if (userCommunity.id_communities) {
+        setUserCommunity(userCommunity);
+      }
+    } else {
+      toast.error("Une erreur s'est produite");
+    }
+  };
+
   const updateProfilModalDisplayHandler = (value) => {
     setUpdateProfilModalDisplay(value);
   };
 
   const getTargetedUserInformations = async () => {
+    // console.log("state", state);
     const response = await getFetch(
       `https://twitee-api.gamosaurus.fr/api/users/get/other/${state.targetedUserId}`,
       { Authorization: token.getToken() }
@@ -96,11 +117,34 @@ export default function UserInformationsPage() {
     }
   };
 
+  const isFriend = () => {
+    let count = 0;
+    if (connectedUserInformations.friends !== undefined) {
+      connectedUserInformations.friends.forEach((friend) => {
+        if (friend.id_user === state.targetedUserId) {
+          count++;
+        }
+      });
+    }
+    if (state.targetedUserId === connectedUserInformations.id_user) {
+      count++;
+    }
+    return count === 0 ? true : false;
+  };
+
   //Cycle
   useEffect(() => {
+    setUserCommunity("");
     getTargetedUserInformations();
   }, [targetedUserId]);
 
+  useEffect(() => {
+    if (targetedUserInformations) {
+      getUserCommunity(targetedUserInformations.id_communities);
+    }
+  }, [targetedUserInformations]);
+
+  //JSX
   return (
     <>
       {targetedUserIdHandler()}
@@ -122,6 +166,14 @@ export default function UserInformationsPage() {
                 " " +
                 firstLetterUpperCase(targetedUserInformations.lastname)}
             </div>
+
+            {isFriend() && (
+              <AddFriendButton
+                firstName={targetedUserInformations.firstname}
+                lastName={targetedUserInformations.lastname}
+                idUser={state.targetedUserId}
+              />
+            )}
           </div>
           {state.targetedUserId === connectedUserInformations.id_user && (
             <Button
@@ -134,9 +186,27 @@ export default function UserInformationsPage() {
             />
           )}
           {/* User's community informations */}
-          <div className=" mt-9 mx-auto  text-white flex flex-row gap-3 justify-start items-center">
-            <div className=" font-bold text-2xl">Ma communauté</div>
-          </div>
+          {/* {console.log("userCommunity", userCommunity)} */}
+          {userCommunity != "" && (
+            <div className=" mt-9 mx-auto  text-white flex flex-col gap-3 justify-start items-start">
+              <div className=" font-bold text-2xl">Ma communauté</div>
+              <div className="flex flex-row justify-between items-center w-full">
+                <div className="flex flex-row justify-start items-center w-full gap-6">
+                  <img
+                    className=" rounded-2xl w-28"
+                    src={userCommunity.icon}
+                    alt="community image"
+                  />
+                  <div className=" font-bold text-xl">{userCommunity.name}</div>
+                </div>
+
+                <div>
+                  <span className=" font-bold">CS</span>: {userCommunity.score}
+                </div>
+              </div>
+              <div> {userCommunity.description}</div>
+            </div>
+          )}
 
           {/* User's friends */}
           <div className=" mt-9 mx-auto  text-white flex flex-col gap-3 ">

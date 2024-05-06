@@ -1,38 +1,39 @@
 //Library
-import { useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useToken } from "../../../hooks/useToken";
 import { toast } from "react-toastify";
-import { deleteFetch } from "../../../utils/Fetch";
-import { TwiteeContext } from "../../../store/TwiteeContext";
-
+import { deleteFetch, getFetch } from "../../../utils/Fetch";
 //Components
 import LikeButton from "../../Button/LikeButton/Likebutton";
 import CommentButton from "../../Button/CommentButton/CommentButton";
 import ReTwiteeButton from "../../Button/ReTwiteeButton/ReTwiteeButton";
 import NewTwiteeModal from "../../modales/NewTwiteeModal";
 import AddFriendButton from "../../Button/AddFriendButton/AddFriendButton";
-// import UserZone from "../../UserZone/UserZone";
 import UserProfile from "../../UserProfile/UserProfile";
+
 
 export default function Article({
   articleInformations,
   communityId,
   connectedUserId,
+  setRefreshHomeHandler,
 }) {
-  //Context
-  const { getThirtyArticlesWhithOffset } = useContext(TwiteeContext);
   //States
   const [isOpen, setOpen] = useState(false);
   const [updateTwiteeModalDisplay, setUpdateTwiteeModalDisplay] =
     useState(false);
+  const [communityImg, setCommunityImg] = useState("");
 
   //Varaibles
   const token = useToken();
 
-  // Méthode
+  useEffect(() => {
+    getCommunityImg(articleInformations.user.id_communities);
+  }, []);
+
+  // Méthodes
   const deleteArticleHandler = async () => {
     setOpen(!isOpen);
-    console.log(token.getToken());
     const request = await deleteFetch(
       `https://twitee-api.gamosaurus.fr/api/articles/delete/${articleInformations.id_articles}`,
       { Authorization: token.getToken() }
@@ -41,7 +42,24 @@ export default function Article({
     if (request.message !== "success") {
       toast.error(request.message);
     } else {
-      getThirtyArticlesWhithOffset();
+      setRefreshHomeHandler();
+    }
+  };
+
+  const getCommunityImg = async (communityId) => {
+    const request = await getFetch(
+      `https://twitee-api.gamosaurus.fr/api/communities/get/id/${communityId}`,
+      { Authorization: token.getToken() }
+    );
+
+    const userCommunity = { ...request[0] };
+
+    if (request) {
+      if (userCommunity.id_communities) {
+        setCommunityImg(userCommunity.icon);
+      }
+    } else {
+      toast.error("Une erreur s'est produite");
     }
   };
 
@@ -95,6 +113,8 @@ export default function Article({
     );
   };
 
+
+
   //JSX
   return (
     <>
@@ -103,8 +123,7 @@ export default function Article({
         <div className="flex flex-row justify-between items-center gap-3 mb-3 ">
           {/* User's informations */}
           <div className="flex flex-row justify-center items-center gap-2 relative">
-            {/* <UserZone userInformations={articleInformations.user} /> */}
-            <UserProfile />
+            <UserProfile userInformations={articleInformations.user} />
 
             {/* Add Friends */}
             {articleInformations.user.id_user != connectedUserId && (
@@ -117,14 +136,16 @@ export default function Article({
           </div>
           {/* actions and Community */}
           <div className="flex flex-row justify-center items-center gap-3">
-            {DropDown()}
+            {articleInformations.user.id_user === connectedUserId && DropDown()}
 
             {/* Community's image */}
-            <img
-              className="w-[40px] h-[40px] rounded-xl"
-              // src={articleInformations.communityInformations.imgProfil}
-              alt="community's picture"
-            />
+            {communityImg != "" && (
+              <img
+                className="w-[50px] h-[50px] rounded-xl"
+                src={communityImg}
+                alt="community's picture"
+              />
+            )}
           </div>
         </div>
         {/* article's message */}
@@ -181,6 +202,7 @@ export default function Article({
           }}
           update={true}
           id={articleInformations.id_articles}
+          setRefreshHomeHandler={setRefreshHomeHandler}
         />
       )}
     </>

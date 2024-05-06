@@ -1,12 +1,22 @@
-import { Outlet } from "react-router-dom";
-import NavBar from "../components/NavBar/NavBar.jsx";
-import { useEffect } from "react";
+//Librairie
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { TwiteeContext } from "../store/TwiteeContext";
+import { Outlet } from "react-router-dom";
+
+//Components
+import NavBar from "../components/NavBar/NavBar.jsx";
+import Header from "../components/Header/Header.jsx";
+import { getFetch } from "../utils/Fetch.js";
 
 export default function Main() {
   //Context
-  const { setUser } = useContext(TwiteeContext);
+  const { user, setUser, community, setCommunity } = useContext(TwiteeContext);
+
+  //State:
+  const [userInformations, setUserInformations] = useState(user);
+  const [userCommunityInformation, setUserCommunityInformation] =
+    useState(community);
 
   // VARIABLE
   const token = sessionStorage.getItem("token");
@@ -27,27 +37,57 @@ export default function Main() {
     if (response.status !== 200) {
       toast.error(json.message);
     } else {
-      let user = await response.json();
-      let newUser = { ...user };
-      // console.log("newUser");
-      // console.log(newUser);
-      setUser(newUser);
+      let userInformations = await response.json();
+      let newUser = { ...userInformations };
+
+      //User Informations to SessionStorage
+      // console.log("newUser", newUser);
+      sessionStorage.setItem("user_informations", JSON.stringify(newUser));
+      //setState Context
+      setUserInformations(newUser);
+    }
+  };
+
+  const getUserCommunityInformations = async (communityId) => {
+    const request = await getFetch(
+      `https://twitee-api.gamosaurus.fr/api/communities/get/id/${communityId}`,
+      { Authorization: token }
+    );
+
+    const userCommunity = { ...request[0] };
+
+    if (request) {
+      //User Community Informations to SessionStorage
+      // sessionStorage.setItem("user_community", JSON.stringify(usercommunity));
+      //setCommunity Context
+      if (userCommunity.id_communities) {
+        setUserCommunityInformation(userCommunity);
+        // console.log("usercommunity", userCommunity);
+        setCommunity(userCommunity);
+      }
+    } else {
+      toast.error("Une erreur s'est produite");
     }
   };
 
   //CYCLE
   useEffect(() => {
     getUserInformations();
-    // console.log("BUUUUUUUUUUUUUUUUUUUG");
   }, []);
+
+  useEffect(() => {
+    if (userInformations.id_communities) {
+      getUserCommunityInformations(userInformations.id_communities);
+    }
+
+    setUser(userInformations);
+  }, [userInformations]);
+
   return (
     <div className="h-screen text-white grid grid-rows-[1fr_10fr_0.5fr] box-border ">
-      <div
-        className="px-4 py-2  "
-        style={{ background: "rgba(255,255,255,0.3)" }}
-      >
+      <div className="px-4 py-2  ">
         {/* HEADER */}
-        HEADER
+        <Header />
       </div>
 
       <div className="h-full grid gap-6 grid-cols-[1fr_2fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">
