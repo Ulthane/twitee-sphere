@@ -14,6 +14,12 @@ services:
       DBPASSWD: $DBPASSWD
       TOKEN_KEY: $TOKEN_KEY
 
+  twitee-frontend:
+    image: registry.gamosaurus.fr/twitee-frontend:latest
+    container_name: twitee-frontend
+    ports:
+      - 80:80
+
   twitee-doc:
     image: registry.gamosaurus.fr/twitee-doc:latest
     container_name: twitee-doc
