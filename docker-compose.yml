@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   twitee-api:
-    image: https://registry.gamosaurus.fr:5000/twitee-api:latest
+    image: registry.gamosaurus.fr/twitee-api:latest
     container_name: twitee-api
     ports:
       - 5057:5057
