@@ -38,7 +38,7 @@ export default function Home() {
       setOffset(newOffset);
 
       getArticles(offset);
-      setRefreshHomeHandler();
+      // setRefreshHomeHandler();
     } else {
       alertModaleDisplayHandler(true);
     }

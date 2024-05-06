@@ -69,8 +69,6 @@ export default function NewTwiteeModal({
   const updateTwiteeHandler = async (event, id) => {
     event.preventDefault();
 
-    console.log("articleImg.current.value", articleImg.current.value);
-
     if (twitee.current.value == "" || [...twitee.current.value].length > 281) {
       alertModaleDisplayHandler(true);
     } else {
@@ -82,12 +80,13 @@ export default function NewTwiteeModal({
           img_src: articleImg.current.value,
         }
       );
-      console.log(request);
+
       if (request.message !== "success") {
         toast.error(request.message);
       } else {
         setRefreshHomeHandler();
         updateStateModalDisplay(false);
+        toast.success("Article mis à jour !");
       }
     }
   };

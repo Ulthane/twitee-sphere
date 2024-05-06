@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useToken } from "../../../hooks/useToken";
 import { toast } from "react-toastify";
-import { deleteFetch, getFetch } from "../../../utils/Fetch";
+import { getFetch } from "../../../utils/Fetch";
 //Components
 import LikeButton from "../../Button/LikeButton/Likebutton";
 import CommentButton from "../../Button/CommentButton/CommentButton";
@@ -50,13 +50,12 @@ export default function Article({
   };
 
   const updateTwiteeModalDisplayHandler = (value) => {
-    setOpen(!isOpen);
     setUpdateTwiteeModalDisplay(value);
   };
 
   const updateArticle = () => {
-    setUpdateTwiteeModalDisplay(true);
     setOpen(!isOpen);
+    setUpdateTwiteeModalDisplay(true);
   };
 
   const DropDown = () => {
@@ -131,7 +130,7 @@ export default function Article({
         {/* article's image */}
         {articleInformations.img_src !== "" && (
           <img
-            className="rounded-3xl w-max-[300px] h-max-[150px]"
+            className="m-auto rounded-3xl w-max-[300px] h-max-[150px]"
             src={articleInformations.img_src}
             alt="default"
           />
