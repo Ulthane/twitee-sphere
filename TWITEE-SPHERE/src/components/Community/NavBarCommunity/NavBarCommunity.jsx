@@ -2,9 +2,14 @@
 import Button from "../../Button/Button";
 import Input from "../../Input/Input";
 import Logo from "../../Logo/Logo";
+import UserProfile from "../../UserProfile/UserProfile";
 import UserCommunity from "../userCommunityPage/UserCommunity";
 
-export default function NavBarCommunity({ searchCommunities, searchRef }) {
+export default function NavBarCommunity({
+  searchCommunities,
+  searchRef,
+  userInformation,
+}) {
   return (
     <div className="px-4 py-2 flex justify-between ">
       {/* HEADER */}
@@ -14,7 +19,7 @@ export default function NavBarCommunity({ searchCommunities, searchRef }) {
           <Input
             type={"search"}
             placeholder={"Rechercher"}
-            className=" w-[300px] h-[50px] "
+            className=" w-[600px] h-[50px] "
             reference={searchRef}
             onchange={(e) => searchCommunities(e)}
           />
@@ -34,7 +39,7 @@ export default function NavBarCommunity({ searchCommunities, searchRef }) {
           />
         </form>
       </div>
-      <UserCommunity />
+      <UserProfile communityDisplay={true} userInformations={userInformation} />
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { useToken } from "../hooks/useToken";
 import { toast } from "react-toastify";
 import { useFetchCommunity } from "../hooks/useFetchCommunity";
 import NavBarCommunity from "../components/Community/NavBarCommunity/NavBarCommunity";
+import Logo from "../components/Logo/Logo";
 
 export default function CommunityPage() {
   //state
@@ -143,17 +144,16 @@ export default function CommunityPage() {
 
   return (
     <div className="h-screen gradientBackGround text-white grid grid-rows-[1fr_10fr_0.5fr] box-border ">
-      <div className="px-4 py-2 flex justify-between items-center">
-        {/* HEADER */}
-        <Logo />
-        <div className="relative">
-          <form id="searchForm" onSubmit={(e) => searchCommunities(e)}>
+      {/* <div className="px-4 py-2 flex justify-between items-center"> */}
+      {/* HEADER */}
+      {/* <div className="relative"> */}
+      {/* <form id="searchForm" onSubmit={(e) => searchCommunities(e)}>
             <Input
               type={"search"}
               placeholder={"Rechercher"}
               className=" w-[600px] h-[50px] "
               reference={searchRef}
-              onchange={removeSearch}
+              // onchange={removeSearch}
             />
             <Button
               value={
@@ -176,10 +176,11 @@ export default function CommunityPage() {
           communityDisplay={true}
           userInformations={connectedUserInformations}
         />
-      </div>
+      </div> */}
       <NavBarCommunity
         searchCommunities={searchCommunities}
         searchRef={searchRef}
+        userInformation={connectedUserInformations}
       />
 
       <div className="h-full grid gap-6 grid-cols-[1fr_2fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">

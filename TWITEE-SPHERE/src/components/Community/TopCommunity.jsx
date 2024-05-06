@@ -1,7 +1,6 @@
 //hook
 import { useEffect, useState } from "react";
 import { useToken } from "../../hooks/useToken";
-import { toast } from "react-toastify";
 import { useFetchCommunity } from "../../hooks/useFetchCommunity";
 //composant
 import Button from "../Button/Button";

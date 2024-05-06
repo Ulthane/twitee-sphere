@@ -20,11 +20,6 @@ export default function IconeCommunity() {
   const [icon, setIcon] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  //context
-  const { setCommunity } = useContext(TwiteeContext);
-
-  const { communitiesById } = useFetchCommunity();
-
   const fetchCommunity = async () => {
     setLoading(false);
     try {

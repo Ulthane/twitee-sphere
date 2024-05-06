@@ -1,6 +1,6 @@
 //hook
 import { useContext, useEffect, useState } from "react";
-import { useFetchCommunity } from "../../hooks/useFetchCommunity";
+import { useToken } from "../../hooks/useToken";
 
 //style
 import { toast } from "react-toastify";
