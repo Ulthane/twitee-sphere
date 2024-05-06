@@ -32,20 +32,6 @@ export default function Article({
   }, []);
 
   // Méthodes
-  const deleteArticleHandler = async () => {
-    setOpen(!isOpen);
-    const request = await deleteFetch(
-      `https://twitee-api.gamosaurus.fr/api/articles/delete/${articleInformations.id_articles}`,
-      { Authorization: token.getToken() }
-    );
-
-    if (request.message !== "success") {
-      toast.error(request.message);
-    } else {
-      setRefreshHomeHandler();
-    }
-  };
-
   const getCommunityImg = async (communityId) => {
     const request = await getFetch(
       `https://twitee-api.gamosaurus.fr/api/communities/get/id/${communityId}`,
@@ -70,6 +56,7 @@ export default function Article({
 
   const updateArticle = () => {
     setUpdateTwiteeModalDisplay(true);
+    setOpen(!isOpen);
   };
 
   const DropDown = () => {
@@ -77,34 +64,25 @@ export default function Article({
       setOpen(!isOpen);
     };
     return (
-      <div className="dropdown">
-        <button className=" font-bold" onClick={handleDropDown}>
+      <div className="dropdown flex flex-col items-end relative">
+        <button className="font-bold" onClick={handleDropDown}>
           ...
         </button>
 
         <div
           id="dropdown"
-          className={`z-10 w-44 bg-blueBgArticle rounded divide-y divide-gray-100 shadow ${
+          className={`z-10 w-44 bg-blue-50 absolute mr-5 rounded divide-y divide-gray-100 ${
             isOpen ? "block" : "hidden"
           }`}
         >
-          <ul className=" z-10 w-44 bg-blueBgArticle rounded-xl shadow ">
+          <ul className="z-10 w-44 bg-blue-50 rounded-xl text-blueBgArticle font-bold">
             <li>
               <a
                 href="#"
-                className="block py-2 px-4 text-xs rounded hover:bg-blueLogo"
+                className="block py-2 px-4 text-xs rounded hover:bg-blue-200"
                 onClick={updateArticle}
               >
                 Modifier
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2 px-4 text-xs rounded hover:bg-blueLogo"
-                onClick={deleteArticleHandler}
-              >
-                Supprimer
               </a>
             </li>
           </ul>

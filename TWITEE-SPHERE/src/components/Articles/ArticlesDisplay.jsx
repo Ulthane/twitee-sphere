@@ -32,7 +32,7 @@ export default function ArticlesDisplay({
   });
 
   return (
-    <div className="flex flex-col justify-start items-center mt-8 gap-5 ">
+    <div className="flex flex-col justify-start items-center mt-8 gap-5 relative">
       {prepareArticlesToDisplay}
     </div>
   );

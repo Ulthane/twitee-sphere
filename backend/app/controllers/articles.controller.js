@@ -128,7 +128,7 @@ exports.modifyArticles = async (request, reply) => {
   */
   try {
     await Articles.update(
-      { description: request.body.description },
+      { ...request.body },
       {
         where: { id_articles: request.params.id },
       }
