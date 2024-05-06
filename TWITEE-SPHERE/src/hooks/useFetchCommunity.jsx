@@ -16,7 +16,7 @@ export const useFetchCommunity = () => {
         },
       });
       const json = await response.json();
-      response = json;
+
       return json;
     } catch (e) {
       toast.error("Erreur lors du chargement des communautés");
