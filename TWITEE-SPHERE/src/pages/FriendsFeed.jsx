@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { useToken } from "../hooks/useToken";
 import Button from "../components/Button/Button";
 import AlerteModal from "../components/modales/AlertModal";
+import { toast } from "react-toastify";
 
 export default function FriendsFeed({ friendFeed = true }) {
   //State
   const [articles, setArticles] = useState([]);
   const [refreshComponent, setRefreshComponent] = useState(0);
   const [offset, setOffset] = useState(0);
-  const [user, setUser] = useState(
+  const [user] = useState(
     JSON.parse(sessionStorage.getItem("user_informations"))
   );
   const [alertModalDisplay, setAlertModalDisplay] = useState(false);
@@ -34,11 +35,6 @@ export default function FriendsFeed({ friendFeed = true }) {
   };
 
   const getArticles = async (offset) => {
-    // console.log("userInformations", userInformations);
-    // if (userInformations.id_user) {
-    //   setUser(userInformations);
-    // }
-
     const friends_id = user.friends.map((friend) => friend.id_user);
 
     const request = await fetch(
@@ -55,8 +51,6 @@ export default function FriendsFeed({ friendFeed = true }) {
 
     const response = await request.json();
 
-    // console.log("response", response);
-
     if (response.message) {
       toast.error(response.message);
     } else {
@@ -64,7 +58,6 @@ export default function FriendsFeed({ friendFeed = true }) {
 
       const getedArticles = () =>
         offset === 0 ? [...response] : [...articlesAlreadyDisplay, ...response];
-      // console.log("getedArticles", getedArticles());
       setArticles(getedArticles());
     }
   };
@@ -78,12 +71,15 @@ export default function FriendsFeed({ friendFeed = true }) {
   return (
     <>
       <ArticlesDisplay friendFeed={friendFeed} articlesToDisplay={articles} />
-      <Button
-        value="Plus de Twitee"
-        h="50px"
-        className="bg-blueLogo hover:bg-blueLogoDark my-4 w-full "
-        fn={() => displayMoreArticles()}
-      />
+      <div className="flex justify-center mt-5">
+        <Button
+          value="Plus de Twitee"
+          h="50px"
+          w="600px"
+          className="bg-blueLogo hover:bg-blueLogoDark my-4 w-full "
+          fn={() => displayMoreArticles()}
+        />
+      </div>
 
       {alertModalDisplay && (
         <AlerteModal

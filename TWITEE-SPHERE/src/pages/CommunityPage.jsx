@@ -3,7 +3,6 @@ import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import NavBar from "../components/NavBar/NavBar";
 import Community from "../components/Community/Community";
-import UserProfile from "../components/UserProfile/UserProfile";
 
 //Hook
 import { useEffect, useRef, useState } from "react";
@@ -13,13 +12,11 @@ import { useToken } from "../hooks/useToken";
 import { toast } from "react-toastify";
 import { useFetchCommunity } from "../hooks/useFetchCommunity";
 import NavBarCommunity from "../components/Community/NavBarCommunity/NavBarCommunity";
-import Logo from "../components/Logo/Logo";
 
 export default function CommunityPage() {
   //state
   const [communities, setCommunities] = useState([]);
   const [noCommunities, setNoCommunities] = useState(false);
-  const [communitieFilter, setCommunitieFilter] = useState([]);
   const [seacrh, setSearch] = useState(false);
   const [connectedUserInformations, setConnectedUserInformations] = useState(
     {}
@@ -57,7 +54,7 @@ export default function CommunityPage() {
       setSearch(true);
       // Stockage de la communauté recherchée dans une variable
       const communitieSearch = searchRef.current.value;
-      console.log(searchRef.current.value);
+
       const url = `https://twitee-api.gamosaurus.fr/api/communities/get/${communitieSearch}`;
       const response = await fetch(url, {
         method: "GET",
@@ -69,9 +66,7 @@ export default function CommunityPage() {
       const json = await response.json();
       setCommunities(json);
 
-      setCommunitieFilter(json);
       if (json.length === 0) {
-        //   toast.error("Aucune communauté trouvée");
         setNoCommunities(true);
       } else {
         setNoCommunities(false);
@@ -127,7 +122,7 @@ export default function CommunityPage() {
         );
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
       toast.error(
         "Erreur lors de la création de la communauté. Veuillez réessayer."
       );
@@ -143,40 +138,7 @@ export default function CommunityPage() {
   }, []);
 
   return (
-    <div className="h-screen gradientBackGround text-white grid grid-rows-[1fr_10fr_0.5fr] box-border ">
-      {/* <div className="px-4 py-2 flex justify-between items-center"> */}
-      {/* HEADER */}
-      {/* <div className="relative"> */}
-      {/* <form id="searchForm" onSubmit={(e) => searchCommunities(e)}>
-            <Input
-              type={"search"}
-              placeholder={"Rechercher"}
-              className=" w-[600px] h-[50px] "
-              reference={searchRef}
-              // onchange={removeSearch}
-            />
-            <Button
-              value={
-                <img
-                  className="mx-auto"
-                  width="15"
-                  height="100px"
-                  src="../../public/Icons/searchBar/search_white.svg"
-                  alt="icone search"
-                />
-              }
-              type={"submit"}
-              w={"80px"}
-              h={"50px"}
-              className=" bg-blueLogo hover:bg-blueLogoDark absolute right-0 top-3"
-            />
-          </form>
-        </div>
-        <UserProfile
-          communityDisplay={true}
-          userInformations={connectedUserInformations}
-        />
-      </div> */}
+    <div className="h-screen text-white grid grid-rows-[1fr_10fr] box-border ">
       <NavBarCommunity
         searchCommunities={searchCommunities}
         searchRef={searchRef}
@@ -246,7 +208,6 @@ export default function CommunityPage() {
         </div>
       </div>
 
-      <div>{/* Footer */}</div>
     </div>
   );
 }

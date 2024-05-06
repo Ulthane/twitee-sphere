@@ -64,7 +64,7 @@ export const useFetchCommunity = () => {
   const modifyCommunity = async (data) => {
     try {
       const url = "https://twitee-api.gamosaurus.fr/api/users/modify";
-      const response = await fetch(url, {
+      await fetch(url, {
         method: "PUT",
         headers: {
           Authorization: getToken(),

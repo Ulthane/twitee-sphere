@@ -38,7 +38,7 @@ export default function CommunityBar() {
   const fetchCommunity = async () => {
     try {
       const userCommunities = await communitiesById(user.id_communities);
-      console.log(userCommunities);
+
       setCommunityUser(userCommunities);
       setLoading(true);
     } catch {
@@ -58,30 +58,33 @@ export default function CommunityBar() {
   }, [user]);
 
   return (
-    <div>
+    <div className="flex flex-col pt-8">
       <div
-        className="h-[200px] mt-5 rounded-[35px] flex flex-col items-center"
+        className="h-[215px] w-[325px] rounded-[35px] flex flex-col items-center"
         style={{ background: "rgba(42, 163, 239, 0.1)" }}
       >
-        <h2 className="text-center text-blueLogo font-bold text-[1.5em] mt-5 ">
+        <h2 className="text-center text-blueLogo font-bold text-[1.8em] mt-5">
           Ma Communauté
         </h2>
         {loading ? (
           communityUser.length > 0 ? (
             communityUser.map((community, index) => (
               <div key={index}>
-                <h2 className="text-center  font-bold mt-5 text-[1.3em]">
+                <h2 className="text-center font-bold mt-3 text-[1.3em]">
                   {community.name}
                 </h2>
-                <h2 className="text-center mt-5 text-[1.1em]">
-                  Score : {community.score}
+                <div className="w-[200px] h-[20px] bg-gray-100/10 mt-3 rounded-xl">
+                  <div className="w-[200px] h-[20px] bg-blueLogo mt-3 rounded-xl"></div>
+                </div>
+                <h2 className="text-center text-gray-300 mt-5 text-[1.3em]">
+                  {community.score} Points
                 </h2>
               </div>
             ))
           ) : (
             <>
-              <h2 className="text-center mt-5 text-blue-100 ">
-                Vous n'avez rejoint aucune communauté
+              <h2 className="text-center mt-5 text-blue-100 mb-5">
+                Vous n&apos;avez rejoint aucune communauté
               </h2>
               <script src="https://cdn.lordicon.com/lordicon.js"></script>
               <lord-icon
@@ -99,26 +102,26 @@ export default function CommunityBar() {
         )}
       </div>
       <div
-        className="rounded-[35px] mt-5 h-[auto]"
+        className="rounded-[35px] mt-10 h-[auto] w-[325px] py-5"
         style={{ background: "rgba(42, 163, 239, 0.1)" }}
       >
-        <h2 className="text-center font-bold p-2 text-[1.5em]">Top Score</h2>
+        <h2 className="text-center font-bold p-2 text-[2.0em]">Top Score</h2>
 
         {topCommunity.map((community, index) => (
           <div key={index}>
             <div className="p-5 flex justify-around items-center">
               <img
-                className="w-[40px] h-[40px] rounded-md mx-5"
+                className="w-[60px] h-[60px] rounded-xl shadow-lg object-cover"
                 src={community.icon}
                 alt=""
               />
-              <p className="font-bold">{community.score}</p>
-              <p className="text-blueLogo text-center text-[1.5em]">
+              <p className="font-bold text-[2em]">{community.score}</p>
+              <p className="text-blueLogo text-center text-[2em]">
                 {index + 1}
               </p>
             </div>
             {index !== 3 && (
-              <div className="mx-[auto] w-[150px] h-0.5 bg-gray-400"></div>
+              <div className="mx-[auto] w-[250px] h-[1px] bg-gray-400/50"></div>
             )}
           </div>
         ))}

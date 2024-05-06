@@ -1,28 +1,18 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import LikeIcon from "../../../assets/SVG/LikeIcon";
 import { postFetch, deleteFetch, getFetch } from "../../../utils/Fetch";
 import { toast } from "react-toastify";
-import { TwiteeContext } from "../../../store/TwiteeContext";
 
 export default function LikeButton({
   articleId,
   communityId,
-  token,
-  ...props
+  token
 }) {
   //STATES
   const [isLike, setIsLike] = useState(false);
   const [numberOfLike, setNumberOfLike] = useState(0);
-  const [articlesLikeByConnectedUser, setArticlesLikeByConnectedUser] =
-    useState([]);
-
-  //Variable
-  const connectedUserInformation = JSON.parse(
-    sessionStorage.getItem("user_informations")
-  );
 
   //METHODES
-
   const initialisazionIsLike = (allArticlesLikeByConnectedUser) => {
     if (allArticlesLikeByConnectedUser.includes(articleId) && isLike == false) {
       setIsLike(true);
@@ -41,7 +31,6 @@ export default function LikeButton({
 
     request.then((result) => {
       allArticlesLikeByConnectedUser = result.map((like) => like.id_article);
-      setArticlesLikeByConnectedUser([...allArticlesLikeByConnectedUser]);
       initialisazionIsLike(allArticlesLikeByConnectedUser);
     });
   };

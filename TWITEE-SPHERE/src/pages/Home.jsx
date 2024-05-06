@@ -27,7 +27,7 @@ export default function Home() {
 
   const setRefreshHomeHandler = () => {
     const newRefresh = refreshComponent + 1;
-    console.log("newRefresh");
+
     getArticles();
     setRefreshComponent(newRefresh);
   };
@@ -93,12 +93,15 @@ export default function Home() {
         setRefreshHomeHandler={setRefreshHomeHandler}
         articlesToDisplay={articles}
       />
+      <div className="flex justify-center mt-5">
       <Button
         value="Plus de Twitee"
         h="50px"
-        className="bg-blueLogo hover:bg-blueLogoDark my-4 w-full "
+        w="600px"
+        className="bg-blueLogo hover:bg-blueLogoDark my-4"
         fn={() => displayMoreArticles()}
-      />
+        />
+      </div>
 
       {alertModalDisplay && (
         <AlerteModal

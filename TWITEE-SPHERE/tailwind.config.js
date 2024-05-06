@@ -11,6 +11,7 @@ export default {
         blueLogoDark: "#2792d5",
         blueLogoLight: "#7ab7dd",
         blueBgArticle: "#255878",
+        blueBgArticleLight: "rgba(43,105,143,.2)",
       },
     },
   },

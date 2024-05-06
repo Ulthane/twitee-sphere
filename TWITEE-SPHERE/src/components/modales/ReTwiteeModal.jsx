@@ -23,11 +23,7 @@ export default function ReTwiteeModal({ displayModaleHandler, twiteeValue }) {
   const token = useToken();
 
   // Méthode
-
   const reTwiteeHandler = async () => {
-    // console.log(twiteeValue.textValue);
-    // console.log(twiteeValue.imgSrcValue);
-
     const request = await postFetch(
       "https://twitee-api.gamosaurus.fr/api/articles/create",
       { Authorization: token.getToken() },

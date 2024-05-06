@@ -22,39 +22,29 @@ export const TwiteeContext = createContext({
 function twiteeReducer(state, action) {
   switch (action.type) {
     case actionTypes.SET_ARTICLES:
-      const newDataForArticles = {
+      return {
         ...state,
         articles: action.payload,
       };
 
-      return newDataForArticles;
-
     case actionTypes.SET_USER:
-      const newDataForUser = {
+      return {
         ...state,
         user: action.payload.userInformations,
       };
 
-      // console.log("newDataForUser", newDataForUser);
-
-      return newDataForUser;
-
     case actionTypes.SET_COMMUNITY:
-      const newCommunity = {
+
+      return {
         ...state,
         community: { ...action.payload.newCommunity },
       };
-      // console.log("newCommunity", newCommunity);
-      return newCommunity;
 
     case actionTypes.SET_REFRESH_HOME_FROM_CONTEXT:
-      const oldRefreshHomeFromContext = state.refreshHomeFromContext;
-      const newsRefreshHomeFromContext = {
+      return {
         ...state,
-        refreshHomeFromContext: oldRefreshHomeFromContext + 1,
+        refreshHomeFromContext: state.refreshHomeFromContext + 1,
       };
-
-      return newsRefreshHomeFromContext;
   }
 }
 

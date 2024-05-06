@@ -26,15 +26,11 @@ export default function RemoveFriendButton({
   };
 
   const RemoveFriendHandler = async () => {
-    console.log("idUser");
-    console.log(idUser);
     const request = await deleteFetch(
       "https://twitee-api.gamosaurus.fr/api/friends/delete",
       { "Content-Type": "application/json", Authorization: token.getToken() },
       { friend: idUser }
     );
-
-    console.log(request);
 
     if (request.message !== "success") {
       toast.error(request.message);

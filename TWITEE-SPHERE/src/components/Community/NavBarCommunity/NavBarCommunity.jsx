@@ -3,7 +3,6 @@ import Button from "../../Button/Button";
 import Input from "../../Input/Input";
 import Logo from "../../Logo/Logo";
 import UserProfile from "../../UserProfile/UserProfile";
-import UserCommunity from "../userCommunityPage/UserCommunity";
 
 export default function NavBarCommunity({
   searchCommunities,
@@ -11,7 +10,7 @@ export default function NavBarCommunity({
   userInformation,
 }) {
   return (
-    <div className="px-4 py-2 flex justify-between ">
+    <div className="w-full flex flex-row justify-between items-center px-4 border-b-2 border-blueBgArticleLight">
       {/* HEADER */}
       <Logo />
       <div className="relative">

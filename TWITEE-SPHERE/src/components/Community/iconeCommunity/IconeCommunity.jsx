@@ -66,13 +66,6 @@ export default function IconeCommunity() {
     }
   }, [userData]);
 
-  useEffect(() => {
-    if (community) {
-      console.log("Community data:", community); // Affiche les données de la communauté dans la console
-    } else {
-      console.log("Aucune donnée de communauté disponible");
-    }
-  }, [community]);
   return (
     <div>
       {loading ? (

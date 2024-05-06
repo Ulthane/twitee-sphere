@@ -25,7 +25,7 @@ export default function CommunityRender({
       <div className="flex justify-between mb-[5px]">
         <UserProfile userInformations={userData} />
         <img
-          className="w-[35px] h-[35px] rounded-full object-cover"
+          className="w-[50px] h-[50px] rounded-xl object-cover"
           src={community.icon}
           alt="icone de la communauté"
         />

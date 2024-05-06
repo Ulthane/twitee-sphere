@@ -16,7 +16,6 @@ import { useToken } from "../../hooks/useToken";
 // SVG
 import HomeIcon from "../../assets/SVG/HomeIcon";
 import CommunityIcon from "../../assets/SVG/CommunityIcon";
-import FrameIcon from "../../assets/SVG/FrameIcon";
 import FireIcon from "../../assets/SVG/FireIcon";
 
 export default function Home() {
@@ -92,6 +91,10 @@ export default function Home() {
           updateStateModalDisplay={updateNewTwiteeModalDisplayHandler}
         />
       )}
+
+      <div className="fixed bottom-4 text-sm text-gray-500">
+        1.0 - Twitee Team, All Right Reserved ©
+      </div>
     </>
   );
 }

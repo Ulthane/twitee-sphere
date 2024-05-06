@@ -34,7 +34,6 @@ export default function LoginPage() {
   //useEffect
   useEffect(() => {
     const token = getToken();
-    // console.log("Bug 5");
 
     if (token !== null && token !== "") {
       navigate(route.HOME);
@@ -59,12 +58,12 @@ export default function LoginPage() {
         },
         body: JSON.stringify({ email: emailValue, password: passwordValue }),
       });
-      console.log("response");
+
       const json = await response.json(); // stockage de donné recut par l'API dans la variable json
 
       // verification de la requête
       if (response.status !== 200) {
-        console.log("erreur");
+        console.error("erreur");
         // si il y a une erreur
         toast.error(json.message);
       } else {
@@ -72,7 +71,7 @@ export default function LoginPage() {
         navigate(route.HOME);
       }
     } catch (error) {
-      console.log("erreur");
+      console.error("erreur");
       toast.error(error);
     }
 

@@ -19,9 +19,6 @@ export default function Comment({ commentInformation, refreshCommentHandler }) {
 
   // Mettre ma trash icon que si id comment = user co
   const TrashIconDisplay = () => {
-    // console.log("user", user);
-    // console.log("commentInformation", commentInformation);
-    // const isUser
     return (
       <>
         <div

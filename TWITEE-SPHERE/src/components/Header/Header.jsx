@@ -1,5 +1,5 @@
 //Librairies
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 //Component
@@ -12,15 +12,7 @@ import UserProfile from "../UserProfile/UserProfile";
 import route from "../../routes/route";
 
 export default function Header() {
-  //Context
-  // const { community, user } = useContext(TwiteeContext);
-
-  // // const [userCommunityInformation, setUserCommunityInformation] =
-  // //   useState(community);
-
-  // console.log("community", community);
-  // // console.log("user", user);
-  // // STATE
+  // STATE
   const [newTwiteeModalDisplay, setnewTwiteeModalDisplay] = useState(false);
 
   const connectedUserInformation = JSON.parse(
