@@ -8,107 +8,118 @@ import { getFetch } from "../utils/Fetch";
 import { toast } from "react-toastify";
 
 export default function Home() {
-  //Context
-  const { refreshHomeFromContext } = useContext(TwiteeContext);
+    //Context
+    const { refreshHomeFromContext } = useContext(TwiteeContext);
 
-  //State
-  const [articles, setArticles] = useState([]);
-  const [refreshComponent, setRefreshComponent] = useState(0);
-  const [offset, setOffset] = useState(0);
-  const [alertModalDisplay, setAlertModalDisplay] = useState(false);
-  const [articlesCount, setArticlesCount] = useState();
+    //State
+    const [articles, setArticles] = useState([]);
+    const [refreshComponent, setRefreshComponent] = useState(0);
+    const [offset, setOffset] = useState(0);
+    const [alertModalDisplay, setAlertModalDisplay] = useState(false);
+    const [articlesCount, setArticlesCount] = useState();
 
-  //Variable
-  const token = useToken();
+    //Variable
+    const token = useToken();
 
-  //Méthode
+    //Méthode
 
-  const alertModaleDisplayHandler = (value) => setAlertModalDisplay(value);
+    const alertModaleDisplayHandler = (value) => setAlertModalDisplay(value);
 
-  const setRefreshHomeHandler = () => {
-    const newRefresh = refreshComponent + 1;
+    const setRefreshHomeHandler = () => {
+        const newRefresh = refreshComponent + 1;
 
-    getArticles();
-    setRefreshComponent(newRefresh);
-  };
+        getArticles();
+        setRefreshComponent(newRefresh);
+    };
 
-  const displayMoreArticles = () => {
-    if (articlesCount > articles.length) {
-      const newOffset = offset + 30;
-      setOffset(newOffset);
+    const displayMoreArticles = () => {
+        if (articlesCount > articles.length) {
+            const newOffset = offset + 30;
+            setOffset(newOffset);
 
-      getArticles(offset);
-      // setRefreshHomeHandler();
-    } else {
-      alertModaleDisplayHandler(true);
-    }
-  };
+            getArticles(offset);
+            // setRefreshHomeHandler();
+        } else {
+            alertModaleDisplayHandler(true);
+        }
+    };
 
-  const getArticles = async (offset = 0) => {
-    const request = await fetch(
-      `https://twitee-api.gamosaurus.fr/api/articles/get?limit=30&offset=${offset}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token.getToken(),
-        },
-      }
+    const getArticles = async (offset = 0) => {
+        const request = await fetch(
+            `https://twitee-api.gamosaurus.fr/api/articles/get?limit=30&offset=${offset}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: token.getToken(),
+                },
+            }
+        );
+
+        const response = await request.json();
+
+        if (response.message) {
+            toast.error(response.message);
+        } else {
+            const articlesAlreadyDisplay = [...articles];
+
+            // Si cliquer sur Plus de Twitee
+            //
+            const getedArticles = () =>
+                offset === 0
+                    ? [...response]
+                    : [...articlesAlreadyDisplay, ...response];
+            //else
+            /*
+             * const getedArticles = [...response]
+             */
+
+            console.log(getedArticles());
+            setArticles(getedArticles());
+        }
+    };
+
+    const getArticlesCount = async () => {
+        const request = await getFetch(
+            `https://twitee-api.gamosaurus.fr/api/articles/count/all`,
+            {
+                Authorization: token.getToken(),
+            }
+        );
+
+        setArticlesCount(request.total);
+    };
+
+    //Cycle
+    useEffect(() => {
+        getArticles(offset);
+        getArticlesCount();
+        console.log(refreshHomeFromContext);
+    }, [refreshComponent, refreshHomeFromContext]);
+
+    //JSX
+    return (
+        <>
+            <ArticlesDisplay
+                setRefreshHomeHandler={setRefreshHomeHandler}
+                articlesToDisplay={articles}
+            />
+            <div className="flex justify-center mt-5">
+                <Button
+                    value="Plus de Twitee"
+                    h="50px"
+                    w="600px"
+                    className="bg-blueLogo hover:bg-blueLogoDark my-4"
+                    fn={() => displayMoreArticles()}
+                />
+            </div>
+
+            {alertModalDisplay && (
+                <AlerteModal
+                    displayModaleHandler={alertModaleDisplayHandler}
+                    alertMessage={"Il n'y a plus de Twitee à charger"}
+                />
+            )}
+        </>
     );
-
-    const response = await request.json();
-
-    if (response.message) {
-      toast.error(response.message);
-    } else {
-      const articlesAlreadyDisplay = [...articles];
-      const getedArticles = () =>
-        offset === 0 ? [...response] : [...articlesAlreadyDisplay, ...response];
-
-      setArticles(getedArticles);
-    }
-  };
-
-  const getArticlesCount = async () => {
-    const request = await getFetch(
-      `https://twitee-api.gamosaurus.fr/api/articles/count/all`,
-      {
-        Authorization: token.getToken(),
-      }
-    );
-
-    setArticlesCount(request.total);
-  };
-
-  //Cycle
-  useEffect(() => {
-    getArticles(offset);
-    getArticlesCount();
-  }, [refreshComponent, refreshHomeFromContext]);
-
-  //JSX
-  return (
-    <>
-      <ArticlesDisplay
-        setRefreshHomeHandler={setRefreshHomeHandler}
-        articlesToDisplay={articles}
-      />
-      <div className="flex justify-center mt-5">
-      <Button
-        value="Plus de Twitee"
-        h="50px"
-        w="600px"
-        className="bg-blueLogo hover:bg-blueLogoDark my-4"
-        fn={() => displayMoreArticles()}
-        />
-      </div>
-
-      {alertModalDisplay && (
-        <AlerteModal
-          displayModaleHandler={alertModaleDisplayHandler}
-          alertMessage={"Il n'y a plus de Twitee à charger"}
-        />
-      )}
-    </>
-  );
 }
