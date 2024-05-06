@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useToken } from "../../../hooks/useToken";
 import { toast } from "react-toastify";
 import { deleteFetch, getFetch } from "../../../utils/Fetch";
-
 //Components
 import LikeButton from "../../Button/LikeButton/Likebutton";
 import CommentButton from "../../Button/CommentButton/CommentButton";
@@ -11,6 +10,7 @@ import ReTwiteeButton from "../../Button/ReTwiteeButton/ReTwiteeButton";
 import NewTwiteeModal from "../../modales/NewTwiteeModal";
 import AddFriendButton from "../../Button/AddFriendButton/AddFriendButton";
 import UserProfile from "../../UserProfile/UserProfile";
+
 
 export default function Article({
   articleInformations,
@@ -26,6 +26,10 @@ export default function Article({
 
   //Varaibles
   const token = useToken();
+
+  useEffect(() => {
+    getCommunityImg(articleInformations.user.id_communities);
+  }, []);
 
   // Méthodes
   const deleteArticleHandler = async () => {
@@ -109,9 +113,7 @@ export default function Article({
     );
   };
 
-  useEffect(() => {
-    getCommunityImg(articleInformations.user.id_communities);
-  }, []);
+
 
   //JSX
   return (
@@ -139,7 +141,7 @@ export default function Article({
             {/* Community's image */}
             {communityImg != "" && (
               <img
-                className="w-[40px] h-[40px] rounded-xl"
+                className="w-[50px] h-[50px] rounded-xl"
                 src={communityImg}
                 alt="community's picture"
               />

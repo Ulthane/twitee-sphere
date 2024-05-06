@@ -2,15 +2,14 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
 // Composant
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import Logo from "../../components/Logo/Logo";
-
 // Route
 import route from "../../routes/route";
-
+// CSS
+import "./LoginPage.css";
 // hooks
 import { useToken } from "../../hooks/useToken";
 
@@ -31,7 +30,6 @@ export default function RegisterPage() {
 
   //useEffect
   useEffect(() => {
-    // console.log("Bug 6");
     // Donne le focus au champ firstname lors du montage du composant
     if (firstnameRef.current) {
       firstnameRef.current.focus();
@@ -43,7 +41,6 @@ export default function RegisterPage() {
 
   //useEffect
   useEffect(() => {
-    // console.log("Bug 7");
     const token = getToken();
 
     if (token !== null && token !== "") {

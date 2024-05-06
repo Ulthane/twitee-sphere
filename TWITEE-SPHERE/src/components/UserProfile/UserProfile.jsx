@@ -39,10 +39,10 @@ export default function UserProfile({
       toast.error("Erreur lors du chargement du profil");
     }
   };
-  // console.log("User Profil", userInformations);
 
   //affichage
   useEffect(() => {
+    console.log("Information User: ", userInformations)
     userDisplay();
   }, []);
 

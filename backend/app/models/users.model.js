@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize, Communities) => {
     },
     surname: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: Sequelize.STRING,
@@ -28,11 +28,11 @@ module.exports = (sequelize, Sequelize, Communities) => {
     img_src: {
       type: Sequelize.STRING,
       allowNull: false,
-      defaultValue: '/assets/default.png',
+      defaultValue: 'https://cdn.pixabay.com/photo/2017/06/30/10/14/social-media-2457842_1280.png',
     },
     id_communities: {
       type: Sequelize.INTEGER,
-      allowNull: true
+      allowNull: true,
     },
   });
 
