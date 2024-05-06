@@ -1,15 +1,23 @@
+//hook
 import { useEffect, useState } from "react";
-import Button from "../Button/Button";
 import { useToken } from "../../hooks/useToken";
 import { toast } from "react-toastify";
+import { useFetchCommunity } from "../../hooks/useFetchCommunity";
+//composant
+import Button from "../Button/Button";
 
-export default function TopCommunity({ changeCommunity, myCommunity }) {
+//style
+import { toast } from "react-toastify";
+
+export default function TopCommunity({ changeCommunity }) {
   //state
   const [firstCommunity, setFirstCommunity] = useState([]);
+  const [userData, setUserData] = useState();
+  const [myCommunity, setMyCommunity] = useState();
   //hook personaliser
   const { getToken } = useToken();
-
-  //function
+  const { fetchProfil } = useFetchCommunity();
+  //functions
   //Récupération des communautés
   const fetchCommunities = async () => {
     try {
@@ -28,17 +36,32 @@ export default function TopCommunity({ changeCommunity, myCommunity }) {
     }
   };
 
+  //récuperation des donné du user
+  const fetchUser = async () => {
+    try {
+      const response = await fetchProfil();
+      setUserData(response.id_communities);
+    } catch {
+      toast.error("Une erreur s'est produite.");
+    }
+  };
+
   useEffect(() => {
     fetchCommunities();
+    fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (firstCommunity.id_communities === userData) {
+      setMyCommunity(true);
+    } else {
+      setMyCommunity(false);
+    }
+  }, [userData]);
 
   return (
     <div className="w-[650px] flex justify-around items-center mt-[20px] mb-[50px]">
-      <img
-        className="w-[100px] rounded-md"
-        src="https://cdn.pixabay.com/photo/2023/10/05/18/34/toadstool-8296596_1280.jpg"
-        alt=""
-      />
+      <img className="w-[100px] rounded-md" src={firstCommunity.icon} alt="" />
       <h3>
         <span className="text-[20px]">Top Communauté</span> <br />
         <span className="text-blueLogo text-[36px]">
@@ -91,7 +114,7 @@ export default function TopCommunity({ changeCommunity, myCommunity }) {
                     fill="freeze"
                     attributeName="stroke-dashoffset"
                     begin="0.5s"
-                    dur="0.4s"
+                    dur="0.2s"
                     values="20;0"
                   ></animate>
                 </path>
@@ -99,12 +122,13 @@ export default function TopCommunity({ changeCommunity, myCommunity }) {
                   <animate
                     fill="freeze"
                     attributeName="stroke-dashoffset"
-                    begin="1s"
+                    begin="0.5s"
                     dur="0.2s"
                     values="8;0"
                   ></animate>
                 </path>
               </g>
+              strokeDasharray
             </svg>
           ) : (
             <svg
@@ -126,7 +150,7 @@ export default function TopCommunity({ changeCommunity, myCommunity }) {
                 <animate
                   fill="freeze"
                   attributeName="stroke-dashoffset"
-                  dur="2s"
+                  dur="0.5s"
                   values="24;0"
                 ></animate>
               </path>

@@ -8,6 +8,7 @@ import { Outlet } from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar.jsx";
 import Header from "../components/Header/Header.jsx";
 import { getFetch } from "../utils/Fetch.js";
+import CommunityBar from "../components/Community/CommunityBar/CommunityBar.jsx";
 
 export default function Main() {
   //Context
@@ -90,7 +91,7 @@ export default function Main() {
         <Header />
       </div>
 
-      <div className="h-full grid gap-6 grid-cols-[1fr_2fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">
+      <div className="h-full grid gap-6 grid-cols-[1fr_4fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">
         <div className="flex flex-col justify-center items-start p-2 sticky top-0 mx-auto">
           {/* SideBar Menue */}
           <NavBar />
@@ -100,11 +101,12 @@ export default function Main() {
           <Outlet />
         </div>
         <div
-          className="sticky top-0"
-          style={{ background: "rgba(255,255,255,0.2)" }}
+          className="sticky top-0 w-[250px]"
+          // style={{ background: "rgba(255,255,255,0.2)" }}
         >
           {/* SideBar Community */}
-          COMMUNITY BAR
+          {/* COMMUNITY BAR */}
+          <CommunityBar />
         </div>
       </div>
 

@@ -1,6 +1,8 @@
 //hook
-import { useToken } from "../../hooks/useToken";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useFetchCommunity } from "../../hooks/useFetchCommunity";
+
+//style
 import { toast } from "react-toastify";
 //composant
 import TopCommunity from "./TopCommunity";
@@ -23,13 +25,11 @@ export default function Community({ communitiesToDisplay }) {
     setLoading(false);
     let data;
 
-    console.log(userData)
+    console.log(userData);
 
     if (communityId === userData.id_communities) {
       data = { id_communities: null };
-      setMyCommunity(false);
     } else {
-      setMyCommunity(true);
       data = { id_communities: communityId };
     }
 
@@ -40,6 +40,9 @@ export default function Community({ communitiesToDisplay }) {
       } else {
         toast.success(`Bravo vous venez de rejoindre ${name}`);
       }
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
       userDisplay();
     } catch (e) {
       toast.error("Erreur inattendue, veuillez réessayer");
@@ -88,21 +91,23 @@ export default function Community({ communitiesToDisplay }) {
   // Render community
   const communityRenderer = communitiesToDisplay.map((community, index) => {
     return (
-      <CommunityRender key={"community_" + index} userInfo={otherUserDisplay(community.id_user)} community={community} changeCommunity={changeCommunity} myCommunity={userData.id_communities} />
-    )
+      <CommunityRender
+        key={"community_" + index}
+        userInfo={otherUserDisplay(community.id_user)}
+        community={community}
+        changeCommunity={changeCommunity}
+        myCommunity={userData.id_communities}
+      />
+    );
   });
 
   useEffect(() => {
     userDisplay();
   }, []);
-
   return (
     <>
       {/* Top community */}
-      <TopCommunity
-        changeCommunity={changeCommunity}
-        myCommunity={myCommunity}
-      />
+      <TopCommunity changeCommunity={changeCommunity} />
       {loading ? (
         communityRenderer
       ) : (

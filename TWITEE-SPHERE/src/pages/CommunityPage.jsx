@@ -1,7 +1,6 @@
 //composant
 import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
-import Logo from "../components/Logo/Logo";
 import NavBar from "../components/NavBar/NavBar";
 import Community from "../components/Community/Community";
 import UserProfile from "../components/UserProfile/UserProfile";
@@ -13,10 +12,12 @@ import { useToken } from "../hooks/useToken";
 //style
 import { toast } from "react-toastify";
 import { useFetchCommunity } from "../hooks/useFetchCommunity";
+import NavBarCommunity from "../components/Community/NavBarCommunity/NavBarCommunity";
 
 export default function CommunityPage() {
   //state
   const [communities, setCommunities] = useState([]);
+  const [noCommunities, setNoCommunities] = useState(false);
   const [communitieFilter, setCommunitieFilter] = useState([]);
   const [seacrh, setSearch] = useState(false);
   const [connectedUserInformations, setConnectedUserInformations] = useState(
@@ -48,13 +49,14 @@ export default function CommunityPage() {
     }
   };
 
-  // function pour rechercher une communauté
   const searchCommunities = async (e) => {
     e.preventDefault();
     // Rechercher des données
     try {
+      setSearch(true);
       // Stockage de la communauté recherchée dans une variable
       const communitieSearch = searchRef.current.value;
+      console.log(searchRef.current.value);
       const url = `https://twitee-api.gamosaurus.fr/api/communities/get/${communitieSearch}`;
       const response = await fetch(url, {
         method: "GET",
@@ -64,11 +66,14 @@ export default function CommunityPage() {
         },
       });
       const json = await response.json();
+      setCommunities(json);
 
       setCommunitieFilter(json);
-      if (communitieFilter.length === 0) {
-        toast.error("Aucune communauté trouvée");
+      if (json.length === 0) {
+        //   toast.error("Aucune communauté trouvée");
+        setNoCommunities(true);
       } else {
+        setNoCommunities(false);
         setSearch(true);
       }
     } catch (e) {
@@ -128,13 +133,6 @@ export default function CommunityPage() {
     }
   };
 
-  const removeSearch = () => {
-    if (searchRef.current.value == "") {
-      loadCommunities();
-      setSearch(false);
-    }
-  };
-
   // Affichage des communautés
   useEffect(() => {
     setConnectedUserInformations(
@@ -179,6 +177,10 @@ export default function CommunityPage() {
           userInformations={connectedUserInformations}
         />
       </div>
+      <NavBarCommunity
+        searchCommunities={searchCommunities}
+        searchRef={searchRef}
+      />
 
       <div className="h-full grid gap-6 grid-cols-[1fr_2fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">
         <div className="flex flex-col justify-center items-start p-2 sticky top-0 mx-auto">
@@ -188,8 +190,14 @@ export default function CommunityPage() {
         {/* community */}
         <div className="flex flex-col items-center h-full w-full ">
           <Community
-            communitiesToDisplay={seacrh ? communitieFilter : communities}
+            communitiesToDisplay={seacrh ? communities : communities}
           />
+          {noCommunities && (
+            <div className=" flex justify-center items-center text-center h-[100vh] text-blueLogo text-[25px] font-bold">
+              {" "}
+              Aucune communauté trouvée
+            </div>
+          )}
         </div>
 
         {/* Formulaire de création de communauté */}
