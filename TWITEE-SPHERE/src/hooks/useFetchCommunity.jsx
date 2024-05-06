@@ -16,7 +16,6 @@ export const useFetchCommunity = () => {
         },
       });
       const json = await response.json();
-      response = json;
       return json;
     } catch (e) {
       toast.error("Erreur lors du chargement des communautés");
@@ -60,6 +59,7 @@ export const useFetchCommunity = () => {
     }
   };
 
+  // modifier une communauté
   const modifyCommunity = async (data) => {
     try {
       const url = "https://twitee-api.gamosaurus.fr/api/users/modify";
@@ -76,6 +76,7 @@ export const useFetchCommunity = () => {
     }
   };
 
+  // profil user
   const fetchProfil = async () => {
     try {
       const url = "https://twitee-api.gamosaurus.fr/api/users/get/id";

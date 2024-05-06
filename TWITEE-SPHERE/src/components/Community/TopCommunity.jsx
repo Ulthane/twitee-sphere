@@ -1,14 +1,22 @@
+//hook
 import { useEffect, useState } from "react";
-import Button from "../Button/Button";
 import { useToken } from "../../hooks/useToken";
+import { useFetchCommunity } from "../../hooks/useFetchCommunity";
+//composant
+import Button from "../Button/Button";
 
-export default function TopCommunity({ changeCommunity, myCommunity }) {
+//style
+import { toast } from "react-toastify";
+
+export default function TopCommunity({ changeCommunity }) {
   //state
   const [firstCommunity, setFirstCommunity] = useState([]);
+  const [userData, setUserData] = useState();
+  const [myCommunity, setMyCommunity] = useState();
   //hook personaliser
   const { getToken } = useToken();
-
-  //function
+  const { fetchProfil } = useFetchCommunity();
+  //functions
   //Récupération des communautés
   const fetchCommunities = async () => {
     try {
@@ -27,21 +35,32 @@ export default function TopCommunity({ changeCommunity, myCommunity }) {
     }
   };
 
+  //récuperation des donné du user
+  const fetchUser = async () => {
+    try {
+      const response = await fetchProfil();
+      setUserData(response.id_communities);
+    } catch {
+      toast.error("Une erreur s'est produite.");
+    }
+  };
+
   useEffect(() => {
     fetchCommunities();
+    fetchUser();
   }, []);
 
-  useEffect(() => {}, [firstCommunity]);
-
-  useEffect(() => {}, [myCommunity]);
+  useEffect(() => {
+    if (firstCommunity.id_communities === userData) {
+      setMyCommunity(true);
+    } else {
+      setMyCommunity(false);
+    }
+  }, [userData]);
 
   return (
     <div className="w-full flex justify-around items-center mt-[20px] mb-[50px] ">
-      <img
-        className="w-[100px] rounded-md"
-        src="https://cdn.pixabay.com/photo/2023/10/05/18/34/toadstool-8296596_1280.jpg"
-        alt=""
-      />
+      <img className="w-[100px] rounded-md" src={firstCommunity.icon} alt="" />
       <h3>
         <span className="text-[20px]">Top Communauté</span> <br />
         <span className="text-blueLogo text-[36px]">
@@ -74,7 +93,7 @@ export default function TopCommunity({ changeCommunity, myCommunity }) {
                 stroke-width="2"
               >
                 <path
-                  stroke-dasharray="20"
+                  strokeDasharray="20"
                   stroke-dashoffset="20"
                   d="M3 21V20C3 17.7909 4.79086 16 7 16H11C13.2091 16 15 17.7909 15 20V21"
                 >
@@ -86,7 +105,7 @@ export default function TopCommunity({ changeCommunity, myCommunity }) {
                   ></animate>
                 </path>
                 <path
-                  stroke-dasharray="20"
+                  strokeDasharray="20"
                   stroke-dashoffset="20"
                   d="M9 13C7.34315 13 6 11.6569 6 10C6 8.34315 7.34315 7 9 7C10.6569 7 12 8.34315 12 10C12 11.6569 10.6569 13 9 13Z"
                 >
@@ -94,20 +113,21 @@ export default function TopCommunity({ changeCommunity, myCommunity }) {
                     fill="freeze"
                     attributeName="stroke-dashoffset"
                     begin="0.5s"
-                    dur="0.4s"
+                    dur="0.2s"
                     values="20;0"
                   ></animate>
                 </path>
-                <path stroke-dasharray="8" stroke-dashoffset="8" d="M15 6H21">
+                <path strokeDasharray="8" stroke-dashoffset="8" d="M15 6H21">
                   <animate
                     fill="freeze"
                     attributeName="stroke-dashoffset"
-                    begin="1s"
+                    begin="0.5s"
                     dur="0.2s"
                     values="8;0"
                   ></animate>
                 </path>
               </g>
+              strokeDasharray
             </svg>
           ) : (
             <svg
@@ -119,7 +139,7 @@ export default function TopCommunity({ changeCommunity, myCommunity }) {
               <path
                 fill="none"
                 stroke="currentColor"
-                stroke-dasharray="24"
+                strokeDasharray="24"
                 stroke-dashoffset="24"
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -129,7 +149,7 @@ export default function TopCommunity({ changeCommunity, myCommunity }) {
                 <animate
                   fill="freeze"
                   attributeName="stroke-dashoffset"
-                  dur="2s"
+                  dur="0.5s"
                   values="24;0"
                   // repeatCount="indefinite"
                 ></animate>

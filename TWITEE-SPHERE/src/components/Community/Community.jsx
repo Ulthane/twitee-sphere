@@ -1,6 +1,6 @@
 //hook
-import { useToken } from "../../hooks/useToken";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useFetchCommunity } from "../../hooks/useFetchCommunity";
 
 //style
 import { toast } from "react-toastify";
@@ -9,18 +9,15 @@ import { toast } from "react-toastify";
 import UserCommunity from "./userCommunityPage/UserCommunity";
 import Button from "../Button/Button";
 import TopCommunity from "./TopCommunity";
-import { useFetchCommunity } from "../../hooks/useFetchCommunity";
+import { TwiteeContext } from "../../store/TwiteeContext";
 
 export default function Community({ communitiesToDisplay }) {
   //Hook personnaliser
-  const { getToken } = useToken();
-
-  const { modifyCommunity } = useFetchCommunity();
+  const { modifyCommunity, fetchProfil } = useFetchCommunity();
 
   //state
   const [userData, setUserData] = useState();
-  const [loading, setLoading] = useState(true);
-  const [myCommunity, setMyCommunity] = useState();
+  const [loading, setLoading] = useState(false);
   //Function
 
   //Rejoindre la commnunauté
@@ -31,9 +28,7 @@ export default function Community({ communitiesToDisplay }) {
 
     if (communityId === userData.id_communities) {
       data = { id_communities: null };
-      setMyCommunity(false);
     } else {
-      setMyCommunity(true);
       data = { id_communities: communityId };
     }
 
@@ -45,6 +40,9 @@ export default function Community({ communitiesToDisplay }) {
       } else {
         toast.success(`Bravo vous venez de rejoindre ${name}`);
       }
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
       userDisplay();
     } catch (e) {
       toast.error("Erreur inattendue, veuillez réessayer");
@@ -54,15 +52,8 @@ export default function Community({ communitiesToDisplay }) {
   // fetch du profil du user
   const userDisplay = async () => {
     try {
-      const url = "https://twitee-api.gamosaurus.fr/api/users/get/id";
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: getToken(),
-          "Content-Type": "application/json",
-        },
-      });
-      const json = await response.json();
+      const json = await fetchProfil();
+
       setUserData(json);
       setLoading(true);
     } catch (e) {
@@ -73,18 +64,14 @@ export default function Community({ communitiesToDisplay }) {
   useEffect(() => {
     userDisplay();
   }, []);
-
   return (
     <>
       {/* Top community */}
-      <TopCommunity
-        changeCommunity={changeCommunity}
-        myCommunity={myCommunity}
-      />
+      <TopCommunity changeCommunity={changeCommunity} />
       {loading ? (
         communitiesToDisplay.map((community, index) => (
           <div
-            key={community.community_id}
+            key={community.id_communities}
             className="rounded-[25px] p-5 w-[600px] h-[auto] community mb-[15px]"
             style={{ background: "rgba(42, 163, 239, 0.1)" }}
           >
@@ -104,12 +91,11 @@ export default function Community({ communitiesToDisplay }) {
             <p className="text-[16px]">{community.description}</p>
             <div className="mt-[15px] flex justify-between items-center">
               <div className="flex items-center">
-                <img
-                  className="mr-[10px]"
-                  src="../../public/Icons/user/user_white.svg"
-                  alt="icone user"
-                />
-                <p>2532</p>
+                <p className="mx-2 text-blueLogo">
+                  {/* Score */}
+                  <b>{community.score}</b>
+                </p>
+                <p>Points</p>
               </div>
               <Button
                 fn={(e) => {

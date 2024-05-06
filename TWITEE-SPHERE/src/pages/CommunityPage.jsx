@@ -1,10 +1,8 @@
 //composant
 import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
-import Logo from "../components/Logo/Logo";
 import NavBar from "../components/NavBar/NavBar";
 import Community from "../components/Community/Community";
-import UserCommunity from "../components/Community/userCommunityPage/UserCommunity";
 
 //Hook
 import { useEffect, useRef, useState } from "react";
@@ -13,10 +11,12 @@ import { useToken } from "../hooks/useToken";
 //style
 import { toast } from "react-toastify";
 import { useFetchCommunity } from "../hooks/useFetchCommunity";
+import NavBarCommunity from "../components/Community/NavBarCommunity/NavBarCommunity";
 
 export default function CommunityPage() {
   //state
   const [communities, setCommunities] = useState([]);
+  const [noCommunities, setNoCommunities] = useState(false);
   const [communitieFilter, setCommunitieFilter] = useState([]);
   const [seacrh, setSearch] = useState(false);
 
@@ -35,7 +35,6 @@ export default function CommunityPage() {
   const loadCommunities = async () => {
     try {
       const json = await getAllCommunities();
-      console.log(json);
       // Tri des communautés de la plus récente à la plus ancienne
       const sortedCommunities = json.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -46,13 +45,14 @@ export default function CommunityPage() {
     }
   };
 
-  // function pour rechercher une communauté
   const searchCommunities = async (e) => {
     e.preventDefault();
     // Rechercher des données
     try {
+      setSearch(true);
       // Stockage de la communauté recherchée dans une variable
       const communitieSearch = searchRef.current.value;
+      console.log(searchRef.current.value);
       const url = `https://twitee-api.gamosaurus.fr/api/communities/get/${communitieSearch}`;
       const response = await fetch(url, {
         method: "GET",
@@ -62,6 +62,7 @@ export default function CommunityPage() {
         },
       });
       const json = await response.json();
+      setCommunities(json);
 
       // Tri des communautés de la plus récente à la plus ancienne
       const sortedCommunities = json.sort(
@@ -69,9 +70,11 @@ export default function CommunityPage() {
       );
 
       setCommunitieFilter(json);
-      if (communitieFilter.length === 0) {
-        toast.error("Aucune communauté trouvée");
+      if (json.length === 0) {
+        //   toast.error("Aucune communauté trouvée");
+        setNoCommunities(true);
       } else {
+        setNoCommunities(false);
         setSearch(true);
       }
     } catch (e) {
@@ -131,13 +134,6 @@ export default function CommunityPage() {
     }
   };
 
-  const removeSearch = () => {
-    if (searchRef.current.value == "") {
-      loadCommunities();
-      setSearch(false);
-    }
-  };
-
   // Affichage des communautés
   useEffect(() => {
     loadCommunities();
@@ -145,37 +141,10 @@ export default function CommunityPage() {
 
   return (
     <div className="h-screen gradientBackGround text-white grid grid-rows-[1fr_10fr_0.5fr] box-border ">
-      <div className="px-4 py-2 flex justify-between ">
-        {/* HEADER */}
-        <Logo />
-        <div className="relative">
-          <form id="searchForm" onSubmit={(e) => searchCommunities(e)}>
-            <Input
-              type={"search"}
-              placeholder={"Rechercher"}
-              className=" w-[300px] h-[50px] "
-              reference={searchRef}
-              onchange={removeSearch}
-            />
-            <Button
-              value={
-                <img
-                  className="mx-auto"
-                  width="15"
-                  height="100px"
-                  src="../../public/Icons/searchBar/search_white.svg"
-                  alt="icone search"
-                />
-              }
-              type={"submit"}
-              w={"80px"}
-              h={"50px"}
-              className=" bg-blueLogo hover:bg-blueLogoDark absolute right-0 top-3"
-            />
-          </form>
-        </div>
-        <UserCommunity />
-      </div>
+      <NavBarCommunity
+        searchCommunities={searchCommunities}
+        searchRef={searchRef}
+      />
 
       <div className="h-full grid gap-6 grid-cols-[1fr_2fr_1fr] grid-rows-1 px-4 py-2 overflow-y-auto">
         <div className="flex flex-col justify-center items-start p-2 sticky top-0 mx-auto">
@@ -185,8 +154,14 @@ export default function CommunityPage() {
         {/* community */}
         <div className="flex flex-col items-center h-full w-full ">
           <Community
-            communitiesToDisplay={seacrh ? communitieFilter : communities}
+            communitiesToDisplay={seacrh ? communities : communities}
           />
+          {noCommunities && (
+            <div className=" flex justify-center items-center text-center h-[100vh] text-blueLogo text-[25px] font-bold">
+              {" "}
+              Aucune communauté trouvée
+            </div>
+          )}
         </div>
 
         {/* Formulaire de création de communauté */}

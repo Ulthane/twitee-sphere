@@ -1,29 +1,34 @@
+//hook
 import { useContext, useEffect, useState } from "react";
 import { useToken } from "../../../hooks/useToken";
-import { TwiteeContext } from "../../../store/TwiteeContext";
 import { useFetchCommunity } from "../../../hooks/useFetchCommunity";
 
-export default function IconeCommunity({ time }) {
+//context
+import { TwiteeContext } from "../../../store/TwiteeContext";
+
+export default function IconeCommunity() {
   //Hook personaliser
   const { getToken } = useToken();
+  const { communitiesById } = useFetchCommunity();
+
+  //context
+  const { setCommunity, community } = useContext(TwiteeContext);
+
   //state
   const [userData, setUserData] = useState([]);
   const [icon, setIcon] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  //context
-  const { setCommunity, community } = useContext(TwiteeContext);
-
-  const { communitiesById } = useFetchCommunity();
-
   const fetchCommunity = async () => {
+    setLoading(false);
     try {
       const communityData = await communitiesById(userData.id_communities);
-      setIcon(communityData);
       setCommunity(communityData);
-      console.log(communityData);
+      setIcon(communityData);
+      setLoading(true);
     } catch (e) {
       toast.error("Erreur lors du chargement des communautés");
+      setLoading(true);
     }
   };
 
@@ -46,21 +51,27 @@ export default function IconeCommunity({ time }) {
   };
 
   // Cycles
+
+  //Récuperation des données du user
   useEffect(() => {
     userDisplay();
   }, []);
 
+  // recuperation des donnés de la communauté du user
   useEffect(() => {
+    // verification que le user existe
     if (userData.id_user !== undefined) {
       fetchCommunity();
-      setLoading(true);
     }
   }, [userData]);
 
   useEffect(() => {
-    console.log(community);
+    if (community) {
+      console.log("Community data:", community); // Affiche les données de la communauté dans la console
+    } else {
+      console.log("Aucune donnée de communauté disponible");
+    }
   }, [community]);
-
   return (
     <div>
       {loading ? (
@@ -74,7 +85,7 @@ export default function IconeCommunity({ time }) {
           </div>
         ))
       ) : (
-        <div className="h-[100vh] flex items-center text-white font-bold text-2xl my-5 w-[90px]">
+        <div className="w-[50px]">
           <img src="loading/ripple-loading.svg" alt="Loading" />
         </div>
       )}
