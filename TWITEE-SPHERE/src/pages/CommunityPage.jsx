@@ -38,7 +38,6 @@ export default function CommunityPage() {
   const loadCommunities = async () => {
     try {
       const json = await getAllCommunities();
-      console.log(json);
       // Tri des communautés de la plus récente à la plus ancienne
       const sortedCommunities = json.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -142,8 +141,6 @@ export default function CommunityPage() {
       JSON.parse(sessionStorage.getItem("user_informations"))
     );
     loadCommunities();
-
-    console.log(connectedUserInformations);
   }, []);
 
   return (
@@ -230,7 +227,7 @@ export default function CommunityPage() {
               reference={icone}
             />
             <Button
-              value={"créer moi"}
+              value={"Créer moi"}
               type={"submit"}
               w={"200px"}
               h={"40px"}

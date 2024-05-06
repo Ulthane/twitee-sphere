@@ -25,7 +25,7 @@ export default function Comment({ commentInformation, refreshCommentHandler }) {
     return (
       <>
         <div
-          className=" min-w-[15]"
+          className=" min-w-[15] p-1"
           onClick={() =>
             deleteCommentHandler(commentInformation.id_comentaries)
           }
@@ -53,11 +53,11 @@ export default function Comment({ commentInformation, refreshCommentHandler }) {
 
   return (
     <>
-      <div className="rounded-xl backdrop-blur-md bg-blueBgArticle/50 text-white grid grid-cols-[2fr_7fr] p-2 gap-3 w-[500px]">
-        <div className=" self-start w-2/7">
+      <div className="rounded-xl backdrop-blur-md bg-blueBgArticle/50 text-white grid grid-cols-[2fr_7fr] p-2 gap-3 w-full">
+        <div className=" self-start w-2/7 mr-6">
           <UserProfile userInformations={commentInformation.user} />
         </div>
-        <div className="flex justify-between w-max-full break-words text-sm ml-8 text-wrap w-5/7">
+        <div className="flex justify-between w-max-full break-words text-sm font-light ml-8 text-wrap w-5/7">
           <p className="ml-2 text-wrap w-full">
             {commentInformation.description}
           </p>

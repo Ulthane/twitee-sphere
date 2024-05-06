@@ -1,10 +1,9 @@
 // React
 import { useState } from "react";
-
+import { toast } from "react-toastify";
 //Components
 import ModaleTempalte from "../../modales/ModaleTemplate";
 import Button from "../Button";
-
 // Utils
 import { deleteFetch } from "../../../utils/Fetch";
 import { useToken } from "../../../hooks/useToken";
@@ -12,8 +11,7 @@ import { useToken } from "../../../hooks/useToken";
 export default function RemoveFriendButton({
   firstName,
   lastName,
-  idUser,
-  ...props
+  idUser
 }) {
   //STATES
   const [removeFriendModalDisplay, setRemoveFriendModalDisplay] =
@@ -23,7 +21,6 @@ export default function RemoveFriendButton({
   const token = useToken();
 
   //METHODES
-
   const displayModaleHandler = (value) => {
     setRemoveFriendModalDisplay(value);
   };

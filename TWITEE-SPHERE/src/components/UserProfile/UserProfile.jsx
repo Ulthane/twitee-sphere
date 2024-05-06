@@ -1,13 +1,8 @@
 // librairie
-import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 //composant
 import IconeCommunity from "../Community/iconeCommunity/IconeCommunity";
-
-//hook
-import { useEffect, useState } from "react";
-import { useToken } from "../../hooks/useToken";
 
 //Utils
 import { firstLetterUpperCase } from "../../utils/stringFunction";
@@ -17,35 +12,6 @@ export default function UserProfile({
   communityDisplay = false,
   userInformations = {},
 }) {
-  //Hook personaliser
-  const { getToken } = useToken();
-  //state
-  const [userData, setUserData] = useState([]);
-
-  // fetch du profil du user
-  const userDisplay = async () => {
-    try {
-      const url = "https://twitee-api.gamosaurus.fr/api/users/get/id";
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: getToken(),
-          "Content-Type": "application/json",
-        },
-      });
-      const json = await response.json();
-      setUserData(json);
-    } catch (e) {
-      toast.error("Erreur lors du chargement du profil");
-    }
-  };
-
-  //affichage
-  useEffect(() => {
-    console.log("Information User: ", userInformations)
-    userDisplay();
-  }, []);
-
   return (
     <div className="flex justify-between items-center">
       {userInformations && (
@@ -68,7 +34,7 @@ export default function UserProfile({
             </p>
           )}
 
-          <p className="text-sm">{userData.surname}</p>
+          <p className="text-sm">{userInformations.surname}</p>
         </Link>
       )}
       {communityDisplay && (

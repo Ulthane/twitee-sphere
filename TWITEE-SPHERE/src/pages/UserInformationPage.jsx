@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 
 export default function UserInformationsPage() {
   // Context
-  const { user: connectedUserInformations, community } =
+  const { user: connectedUserInformations } =
     useContext(TwiteeContext);
 
   //Targeted User
@@ -39,8 +39,6 @@ export default function UserInformationsPage() {
   );
   const [userCommunity, setUserCommunity] = useState("");
 
-  // console.log(targetedUserId);
-  // console.log(connectedUserId);
 
   //Méthodes
   const targetedUserFriendsDisplay = () => {
@@ -93,7 +91,6 @@ export default function UserInformationsPage() {
   };
 
   const getTargetedUserInformations = async () => {
-    // console.log("state", state);
     const response = await getFetch(
       `https://twitee-api.gamosaurus.fr/api/users/get/other/${state.targetedUserId}`,
       { Authorization: token.getToken() }
@@ -153,12 +150,11 @@ export default function UserInformationsPage() {
       ) : (
         <div>
           {/* User informations */}
-          <div className=" mt-9 mx-auto  text-white flex flex-row gap-3 justify-start items-center">
+          <div className=" mt-9 mx-auto text-white flex flex-row gap-3 justify-start items-center">
             <img
               src={targetedUserInformations.img_src}
               alt="avatar"
-              className=" w-[120px]  overflow-y-hidden"
-              style={{ clipPath: "ellipse(33% 50%)" }}
+              className=" w-[120px] h-[120px] overflow-y-hidden object-cover rounded-xl"
             />
 
             <div className=" font-bold text-4xl">
@@ -178,7 +174,7 @@ export default function UserInformationsPage() {
           {state.targetedUserId === connectedUserInformations.id_user && (
             <Button
               value="Modifier profil"
-              w="110px"
+              w="120px"
               h="40px"
               className="bg-blueLogo hover:bg-blueLogoDark my-2"
               textSize="0.8rem"
@@ -186,22 +182,21 @@ export default function UserInformationsPage() {
             />
           )}
           {/* User's community informations */}
-          {/* {console.log("userCommunity", userCommunity)} */}
           {userCommunity != "" && (
             <div className=" mt-9 mx-auto  text-white flex flex-col gap-3 justify-start items-start">
               <div className=" font-bold text-2xl">Ma communauté</div>
-              <div className="flex flex-row justify-between items-center w-full">
-                <div className="flex flex-row justify-start items-center w-full gap-6">
+              <div className="flex flex-row items-center justify-between w-full pe-10">
+                <div className="flex items-center">
                   <img
-                    className=" rounded-2xl w-28"
+                    className=" rounded-2xl w-28 me-5"
                     src={userCommunity.icon}
                     alt="community image"
                   />
-                  <div className=" font-bold text-xl">{userCommunity.name}</div>
+                  <div className="font-bold text-2xl">{userCommunity.name}</div>
                 </div>
 
-                <div>
-                  <span className=" font-bold">CS</span>: {userCommunity.score}
+                <div className="flex text-2xl">
+                  <span className="font-bold">Points :</span>&nbsp;{userCommunity.score}
                 </div>
               </div>
               <div> {userCommunity.description}</div>

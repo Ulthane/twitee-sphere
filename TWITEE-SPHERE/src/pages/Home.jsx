@@ -5,8 +5,9 @@ import { useToken } from "../hooks/useToken";
 import Button from "../components/Button/Button";
 import AlerteModal from "../components/modales/AlertModal";
 import { getFetch } from "../utils/Fetch";
+import { toast } from "react-toastify";
 
-export default function Home({ friendFeed }) {
+export default function Home() {
   //Context
   const { refreshHomeFromContext } = useContext(TwiteeContext);
 
@@ -84,12 +85,6 @@ export default function Home({ friendFeed }) {
     getArticles(offset);
     getArticlesCount();
   }, [refreshComponent, refreshHomeFromContext]);
-
-  // useEffect(() => {
-  //   console.log("refreshHomeFromContext HOME:", refreshHomeFromContext);
-  // }, [refreshHomeFromContext]);
-
-  // console.log("Articles", articles);
 
   //JSX
   return (

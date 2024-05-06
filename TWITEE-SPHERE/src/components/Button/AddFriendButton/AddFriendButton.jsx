@@ -1,21 +1,15 @@
 // React
 import { useState } from "react";
 import { toast } from "react-toastify";
-
 //Components
 import AddFriend from "../../../assets/SVG/AddFriend";
 import ModaleTempalte from "../../modales/ModaleTemplate";
 import Button from "../Button";
-
 // Utils
 import { postFetch } from "../../../utils/Fetch";
 import { useToken } from "../../../hooks/useToken";
 
-export default function AddFriendButton({
-  firstName,
-  lastName,
-  idUser
-}) {
+export default function AddFriendButton({ firstName, lastName, idUser }) {
   //STATES
   const [AddFriendModalDisplay, setAddFriendModalDisplay] = useState(false);
 
@@ -23,7 +17,6 @@ export default function AddFriendButton({
   const token = useToken();
 
   //METHODES
-
   const displayModaleHandler = (value) => {
     setAddFriendModalDisplay(value);
   };
@@ -37,19 +30,20 @@ export default function AddFriendButton({
       }
     );
 
-    console.log(request);
-
     if (request.message !== "success") {
       toast.error(request.message);
     } else {
       displayModaleHandler(false);
+      toast.success("Ami ajouté avec succès !");
     }
   };
 
   return (
     <>
-      <div onClick={() => displayModaleHandler(true)} className="ml-3 absolute bottom-[1px] right-[7px]">
-        {/* {" "} */}
+      <div
+        onClick={() => displayModaleHandler(true)}
+        className="ml-3 absolute bottom-[2px] right-[5px]"
+      >
         <AddFriend
           tailwindClasse={
             "text-white hover:cursor-pointer hover:text-blueLogo hover:font-semibold"

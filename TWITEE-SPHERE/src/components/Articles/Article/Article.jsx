@@ -11,11 +11,11 @@ import NewTwiteeModal from "../../modales/NewTwiteeModal";
 import AddFriendButton from "../../Button/AddFriendButton/AddFriendButton";
 import UserProfile from "../../UserProfile/UserProfile";
 
-
 export default function Article({
   articleInformations,
   communityId,
   connectedUserId,
+  friend,
   setRefreshHomeHandler,
 }) {
   //States
@@ -113,12 +113,10 @@ export default function Article({
     );
   };
 
-
-
   //JSX
   return (
     <>
-      <div className="max-w-md min-w-[450px] p-6 bg-blueBgArticle rounded-3xl shadow">
+      <div className="max-w-md min-w-[600px] p-6 bg-blueBgArticle rounded-3xl shadow">
         {/* Header Container */}
         <div className="flex flex-row justify-between items-center gap-3 mb-3 ">
           {/* User's informations */}
@@ -126,13 +124,13 @@ export default function Article({
             <UserProfile userInformations={articleInformations.user} />
 
             {/* Add Friends */}
-            {articleInformations.user.id_user != connectedUserId && (
+            {articleInformations.user.id_user != connectedUserId && !friend ? (
               <AddFriendButton
                 firstName={articleInformations.user.firstname}
                 lastName={articleInformations.user.lastname}
                 idUser={articleInformations.user.id_user}
               />
-            )}
+            ) : null}
           </div>
           {/* actions and Community */}
           <div className="flex flex-row justify-center items-center gap-3">
@@ -182,13 +180,6 @@ export default function Article({
             token={token.getToken()}
             userID={articleInformations}
           />
-          <div className="flex flex-row gap-1">
-            <img
-              src="../../../public/icons/article/frameIcon.svg"
-              alt="frame icon"
-              width={"25px"}
-            />
-          </div>
         </div>
       </div>
 

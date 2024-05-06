@@ -1,4 +1,5 @@
 const db = require('../models');
+const { addScore, removeScore } = require('../utils/scoring');
 const Comentaries = db.Comentaries;
 const Users = db.Users;
 const Articles = db.Articles;
@@ -41,6 +42,7 @@ exports.createComentaries = async (request, reply) => {
   try {
     await Comentaries.create(newBody);
     reply.send({ message: 'success' });
+    addScore(db, request.ctx.users, 'commentary');
   } catch (err) {
     reply
       .code(500)
@@ -75,6 +77,7 @@ exports.deleteComentaries = async (request, reply) => {
       where: { id_comentaries: request.params.id },
     });
     reply.send({ message: 'success' });
+    removeScore(db, request.ctx.users, 'commentary');
   } catch (err) {
     reply
       .code(500)

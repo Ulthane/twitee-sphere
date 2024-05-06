@@ -34,26 +34,23 @@ export default function UpdateProfilModal({
   const updateProfilHandler = async (event) => {
     event.preventDefault();
 
-    console.log("Update Profil");
-
     if (email.current.value == "") {
-      alertModaleDisplayHandler(true);
+      toast.error("L'email ne peut être vide !");
     } else {
-      const request = await putFetch(
+      putFetch(
         `https://twitee-api.gamosaurus.fr/api/users/modify`,
         { Authorization: token.getToken() },
         {
           email: email.current.value,
           img_src: profilImg.current.value,
         }
-      );
-      console.log(request);
-      if (request.message !== "success") {
-        toast.error(request.message);
-      } else {
-        event.stopPropagation();
-        displayModaleHandler(false);
-      }
+      )
+        .then((res) => {
+          toast.success(res.message);
+          event.stopPropagation();
+          displayModaleHandler(false);
+        })
+        .catch((err) => toast.error(err.message));
     }
   };
   return (
@@ -116,7 +113,7 @@ export default function UpdateProfilModal({
                   Image de profil
                 </label>
                 <input
-                  className="pl-[65px] relative bg-blueLogo/10 w-[600px] h-[50px] border-none rounded-full text-white focus:outline-none my-3 text-[16px] font-bold font-poppins placeholder:text-gray-300 placeholder:font-bold placeholder:text-[16px] placeholder:font-poppins;"
+                  className={classes.input}
                   type="text"
                   ref={profilImg}
                   placeholder="Lien vers une image"

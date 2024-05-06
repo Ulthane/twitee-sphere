@@ -53,7 +53,6 @@ export default function CommentModal({
 
   const sendComment = async (event) => {
     event.preventDefault();
-    // console.log("SEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNNNNNNNNNND");
 
     if (
       comment.current.value == "" ||
@@ -73,7 +72,6 @@ export default function CommentModal({
       if (request.message !== "success") {
         toast.error(request.message);
       } else {
-        // console.log("connectedUserInformations", connectedUserInformations);
         const newComment = [
           ...comments,
           {
@@ -96,7 +94,6 @@ export default function CommentModal({
   };
 
   const getComments = async () => {
-    // console.log("Get_Comments");
     const response = await getFetch(
       `https://twitee-api.gamosaurus.fr/api/comentaries/get?limit=30&offset=0&id=${id_article}`,
       { Authorization: token }
@@ -125,12 +122,10 @@ export default function CommentModal({
   useEffect(() => {
     getComments();
     getNumberOfComment(comments.length);
-    // console.log("Bug 3");
   }, [refreshComment, articles]);
 
   useEffect(() => {
     getNumberOfComment(comments.length);
-    // console.log("Bug 4");
   }, [comments]);
 
   return (

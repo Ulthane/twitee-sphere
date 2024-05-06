@@ -15,8 +15,11 @@ exports.addScore = async (db, user, type) => {
     });
 
     switch (type) {
-      case 'article':
+      case 'commentary':
         score.dataValues.score += 5;
+        break;
+      case 'article':
+        score.dataValues.score += 10;
         break;
       case 'like':
         score.dataValues.score += 2;
@@ -53,8 +56,11 @@ exports.removeScore = async (db, user, type) => {
     });
 
     switch (type) {
-      case 'article':
+      case 'commentary':
         score.dataValues.score -= 5;
+        break;
+      case 'article':
+        score.dataValues.score -= 10;
         break;
       case 'like':
         score.dataValues.score -= 2;
