@@ -54,7 +54,7 @@ exports.getFriendById = async (request, reply) => {
   // On récupère les informations utilisateur en fonction de sont id décrypté dans le token
   try {
     const users = await Users.findOne({
-      attributes: ['firstname', 'lastname', 'surname', 'img_src', 'id_communities'],
+      attributes: ['id_user', 'firstname', 'lastname', 'surname', 'img_src', 'id_communities'],
       include: [
         {
           model: Users,
