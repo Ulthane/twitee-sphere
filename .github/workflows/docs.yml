@@ -23,7 +23,7 @@ jobs:
         run: docker login $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Docker Build Backend
-        run: cd backend && docker build . --file Dockerfile --tag $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/twitee-doc:$DOCKER_TAG --tag $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/twitee-doc:latest --no-cache
+        run: cd docs && docker build . --file Dockerfile --tag $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/twitee-doc:$DOCKER_TAG --tag $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/twitee-doc:latest --no-cache
 
       - name: Docker push version
         run: docker push $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/twitee-doc:$DOCKER_TAG
