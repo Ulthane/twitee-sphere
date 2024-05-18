@@ -7,21 +7,26 @@ on:
 
 jobs:
   build:
-    name: Build Docker Image DOCS
+    name: Build Docker Image DOC
     runs-on: self-hosted
     env:
       DOCKER_REGISTRY: localhost
       DOCKER_REGISTRY_PORT: 5000
+      DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       DOCKER_PROJECT: twitee-doc
-      DOCKER_TAG: 0.6.0
+      DOCKER_TAG: 1.0.0
     steps:
       - uses: actions/checkout@v3
 
+      - name: Docker Login
+        run: docker login $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT -u $DOCKER_USER -p $DOCKER_PASSWORD
+
       - name: Docker Build Backend
-        run: cd backend && docker build . --file Dockerfile --tag $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/$DOCKER_PROJECT:$DOCKER_TAG --tag $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/$DOCKER_PROJECT:latest --no-cache
+        run: cd backend && docker build . --file Dockerfile --tag $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/twitee-doc:$DOCKER_TAG --tag $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/twitee-doc:latest --no-cache
 
       - name: Docker push version
-        run: docker push $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/$DOCKER_PROJECT:$DOCKER_TAG
+        run: docker push $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/twitee-doc:$DOCKER_TAG
 
       - name: Docker push latest
-        run: docker push $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/$DOCKER_PROJECT:latest
+        run: docker push $DOCKER_REGISTRY:$DOCKER_REGISTRY_PORT/twitee-doc:latest
