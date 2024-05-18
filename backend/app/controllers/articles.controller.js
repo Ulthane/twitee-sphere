@@ -8,6 +8,7 @@ const Likes = db.Likes;
 // Retourne les articles disponible dans la BDD avec un offset et une limite
 exports.getArticlesWithOffset = async (request, reply) => {
   const allPromise = [];
+  const newResult = [];
   // On retourne tout les articles avec un offset
   try {
     const articles = await Articles.findAll({
@@ -36,7 +37,14 @@ exports.getArticlesWithOffset = async (request, reply) => {
             },
           });
 
-          resolve({ ...article.dataValues, isLike: isLike.dataValues.total });
+          const comentariesCount = await db.Comentaries.findOne({
+            attributes: [[db.sequelize.fn('COUNT', db.sequelize.col('*')), 'total']],
+            where: {
+              id_article: article.id_articles,
+            },
+          })
+
+          resolve({ ...article.dataValues, isLike: isLike.dataValues.total, comentariesCount: comentariesCount.dataValues.total });
         })
       );
     });

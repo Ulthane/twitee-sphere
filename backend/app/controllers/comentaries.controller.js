@@ -20,17 +20,14 @@ exports.getComentariesWithOffset = async (request, reply) => {
           model: Articles,
           attributes: ['id_articles'],
           where: {
-            id_articles: request.query.id
-          }
+            id_articles: request.query.id,
+          },
         },
       ],
-
     });
     reply.send(comentaries);
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -44,9 +41,7 @@ exports.createComentaries = async (request, reply) => {
     reply.send({ message: 'success' });
     addScore(db, request.ctx.users, 'commentary');
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -64,9 +59,7 @@ exports.modifyComentaries = async (request, reply) => {
     );
     reply.send({ message: 'success' });
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
 
@@ -79,8 +72,6 @@ exports.deleteComentaries = async (request, reply) => {
     reply.send({ message: 'success' });
     removeScore(db, request.ctx.users, 'commentary');
   } catch (err) {
-    reply
-      .code(500)
-      .send({ message: "Erreur lors de l'éxécution de la requête : " + err });
+    reply.code(500).send({ message: "Erreur lors de l'éxécution de la requête : " + err });
   }
 };
