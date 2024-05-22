@@ -84,7 +84,7 @@ export default function LikeButton({ articleId, communityId, token }) {
     useEffect(() => {
         getNumberOflike();
         getArticlesLikeByConnectedUser();
-    }, [isLike]);
+    }, [isLike, articleId]);
 
     return (
         <div

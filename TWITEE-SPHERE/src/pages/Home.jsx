@@ -17,6 +17,7 @@ export default function Home() {
     const [offset, setOffset] = useState(0);
     const [alertModalDisplay, setAlertModalDisplay] = useState(false);
     const [articlesCount, setArticlesCount] = useState();
+    const [onClickMoreArticle, setOnClickMoreArticle] = useState(false);
 
     //Variable
     const token = useToken();
@@ -28,23 +29,27 @@ export default function Home() {
     const setRefreshHomeHandler = () => {
         const newRefresh = refreshComponent + 1;
 
-        getArticles();
+        // getArticles();
         setRefreshComponent(newRefresh);
     };
 
     const displayMoreArticles = () => {
         if (articlesCount > articles.length) {
             const newOffset = offset + 30;
+            setOnClickMoreArticle(true);
             setOffset(newOffset);
-
-            getArticles(offset);
-            // setRefreshHomeHandler();
+            setRefreshHomeHandler();
+            // getArticles(offset);
         } else {
             alertModaleDisplayHandler(true);
         }
     };
 
     const getArticles = async (offset = 0) => {
+        if (!onClickMoreArticle) {
+            offset = 0;
+        }
+
         const request = await fetch(
             `https://twitee-api.gamosaurus.fr/api/articles/get?limit=30&offset=${offset}`,
             {
@@ -62,21 +67,22 @@ export default function Home() {
             toast.error(response.message);
         } else {
             const articlesAlreadyDisplay = [...articles];
+            let getedArticles;
 
-            // Si cliquer sur Plus de Twitee
-            //
-            const getedArticles = () =>
-                offset === 0
-                    ? [...response]
-                    : [...articlesAlreadyDisplay, ...response];
-            //else
-            /*
-             * const getedArticles = [...response]
-             */
+            if (!onClickMoreArticle) {
+                getedArticles = [...response];
+            } else if (onClickMoreArticle) {
+                getedArticles =
+                    offset === 0
+                        ? [...response]
+                        : [...articlesAlreadyDisplay, ...response];
+            }
 
-            console.log(getedArticles());
-            setArticles(getedArticles());
+            console.log("getArticles", getedArticles);
+            setArticles(getedArticles);
         }
+
+        setOnClickMoreArticle(false);
     };
 
     const getArticlesCount = async () => {
@@ -94,7 +100,7 @@ export default function Home() {
     useEffect(() => {
         getArticles(offset);
         getArticlesCount();
-        console.log(refreshHomeFromContext);
+        console.log("refreshHomeFromContext", refreshHomeFromContext);
     }, [refreshComponent, refreshHomeFromContext]);
 
     //JSX

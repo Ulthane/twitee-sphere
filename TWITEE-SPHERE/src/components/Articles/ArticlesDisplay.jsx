@@ -3,12 +3,12 @@ import Article from "./Article/Article";
 import { TwiteeContext } from "../../store/TwiteeContext";
 
 export default function ArticlesDisplay({
-    articlesToDisplay: articles,
+    articlesToDisplay,
     setRefreshHomeHandler,
 }) {
     //Context
     const { user } = useContext(TwiteeContext);
-    const [articlesToDisplay, setArticlesToDisplay] = useState([]);
+    // const [articlesToDisplay, setArticlesToDisplay] = useState(articles);
 
     //Méthodes
     const prepareArticlesToDisplay = articlesToDisplay.map((article, index) => {
@@ -22,7 +22,7 @@ export default function ArticlesDisplay({
 
         return (
             <Article
-                key={index}
+                key={"articles_" + index}
                 articleInformations={article}
                 communityId={(user.id_communities = 2)}
                 connectedUserId={user.id_user}
@@ -32,12 +32,15 @@ export default function ArticlesDisplay({
         );
     });
 
-    useEffect(() => {
-        setArticlesToDisplay(articles);
-    }, [articles]);
+    // useEffect(() => {
+    //     console.log("articles", articles);
+    //     setArticlesToDisplay(articles);
+    //     console.log("articlesToDisplay", articlesToDisplay);
+    // }, [articles]);
 
     return (
         <div className="flex flex-col justify-start items-center mt-8 gap-5 relative">
+            {/* {console.log("articlesToDisplay", articlesToDisplay)} */}
             {prepareArticlesToDisplay}
         </div>
     );
