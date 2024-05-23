@@ -10,10 +10,11 @@ export default function LikeButton({ articleId, communityId, token }) {
 
     //METHODES
     const initialisazionIsLike = (allArticlesLikeByConnectedUser) => {
-        if (
-            allArticlesLikeByConnectedUser.includes(articleId) &&
-            isLike == false
-        ) {
+        if (isLike) {
+            setIsLike(false);
+        }
+
+        if (allArticlesLikeByConnectedUser.includes(articleId)) {
             setIsLike(true);
         }
     };
@@ -37,6 +38,7 @@ export default function LikeButton({ articleId, communityId, token }) {
     };
 
     const getNumberOflike = () => {
+        // console.log("articleId", articleId + " " + isLike);
         const numberOfLikeRequest = getFetch(
             `https://twitee-api.gamosaurus.fr/api/likes/get/${articleId}`,
             {
