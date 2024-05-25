@@ -78,7 +78,7 @@ export default function Home() {
                         : [...articlesAlreadyDisplay, ...response];
             }
 
-            console.log("getArticles", getedArticles);
+            // console.log("getArticles", getedArticles);
             setArticles(getedArticles);
         }
 
@@ -100,7 +100,7 @@ export default function Home() {
     useEffect(() => {
         getArticles(offset);
         getArticlesCount();
-        console.log("refreshHomeFromContext", refreshHomeFromContext);
+        // console.log("refreshHomeFromContext", refreshHomeFromContext);
     }, [refreshComponent, refreshHomeFromContext]);
 
     //JSX

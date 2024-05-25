@@ -147,8 +147,6 @@ export default function Article({
                     {/* COMMENT BUTTON */}
                     <CommentButton
                         articleId={articleInformations.id_articles}
-                        numberOfComments={articleInformations.comentariesCount}
-                        token={token.getToken()}
                     />
                     {/* RETWITEE BUTTON */}
                     <ReTwiteeButton

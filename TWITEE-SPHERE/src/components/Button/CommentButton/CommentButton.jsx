@@ -5,7 +5,7 @@ import { getFetch, postFetch } from "../../../utils/Fetch";
 import { useToken } from "../../../hooks/useToken";
 import AlerteModal from "../../modales/AlertModal";
 
-export default function CommentButton({ articleId, numberOfComments }) {
+export default function CommentButton({ articleId }) {
     //STATES
     // const [numberOfComment, setNumberOfComment] = useState(numberOfComments);
     const [commentModalDisplay, setCommentModalDisplay] = useState(false);
@@ -28,7 +28,9 @@ export default function CommentButton({ articleId, numberOfComments }) {
     //     setNumberOfComment(value);
     // };
 
-    const refreshCommentHandler = () => setRefreshComment(!refreshComment);
+    const refreshCommentHandler = () => {
+        setRefreshComment(!refreshComment);
+    };
 
     const alertModaleDisplayHandler = (value) => {
         setAlertModalDisplay(value);
@@ -92,7 +94,7 @@ export default function CommentButton({ articleId, numberOfComments }) {
     };
     useEffect(() => {
         getComments();
-    }, [commentModalDisplay, refreshComment]);
+    }, [commentModalDisplay, refreshComment, articleId]);
 
     useEffect(() => {
         if (Object.keys(newComment).length != 0) {
