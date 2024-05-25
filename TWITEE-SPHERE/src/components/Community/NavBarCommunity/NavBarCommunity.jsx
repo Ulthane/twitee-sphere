@@ -1,9 +1,13 @@
+//Librairies
+import { Link } from "react-router-dom";
+
 //composant
-import Button from "../../Button/Button";
 import Input from "../../Input/Input";
 import Logo from "../../Logo/Logo";
 import UserProfile from "../../UserProfile/UserProfile";
-import SearchIcon from "../../../assets/SVG/SearchIcon";
+
+//Utils
+import route from "../../../routes/route";
 
 export default function NavBarCommunity({
     searchCommunities,
@@ -13,7 +17,9 @@ export default function NavBarCommunity({
     return (
         <div className="w-full flex flex-row justify-between items-center px-4 border-b-2 border-blueBgArticleLight">
             {/* HEADER */}
-            <Logo />
+            <Link to={route.HOME}>
+                <Logo />
+            </Link>
             <div className="relative">
                 <form id="searchForm" onSubmit={(e) => searchCommunities(e)}>
                     <Input
