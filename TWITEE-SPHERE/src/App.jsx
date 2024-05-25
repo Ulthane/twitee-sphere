@@ -10,7 +10,8 @@ function App() {
         import("./pages/registerPage/RegisterPage")
     );
     const LoginPage = lazy(() => import("./pages/registerPage/LoginPage"));
-    const FavoriteFeed = lazy(() => import("./pages/FavoriteFeed.jsx"));
+    // const FavoriteFeed = lazy(() => import("./pages/FavoriteFeed.jsx"));
+    const Error = lazy(() => import("./pages/Error.jsx"));
     const FriendsFeed = lazy(() => import("./pages/FriendsFeed.jsx"));
     const CommunityPage = lazy(() => import("./pages/CommunityPage.jsx"));
     const UserInformationsPage = lazy(() =>
@@ -43,11 +44,11 @@ function App() {
                     </AuthGuard>
                 </Suspense>
             ),
-            // errorElement: (
-            //   <Suspense>
-            //     <Error />
-            //   </Suspense>
-            // ),
+            errorElement: (
+                <Suspense>
+                    <Error />
+                </Suspense>
+            ),
             children: [
                 {
                     path: "/main/home",
@@ -65,14 +66,15 @@ function App() {
                         </Suspense>
                     ),
                 },
-                {
-                    path: "/main/favoritefeed",
-                    element: (
-                        <Suspense>
-                            <FavoriteFeed />
-                        </Suspense>
-                    ),
-                },
+                // Feature comming soon
+                // {
+                //     path: "/main/favoritefeed",
+                //     element: (
+                //         <Suspense>
+                //             <FavoriteFeed />
+                //         </Suspense>
+                //     ),
+                // },
                 {
                     path: "/main/userInformations",
                     element: (
