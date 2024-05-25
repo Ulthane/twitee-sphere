@@ -26,6 +26,11 @@ function App() {
                     <LoginPage />
                 </Suspense>
             ),
+            errorElement: (
+                <Suspense>
+                    <Error />
+                </Suspense>
+            ),
         },
         {
             path: "/RegisterPage",
@@ -42,11 +47,6 @@ function App() {
                     <AuthGuard>
                         <Main />
                     </AuthGuard>
-                </Suspense>
-            ),
-            errorElement: (
-                <Suspense>
-                    <Error />
                 </Suspense>
             ),
             children: [
