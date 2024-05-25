@@ -17,7 +17,6 @@ export default function Comment({ commentInformation, refreshCommentHandler }) {
     // variables
     const token = getToken();
 
-    // Mettre ma trash icon que si id comment = user co
     const TrashIconDisplay = () => {
         return (
             <>

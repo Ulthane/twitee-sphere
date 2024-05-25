@@ -12,44 +12,44 @@ import UserProfile from "../UserProfile/UserProfile";
 import route from "../../routes/route";
 
 export default function Header() {
-  // STATE
-  const [newTwiteeModalDisplay, setnewTwiteeModalDisplay] = useState(false);
+    // STATE
+    const [newTwiteeModalDisplay, setnewTwiteeModalDisplay] = useState(false);
 
-  const connectedUserInformation = JSON.parse(
-    sessionStorage.getItem("user_informations")
-  );
-  //Méthodes
-  const updateNewTwiteeModalDisplayHandler = (value) => {
-    setnewTwiteeModalDisplay(value);
-  };
+    const connectedUserInformation = JSON.parse(
+        sessionStorage.getItem("user_informations")
+    );
+    //Méthodes
+    const updateNewTwiteeModalDisplayHandler = (value) => {
+        setnewTwiteeModalDisplay(value);
+    };
 
-  //JSX
-  return (
-    <>
-      <div className="w-full flex flex-row justify-between items-center">
-        <Link to={route.HOME}>
-          <Logo />
-        </Link>
+    //JSX
+    return (
+        <>
+            <div className="w-full flex flex-row justify-between items-center">
+                <Link to={route.HOME}>
+                    <Logo />
+                </Link>
 
-        <Button
-          value="+"
-          w="50px"
-          h="50px"
-          className="bg-blueLogo hover:bg-blueLogoDark"
-          fn={() => setnewTwiteeModalDisplay(true)}
-        />
+                <Button
+                    value="+"
+                    w="50px"
+                    h="50px"
+                    className="bg-blueLogo hover:bg-blueLogoDark"
+                    fn={() => setnewTwiteeModalDisplay(true)}
+                />
 
-        <UserProfile
-          userInformations={connectedUserInformation}
-          communityDisplay={true}
-        />
-      </div>
-      {/* MODALE NEW TWITEE */}
-      {newTwiteeModalDisplay && (
-        <NewTwiteeModal
-          updateStateModalDisplay={updateNewTwiteeModalDisplayHandler}
-        />
-      )}
-    </>
-  );
+                <UserProfile
+                    userInformations={connectedUserInformation}
+                    communityDisplay={true}
+                />
+            </div>
+            {/* MODALE NEW TWITEE */}
+            {newTwiteeModalDisplay && (
+                <NewTwiteeModal
+                    updateStateModalDisplay={updateNewTwiteeModalDisplayHandler}
+                />
+            )}
+        </>
+    );
 }

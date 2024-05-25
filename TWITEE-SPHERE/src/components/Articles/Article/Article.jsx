@@ -18,7 +18,6 @@ export default function Article({
     friend,
     setRefreshHomeHandler,
 }) {
-    // console.log("articleInformations", article);
     //States
     const [isOpen, setOpen] = useState(false);
     const [updateTwiteeModalDisplay, setUpdateTwiteeModalDisplay] =

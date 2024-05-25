@@ -7,7 +7,6 @@ import AlerteModal from "../../modales/AlertModal";
 
 export default function CommentButton({ articleId }) {
     //STATES
-    // const [numberOfComment, setNumberOfComment] = useState(numberOfComments);
     const [commentModalDisplay, setCommentModalDisplay] = useState(false);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState({});
@@ -24,9 +23,6 @@ export default function CommentButton({ articleId }) {
     );
 
     //METHODES
-    // const getNumberOfComment = (value) => {
-    //     setNumberOfComment(value);
-    // };
 
     const refreshCommentHandler = () => {
         setRefreshComment(!refreshComment);
@@ -45,7 +41,6 @@ export default function CommentButton({ articleId }) {
     };
 
     const sendComment = async (comment) => {
-        console.log(comment);
         if (comment == "" || [...comment].length > 281) {
             alertModaleDisplayHandler(true);
         } else {
@@ -77,7 +72,6 @@ export default function CommentButton({ articleId }) {
                     },
                 ];
                 setComments(newComment);
-                // refreshCommentHandler();
                 setNewComment({});
             }
         }
@@ -98,7 +92,6 @@ export default function CommentButton({ articleId }) {
 
     useEffect(() => {
         if (Object.keys(newComment).length != 0) {
-            console.log("newComment", newComment);
             sendComment(newComment);
         }
     }, [newComment]);
@@ -109,11 +102,6 @@ export default function CommentButton({ articleId }) {
                 className="flex flex-row gap-1 hover:cursor-pointer"
                 onClick={() => displayModaleHandler(true)}
             >
-                {/* <img
-                    src="icons/article/comentaryIcon.svg"
-                    alt="comentary icon"
-                    width={"25px"}
-                /> */}
                 <CommentaryIcon />
                 <span>{comments.length}</span>
             </div>
@@ -121,11 +109,9 @@ export default function CommentButton({ articleId }) {
             <CommentModal
                 displayModaleHandler={displayModaleHandler}
                 commentModalDisplay={commentModalDisplay}
-                id_article={articleId}
                 comments={comments}
                 setNewCommentHandler={setNewCommentHandler}
                 refreshCommentHandler={refreshCommentHandler}
-                // getNumberOfComment={getNumberOfComment}
             />
             {alertModalDisplay && (
                 <AlerteModal

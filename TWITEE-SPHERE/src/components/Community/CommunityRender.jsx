@@ -23,7 +23,6 @@ export default function CommunityRender({
         >
             {/* Mapping des communautés pour afficher dynamiquement */}
             <div className="flex justify-between mb-[5px]">
-                {console.log(userData)}
                 <UserProfile userInformations={userData} />
                 <img
                     className="w-[50px] h-[50px] rounded-xl object-cover"

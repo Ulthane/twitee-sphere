@@ -1,11 +1,15 @@
-import ArticlesDisplay from "../components/Articles/ArticlesDisplay";
+//Librairaie
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+//Context
 import { TwiteeContext } from "../store/TwiteeContext";
-import { useToken } from "../hooks/useToken";
+//Component
+import ArticlesDisplay from "../components/Articles/ArticlesDisplay";
 import Button from "../components/Button/Button";
 import AlerteModal from "../components/modales/AlertModal";
+//Utils
+import { useToken } from "../hooks/useToken";
 import { getFetch } from "../utils/Fetch";
-import { toast } from "react-toastify";
 
 export default function Home() {
     //Context
@@ -39,7 +43,6 @@ export default function Home() {
             setOnClickMoreArticle(true);
             setOffset(newOffset);
             setRefreshHomeHandler();
-            // getArticles(offset);
         } else {
             alertModaleDisplayHandler(true);
         }
@@ -78,7 +81,6 @@ export default function Home() {
                         : [...articlesAlreadyDisplay, ...response];
             }
 
-            // console.log("getArticles", getedArticles);
             setArticles(getedArticles);
         }
 
@@ -100,7 +102,6 @@ export default function Home() {
     useEffect(() => {
         getArticles(offset);
         getArticlesCount();
-        // console.log("refreshHomeFromContext", refreshHomeFromContext);
     }, [refreshComponent, refreshHomeFromContext]);
 
     //JSX

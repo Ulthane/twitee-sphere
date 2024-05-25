@@ -8,7 +8,6 @@ export default function ArticlesDisplay({
 }) {
     //Context
     const { user } = useContext(TwiteeContext);
-    // const [articlesToDisplay, setArticlesToDisplay] = useState(articles);
 
     //Méthodes
     const prepareArticlesToDisplay = articlesToDisplay.map((article, index) => {
@@ -32,15 +31,8 @@ export default function ArticlesDisplay({
         );
     });
 
-    // useEffect(() => {
-    //     console.log("articles", articles);
-    //     setArticlesToDisplay(articles);
-    //     console.log("articlesToDisplay", articlesToDisplay);
-    // }, [articles]);
-
     return (
         <div className="flex flex-col justify-start items-center mt-8 gap-5 relative">
-            {/* {console.log("articlesToDisplay", articlesToDisplay)} */}
             {prepareArticlesToDisplay}
         </div>
     );

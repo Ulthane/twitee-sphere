@@ -1,141 +1,27 @@
 //Hooks
-import { useEffect, useRef, useState, useContext } from "react";
-import { useToken } from "../../hooks/useToken";
-
-//Utils
-import { getFetch, postFetch } from "../../utils/Fetch";
+import { useRef, useContext } from "react";
 
 //Components
 import ModaleTempalte from "../modales/ModaleTemplate";
 import Button from "../Button/Button";
 import Comment from "./Comment.jsx";
-import AlerteModal from "../modales/AlertModal.jsx";
-
-//Context
-import { TwiteeContext } from "../../store/TwiteeContext.jsx";
-
-//Librairies
-import { toast } from "react-toastify";
 
 export default function CommentModal({
     displayModaleHandler,
     commentModalDisplay,
-    id_article,
     comments,
     setNewCommentHandler,
     refreshCommentHandler,
-    // getNumberOfComment,
 }) {
-    //Context
-    const { articles } = useContext(TwiteeContext);
-
-    //States
-    // const [comments, setComments] = useState([]);
-    // const [refreshComment, setRefreshComment] = useState(false);
-    // const [alertModalDisplay, setAlertModalDisplay] = useState(false);
-
     //Ref
     const comment = useRef();
 
-    // Hooks
-    const { getToken } = useToken();
-
-    //Variables
-    const token = getToken();
-    const connectedUserInformations = JSON.parse(
-        sessionStorage.getItem("user_informations")
-    );
-
     // Méthode
-
-    // const refreshCommentHandler = () => setRefreshComment(!refreshComment);
-
-    // const alertModaleDisplayHandler = (value) => {
-    //     setAlertModalDisplay(value);
-    // };
 
     const sendComment = (event) => {
         event.preventDefault();
         setNewCommentHandler(comment.current.value);
-        /**
-         * 1 récupère les données du commentaire
-         * 2 je le envoies via une méthode à composant parent
-         */
-
-        // if (
-        //     comment.current.value == "" ||
-        //     [...comment.current.value].length > 281
-        // ) {
-        //     alertModaleDisplayHandler(true);
-        // } else {
-        //     const request = await postFetch(
-        //         "https://twitee-api.gamosaurus.fr/api/comentaries/create",
-        //         { Authorization: token },
-        //         {
-        //             id_article: id_article,
-        //             description: comment.current.value,
-        //         }
-        //     );
-
-        //     if (request.message !== "success") {
-        //         toast.error(request.message);
-        //     } else {
-        //         const newComment = [
-        //             ...comments,
-        //             {
-        //                 id_article: id_article,
-        //                 description: comment.current.value,
-        //                 user: {
-        //                     id_user: connectedUserInformations.id_user,
-        //                     firstname: connectedUserInformations.firstname,
-        //                     lastname: connectedUserInformations.lastname,
-        //                     id_communities:
-        //                         connectedUserInformations.id_community,
-        //                     img_src: connectedUserInformations.img_src,
-        //                 },
-        //             },
-        //         ];
-        //         setComments(newComment);
-        //         refreshCommentHandler();
-        //         comment.current.value = "";
-        //     }
-        // }
     };
-
-    // const getComments = async () => {
-    //     const response = await getFetch(
-    //         `https://twitee-api.gamosaurus.fr/api/comentaries/get?limit=30&offset=0&id=${id_article}`,
-    //         { Authorization: token }
-    //     );
-
-    //     const newComments = [...response];
-    //     setComments(newComments);
-    // };
-
-    // const commentsDisplay = () => {
-    //     const newComments = [...comments].reverse();
-    //     return (
-    //         <>
-    //             {comments.map((comment, index) => (
-    //                 <Comment
-    //                     key={"comments_" + index}
-    //                     commentInformation={comment}
-    //                     refreshCommentHandler={refreshCommentHandler}
-    //                 />
-    //             ))}
-    //         </>
-    //     );
-    // };
-
-    //Cycles
-    // useEffect(() => {
-    //     getComments();
-    //     // getNumberOfComment(comments.length);
-    // }, [refreshComment, articles]);
-
-    // useEffect(() => {
-    //     getNumberOfComment(comments.length);
-    // }, [comments]);
 
     return (
         <>
@@ -184,14 +70,6 @@ export default function CommentModal({
                     </div>
                 </ModaleTempalte>
             )}
-            {/* {alertModalDisplay && (
-                <AlerteModal
-                    displayModaleHandler={alertModaleDisplayHandler}
-                    alertMessage={
-                        "Votre commentaire doit contenir entre 1 et 281 caractères"
-                    }
-                />
-            )} */}
         </>
     );
 }

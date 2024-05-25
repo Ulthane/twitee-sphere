@@ -38,7 +38,6 @@ export default function LikeButton({ articleId, communityId, token }) {
     };
 
     const getNumberOflike = () => {
-        // console.log("articleId", articleId + " " + isLike);
         const numberOfLikeRequest = getFetch(
             `https://twitee-api.gamosaurus.fr/api/likes/get/${articleId}`,
             {
@@ -67,7 +66,6 @@ export default function LikeButton({ articleId, communityId, token }) {
             }
             return;
         } else {
-            // ERREUR DANS LA REQUETE
             const request = await deleteFetch(
                 `https://twitee-api.gamosaurus.fr/api/likes/delete/${articleId}`,
                 { Authorization: token }

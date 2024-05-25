@@ -12,7 +12,6 @@ export const TwiteeContext = createContext({
     user: {},
     community: {},
     refreshHomeFromContext: 0,
-    // Community
     setCommunity: () => {},
     setArticles: () => {},
     setUser: () => {},
@@ -40,7 +39,6 @@ function twiteeReducer(state, action) {
             };
 
         case actionTypes.SET_REFRESH_HOME_FROM_CONTEXT:
-            console.log("refresh");
             return {
                 ...state,
                 refreshHomeFromContext: state.refreshHomeFromContext + 1,
