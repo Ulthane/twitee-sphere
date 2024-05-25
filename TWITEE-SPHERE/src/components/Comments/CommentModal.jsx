@@ -21,6 +21,7 @@ export default function CommentModal({
     const sendComment = (event) => {
         event.preventDefault();
         setNewCommentHandler(comment.current.value);
+        comment.current.value = "";
     };
 
     return (
