@@ -12,9 +12,10 @@ export default function CommunityRender({
 
     useEffect(() => {
         userInfo.then((res) => {
+            // console.log("USERINFO", res)
             setUserData(res);
         });
-    }, []);
+    }, [userInfo]);
 
     return (
         <div

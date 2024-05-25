@@ -89,7 +89,7 @@ export default function Community({ communitiesToDisplay }) {
   const communityRenderer = communitiesToDisplay.map((community, index) => {
     return (
       <CommunityRender
-        key={"community_" + index}
+        key={"community_create_" + index}
         userInfo={otherUserDisplay(community.id_user)}
         community={community}
         changeCommunity={changeCommunity}
@@ -100,7 +100,8 @@ export default function Community({ communitiesToDisplay }) {
 
   useEffect(() => {
     userDisplay();
-  }, []);
+  }, [communitiesToDisplay]);
+
   return (
     <>
       {/* Top community */}
